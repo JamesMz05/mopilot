@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.next/
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+
+# Environment & Secrets
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temp files
+*.tmp
+~$*
+~WRL*
+
+# Generated docs (can be regenerated)
+*.docx
+create_doc.py
+
+# Claude Code local settings
+.claude/
+
+# Docker volumes
+postgres_data/
+redis_data/
+
+# Python
+*.egg-info/
+dist/
+build/
+
+# Next.js
+out/
