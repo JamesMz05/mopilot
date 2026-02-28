@@ -1,0 +1,89 @@
+[
+  {
+    "category": "Allgemein",
+    "questions": [
+      {
+        "question": "Was ist Carsharing?",
+        "answer": "Beim Carsharing nutzen mehrere Mitglieder gemeinsam eine Fahrzeugflotte. Sie buchen ein Fahrzeug nur dann, wenn Sie es wirklich brauchen – und zahlen nur für die tatsächliche Nutzung. Kein eigenes Auto bedeutet keine Versicherungs-, Wartungs- oder Parkkosten."
+      },
+      {
+        "question": "Für wen ist Carsharing geeignet?",
+        "answer": "ZEO Carsharing ist ideal für alle, die kein eigenes Auto besitzen oder ihren Zweitwagen abschaffen möchten. Aber auch als Ergänzung zum öffentlichen Nahverkehr – z.B. für Einkäufe, Behördengänge oder Wochenendausflüge – ist ZEO die perfekte Lösung."
+      },
+      {
+        "question": "Was ist E-Carsharing? Und warum ZEO?",
+        "answer": "Bei ZEO fahren Sie ausschließlich mit Elektrofahrzeugen – lokal emissionsfrei, leise und günstig im Betrieb. ZEO ist speziell auf den ländlichen Raum im Landkreis Karlsruhe ausgerichtet und ergänzt den ÖPNV in 18 Gemeinden zwischen Dettenheim und Sulzfeld. Über 4.500 Nutzer*innen haben 2024 bereits 184 Tonnen CO₂ eingespart."
+      },
+      {
+        "question": "Wie bin ich versichert?",
+        "answer": "Alle ZEO-Fahrzeuge sind vollkaskoversichert. Im Schadensfall gilt eine Selbstbeteiligung. Die genaue Höhe der Selbstbeteiligung finden Sie in den aktuellen Nutzungsbedingungen auf zeo-carsharing.de."
+      },
+      {
+        "question": "Wer steckt hinter dem Projekt?",
+        "answer": "ZEO Carsharing ist ein Projekt der Regionalen Wirtschaftsförderung Bruchsal in Zusammenarbeit mit der Vianova eG. Das Projekt wird gefördert und ist mittlerweile auf 71 Standorte in 18 Gemeinden gewachsen."
+      }
+    ]
+  },
+  {
+    "category": "Fahren & Reichweite",
+    "questions": [
+      {
+        "question": "Wie weit komme ich mit dem ZEO?",
+        "answer": "Die Reichweite hängt vom Fahrzeugmodell ab: Renault Zoe R 240 ca. 90–128 km, Zoe ZE 40 ca. 176–252 km, Zoe ZE 50 ca. 221–316 km. Im Winter sinkt die Reichweite aufgrund der Batteriechemie um ca. 20–40%. Planen Sie immer etwas Puffer ein."
+      },
+      {
+        "question": "Wie und wo kann ich Strom laden?",
+        "answer": "Jede ZEO-Station verfügt über eine Ladestation. Das Fahrzeug sollte immer an der Ladestation angesteckt zurückgegeben werden. Außerdem können Sie unterwegs öffentliche Ladestationen mit der ZEO-Ladekarte nutzen."
+      },
+      {
+        "question": "Muss ich den Strom bezahlen?",
+        "answer": "Nein! Die Stromkosten sind im Mietpreis enthalten. Sie laden das Fahrzeug kostenlos an der Heimstation. Auch öffentliche Ladevorgänge mit der ZEO-Ladekarte sind in der Regel inklusive."
+      },
+      {
+        "question": "Kann ich öffentliche Ladestationen nutzen?",
+        "answer": "Ja. Jedes ZEO-Fahrzeug ist mit einer Ladekarte ausgestattet, mit der Sie an öffentlichen Ladestationen laden können – ohne eigene Kosten."
+      },
+      {
+        "question": "Wie lange dauert das Laden?",
+        "answer": "Je nach Fahrzeug und Ladestation dauert eine Vollladung ca. 6–10 Stunden (AC) oder 1–2 Stunden (DC Schnellladen). Im Alltag wird das Fahrzeug über Nacht geladen und steht morgens vollgeladen bereit."
+      },
+      {
+        "question": "Wie ist der Ladezustand bei Fahrtantritt?",
+        "answer": "ZEO-Fahrzeuge sollten mindestens zu 80% geladen sein wenn Sie starten. Ist das Fahrzeug bei Rückgabe nicht vollständig geladen, kümmern sich die Stationspaten um das Nachladen."
+      },
+      {
+        "question": "Muss das Fahrzeug zur selben Station zurück?",
+        "answer": "Ja, ZEO ist stationsbasiertes Carsharing. Das Fahrzeug muss nach der Fahrt zur ursprünglichen Ausleihstation zurückgebracht werden."
+      }
+    ]
+  },
+  {
+    "category": "Registrierung & Buchung",
+    "questions": [
+      {
+        "question": "Wie und wo kann ich mich registrieren?",
+        "answer": "Die Registrierung erfolgt online unter zeo-carsharing.de. Sie benötigen eine gültige E-Mail-Adresse, Ihren Führerschein und ein Ausweisdokument zur Identitätsverifikation. Nach erfolgreicher Prüfung erhalten Sie Ihren Zugang innerhalb weniger Werktage."
+      },
+      {
+        "question": "Wie kann ich ein Fahrzeug buchen?",
+        "answer": "Buchungen erfolgen einfach über die kostenlose App 'mein zeo' (iOS & Android) oder über das Webportal auf zeo-carsharing.de. Sie können Fahrzeuge spontan oder im Voraus buchen."
+      },
+      {
+        "question": "Wie öffne ich das Fahrzeug?",
+        "answer": "Fahrzeuge können per Smartphone-App geöffnet werden. Alternativ ist die ZEO-Card erhältlich (€7,90 in den Bürgerbüros), mit der Sie das Fahrzeug kontaktlos öffnen können."
+      },
+      {
+        "question": "Wer darf fahren?",
+        "answer": "Fahren darf nur die registrierte Person mit gültigem Führerschein. Die Nutzung durch Dritte (auch Familienangehörige) ist nicht gestattet, sofern diese nicht selbst als ZEO-Mitglied registriert sind."
+      },
+      {
+        "question": "Ist die Kundenkarte übertragbar?",
+        "answer": "Nein, die ZEO-Card und der App-Zugang sind persönlich und nicht übertragbar. Jede nutzende Person muss eigenständig registriert sein."
+      },
+      {
+        "question": "Wie alt muss ich sein?",
+        "answer": "Sie müssen mindestens 18 Jahre alt sein und einen gültigen Führerschein besitzen, um ZEO-Fahrzeuge nutzen zu dürfen."
+      }
+    ]
+  }
+]
