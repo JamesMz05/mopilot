@@ -8,7 +8,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Coolify Deployment
+      - name: Pull latest code on server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: 142.132.232.211
+          username: root
+          password: ${{ secrets.SERVER_SSH_PASSWORD }}
+          script: |
+            cd /opt/mopilot
+            git fetch https://${{ secrets.GH_PAT }}@github.com/JamesMz05/mopilot.git master
+            git reset --hard FETCH_HEAD
+            echo "Code updated to $(git rev-parse --short HEAD)"
+
+      - name: Trigger Coolify Rebuild
         run: |
           curl -s -X GET \
             -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
