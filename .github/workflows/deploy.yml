@@ -1,0 +1,15 @@
+name: Deploy to Coolify
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Coolify Deployment
+        run: |
+          curl -s -X GET \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
+            "https://coolify.pydna.de/api/v1/deploy?uuid=ns8wok04s4sgkcggwg48okcg&force=true"
