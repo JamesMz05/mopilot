@@ -1,0 +1,81 @@
+[
+  {
+    "id": "eco",
+    "name": "ZEO eco",
+    "tagline": "Flexibel ohne Grundgebühr",
+    "registrationFee": 15,
+    "startCredit": 15,
+    "monthlyFee": 0,
+    "cancellationMonths": 1,
+    "freeHoursPerMonth": 0,
+    "highlight": false,
+    "perks": [
+      "Einmalige Registrierungsgebühr €15 (inkl. €15 Startguthaben)",
+      "Keine monatliche Grundgebühr",
+      "1 Monat Kündigungsfrist",
+      "Buchung per App oder Web"
+    ],
+    "vehicles": {
+      "kleinwagen": {
+        "label": "Kleinwagen (z.B. Renault Zoe)",
+        "perBooking": 0.90,
+        "perKm": 0.29,
+        "perKmUpTo50": null,
+        "perKmFrom51": null,
+        "perHour": 1.90,
+        "perHourNight": 0.70,
+        "perDay": 22.90
+      },
+      "kompakt": {
+        "label": "Kompakt & Hochdachkombi (z.B. Fiat E-Doblò)",
+        "perBooking": 0.90,
+        "perKm": 0.31,
+        "perKmUpTo50": null,
+        "perKmFrom51": null,
+        "perHour": 1.90,
+        "perHourNight": 0.70,
+        "perDay": 22.90
+      }
+    }
+  },
+  {
+    "id": "eco-plus",
+    "name": "ZEO eco plus",
+    "tagline": "Für Vielfahrer – 6 Freistunden inklusive",
+    "registrationFee": 0,
+    "startCredit": 0,
+    "monthlyFee": 9.90,
+    "cancellationMonths": 6,
+    "freeHoursPerMonth": 6,
+    "highlight": true,
+    "perks": [
+      "Keine Registrierungsgebühr",
+      "6 Freistunden pro Monat (Wert: €10,20)",
+      "Freistunden bis zu 6 Monate ansparbar",
+      "Vergünstigte km-Preise ab dem 1. km",
+      "6 Monate Kündigungsfrist"
+    ],
+    "vehicles": {
+      "kleinwagen": {
+        "label": "Kleinwagen (z.B. Renault Zoe)",
+        "perBooking": 0.90,
+        "perKm": null,
+        "perKmUpTo50": 0.27,
+        "perKmFrom51": 0.19,
+        "perHour": 1.70,
+        "perHourNight": 0.60,
+        "perDay": 19.90
+      },
+      "kompakt": {
+        "label": "Kompakt & Hochdachkombi (z.B. Fiat E-Doblò)",
+        "perBooking": 0.90,
+        "perKm": null,
+        "perKmUpTo50": 0.29,
+        "perKmFrom51": 0.21,
+        "perHour": 1.70,
+        "perHourNight": 0.60,
+        "perDay": 19.90
+      }
+    }
+  }
+]

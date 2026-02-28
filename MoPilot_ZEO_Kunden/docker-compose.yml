@@ -1,0 +1,33 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-https://api.zeo-kunden.mopilot.website}
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-https://api.zeo-kunden.mopilot.website}
+    expose:
+      - "3000"
+    depends_on:
+      - backend
+    networks:
+      - zeo-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    expose:
+      - "8000"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-sk-placeholder}
+      - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-sonnet-4-6}
+      - CORS_ORIGINS=${CORS_ORIGINS:-https://zeo-kunden.mopilot.website,http://localhost:3000}
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+    networks:
+      - zeo-net
+
+networks:
+  zeo-net:
+    driver: bridge

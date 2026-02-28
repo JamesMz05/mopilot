@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "name": "Bruchsal Bahnhof",
+    "address": "Bahnhofplatz, 76646 Bruchsal",
+    "lat": 49.1264,
+    "lng": 8.5972,
+    "vehicles": ["Renault Zoe ZE 50", "Fiat E-Doblò"],
+    "transit": [
+      { "type": "bahn", "line": "S3/S31", "direction": "Karlsruhe ↔ Heidelberg", "interval": "alle 20 Min." },
+      { "type": "bus", "line": "Bus 106", "direction": "Hambrücken – Bruchsal", "interval": "stündlich" },
+      { "type": "bus", "line": "Bus 116", "direction": "Graben-Neudorf – Bruchsal", "interval": "stündlich" }
+    ],
+    "transitLink": "https://www.bahn.de/buchung/fahrplan/suche#sts=Bruchsal&ort=Bruchsal"
+  },
+  {
+    "id": 2,
+    "name": "Graben-Neudorf Bahnhof",
+    "address": "Bahnhofstraße, 76676 Graben-Neudorf",
+    "lat": 49.1709,
+    "lng": 8.4905,
+    "vehicles": ["Renault Zoe ZE 40", "Opel Vivaro Electric"],
+    "transit": [
+      { "type": "bahn", "line": "S3", "direction": "Karlsruhe ↔ Heidelberg", "interval": "alle 20 Min." },
+      { "type": "bus", "line": "Bus 116", "direction": "Graben-Neudorf – Bruchsal", "interval": "stündlich" }
+    ],
+    "transitLink": "https://www.bahn.de/buchung/fahrplan/suche#sts=Graben-Neudorf"
+  },
+  {
+    "id": 3,
+    "name": "Karlsdorf-Neuthard Rathaus",
+    "address": "Rathausplatz, 76689 Karlsdorf-Neuthard",
+    "lat": 49.1286,
+    "lng": 8.5287,
+    "vehicles": ["Renault Zoe R 240", "DFSK Seres 3"],
+    "transit": [
+      { "type": "bus", "line": "Bus 120", "direction": "Karlsdorf – Bruchsal Bahnhof", "interval": "stündlich" }
+    ],
+    "transitLink": "https://www.bahn.de/buchung/fahrplan/suche#sts=Karlsdorf-Neuthard"
+  },
+  {
+    "id": 4,
+    "name": "Hambrücken Marktplatz",
+    "address": "Marktplatz, 68789 Hambrücken",
+    "lat": 49.1657,
+    "lng": 8.5439,
+    "vehicles": ["Renault Zoe ZE 40"],
+    "transit": [
+      { "type": "bus", "line": "Bus 106", "direction": "Hambrücken – Bruchsal Bahnhof", "interval": "stündlich" }
+    ],
+    "transitLink": "https://www.bahn.de/buchung/fahrplan/suche#sts=Hambrücken"
+  },
+  {
+    "id": 5,
+    "name": "Dettenheim Rußheim",
+    "address": "Hauptstraße, 76706 Dettenheim",
+    "lat": 49.1023,
+    "lng": 8.4792,
+    "vehicles": ["Renault Zoe R 240"],
+    "transit": [
+      { "type": "bus", "line": "Bus 118", "direction": "Dettenheim – Graben-Neudorf", "interval": "stündlich" }
+    ],
+    "transitLink": "https://www.bahn.de/buchung/fahrplan/suche#sts=Dettenheim"
+  },
+  {
+    "id": 6,
+    "name": "Waghäusel Kirrlach",
+    "address": "Rathausstraße, 68753 Waghäusel",
+    "lat": 49.2076,
+    "lng": 8.5161,
+    "vehicles": ["Renault Zoe ZE 50", "Fiat E-Scudo"],
+    "transit": [
+      { "type": "bahn", "line": "S3", "direction": "Waghäusel – Karlsruhe/Heidelberg", "interval": "alle 20 Min." },
+      { "type": "bus", "line": "Bus 104", "direction": "Waghäusel – Bruchsal", "interval": "stündlich" }
+    ],
+    "transitLink": "https://www.bahn.de/buchung/fahrplan/suche#sts=Waghäusel"
+  },
+  {
+    "id": 7,
+    "name": "Philippsburg Bahnhof",
+    "address": "Bahnhofstraße, 76661 Philippsburg",
+    "lat": 49.2335,
+    "lng": 8.4553,
+    "vehicles": ["Renault Zoe ZE 40", "Fiat E-Ulysse"],
+    "transit": [
+      { "type": "bus", "line": "Bus 111", "direction": "Philippsburg – Graben-Neudorf", "interval": "stündlich" },
+      { "type": "bus", "line": "Bus 112", "direction": "Philippsburg – Waghäusel", "interval": "stündlich" }
+    ],
+    "transitLink": "https://www.bahn.de/buchung/fahrplan/suche#sts=Philippsburg"
+  },
+  {
+    "id": 8,
+    "name": "Oberhausen-Rheinhausen Mitte",
+    "address": "Hauptstraße, 68794 Oberhausen-Rheinhausen",
+    "lat": 49.1419,
+    "lng": 8.4296,
+    "vehicles": ["Renault Zoe ZE 40"],
+    "transit": [
+      { "type": "bus", "line": "Bus 119", "direction": "Oberhausen – Graben-Neudorf", "interval": "stündlich" }
+    ],
+    "transitLink": "https://www.bahn.de/buchung/fahrplan/suche#sts=Oberhausen-Rheinhausen"
+  },
+  {
+    "id": 9,
+    "name": "Linkenheim-Hochstetten",
+    "address": "Friedrichstraße, 76351 Linkenheim-Hochstetten",
+    "lat": 49.1350,
+    "lng": 8.4114,
+    "vehicles": ["Renault Zoe R 240", "DFSK Seres 3"],
+    "transit": [
+      { "type": "tram", "line": "Tram 3", "direction": "Karlsruhe – Hochstetten", "interval": "alle 20 Min." }
+    ],
+    "transitLink": "https://www.bahn.de/buchung/fahrplan/suche#sts=Linkenheim-Hochstetten"
+  },
+  {
+    "id": 10,
+    "name": "Stutensee-Blankenloch",
+    "address": "Rathausplatz, 76297 Stutensee",
+    "lat": 49.0700,
+    "lng": 8.5433,
+    "vehicles": ["Renault Zoe ZE 50"],
+    "transit": [
+      { "type": "tram", "line": "S2", "direction": "Spöck – Karlsruhe", "interval": "alle 20 Min." },
+      { "type": "bus", "line": "Bus 122", "direction": "Stutensee – Bruchsal", "interval": "stündlich" }
+    ],
+    "transitLink": "https://www.bahn.de/buchung/fahrplan/suche#sts=Stutensee"
+  },
+  {
+    "id": 11,
+    "name": "Ubstadt-Weiher Bahnhof",
+    "address": "Bahnhofstraße, 76698 Ubstadt-Weiher",
+    "lat": 49.0848,
+    "lng": 8.6253,
+    "vehicles": ["Renault Zoe ZE 40", "Fiat E-Doblò"],
+    "transit": [
+      { "type": "bahn", "line": "S31", "direction": "Ubstadt – Karlsruhe", "interval": "alle 20 Min." }
+    ],
+    "transitLink": "https://www.bahn.de/buchung/fahrplan/suche#sts=Ubstadt-Weiher"
+  },
+  {
+    "id": 12,
+    "name": "Bretten Bahnhof",
+    "address": "Bahnhofstraße, 75015 Bretten",
+    "lat": 49.0397,
+    "lng": 8.7044,
+    "vehicles": ["Renault Zoe ZE 50", "Opel Vivaro Electric"],
+    "transit": [
+      { "type": "bahn", "line": "S4", "direction": "Bretten – Karlsruhe", "interval": "alle 20 Min." }
+    ],
+    "transitLink": "https://www.bahn.de/buchung/fahrplan/suche#sts=Bretten"
+  }
+]
