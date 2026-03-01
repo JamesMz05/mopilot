@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 
 const ROLES = [
-  { id: 'endkunde', email: 'endkunde@mopilot.website', icon: '👤', label: 'Endkunde', desc: 'Buchung, FAQs, Standorte', color: 'bg-green-50 border-green-300 hover:bg-green-100', zone: 'Kundennah' },
+  { id: 'endkunde', email: 'endkunde@mopilot.website', icon: '👤', label: 'Endkunde', desc: 'Buchung, FAQs, Standorte', color: 'bg-green-50 border-green-300 hover:bg-green-100', zone: 'Kundennah', externalLink: 'https://zeo-kunden.mopilot.website/' },
   { id: 'stationspate', email: 'stationspate@mopilot.website', icon: '🏘️', label: 'Stationspate', desc: 'Standortbetreuung, Meldungen', color: 'bg-green-50 border-green-300 hover:bg-green-100', zone: 'Kundennah' },
   { id: 'hotline', email: 'hotline@mopilot.website', icon: '📞', label: 'Hotline', desc: 'Gesprächsleitfaden, Kundenhilfe', color: 'bg-green-50 border-green-300 hover:bg-green-100', zone: 'Kundennah' },
   { id: 'betreiber', email: 'betreiber@mopilot.website', icon: '🏢', label: 'Betreiber', desc: 'Dashboard, Kennzahlen, Strategie', color: 'bg-blue-50 border-blue-300 hover:bg-blue-100', zone: 'Betrieb' },
@@ -76,13 +76,9 @@ export default function LoginPage() {
               {zone === 'Kundennah' && '🟢'} {zone === 'Betrieb' && '🔵'} {zone === 'Strategie' && '🟠'} {zone}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-              {ROLES.filter(r => r.zone === zone).map(role => (
-                <button
-                  key={role.id}
-                  onClick={() => loginAs(role.email, role.id)}
-                  disabled={loading !== null}
-                  className={`${role.color} border-2 rounded-xl p-4 text-left transition-all duration-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50`}
-                >
+              {ROLES.filter(r => r.zone === zone).map(role => {
+                const cardClass = `${role.color} border-2 rounded-xl p-4 text-left transition-all duration-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] block w-full`
+                const inner = (
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">{role.icon}</span>
                     <div>
@@ -90,11 +86,35 @@ export default function LoginPage() {
                       <div className="text-xs text-gray-500">{role.desc}</div>
                     </div>
                   </div>
-                  {loading === role.id && (
-                    <div className="mt-2 text-xs text-indigo-600 animate-pulse">Anmeldung läuft...</div>
-                  )}
-                </button>
-              ))}
+                )
+                if ((role as any).externalLink) {
+                  return (
+                    <a
+                      key={role.id}
+                      href={(role as any).externalLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cardClass}
+                    >
+                      {inner}
+                      <div className="mt-2 text-xs text-green-600">↗ ZEO Kundenportal öffnen</div>
+                    </a>
+                  )
+                }
+                return (
+                  <button
+                    key={role.id}
+                    onClick={() => loginAs(role.email, role.id)}
+                    disabled={loading !== null}
+                    className={`${cardClass} disabled:opacity-50`}
+                  >
+                    {inner}
+                    {loading === role.id && (
+                      <div className="mt-2 text-xs text-indigo-600 animate-pulse">Anmeldung läuft...</div>
+                    )}
+                  </button>
+                )
+              })}
             </div>
           </div>
         ))}
