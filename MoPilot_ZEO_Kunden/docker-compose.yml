@@ -13,6 +13,15 @@ services:
       - backend
     networks:
       - zeo-net
+      - coolify
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.zeo-frontend.rule=Host(`zeo-kunden.mopilot.website`)"
+      - "traefik.http.routers.zeo-frontend.entrypoints=https"
+      - "traefik.http.routers.zeo-frontend.tls=true"
+      - "traefik.http.routers.zeo-frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.zeo-frontend.loadbalancer.server.port=3000"
+      - "traefik.docker.network=coolify"
 
   backend:
     build:
@@ -27,7 +36,18 @@ services:
       - ENVIRONMENT=${ENVIRONMENT:-production}
     networks:
       - zeo-net
+      - coolify
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.zeo-backend.rule=Host(`api.zeo-kunden.mopilot.website`)"
+      - "traefik.http.routers.zeo-backend.entrypoints=https"
+      - "traefik.http.routers.zeo-backend.tls=true"
+      - "traefik.http.routers.zeo-backend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.zeo-backend.loadbalancer.server.port=8000"
+      - "traefik.docker.network=coolify"
 
 networks:
   zeo-net:
     driver: bridge
+  coolify:
+    external: true

@@ -1,0 +1,333 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1020" font-family="Segoe UI, system-ui, sans-serif">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#00000018"/>
+    </filter>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1A237E"/>
+      <stop offset="100%" stop-color="#283593"/>
+    </linearGradient>
+    <linearGradient id="rowHeaderGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#E8EAF6"/>
+      <stop offset="100%" stop-color="#F5F5FF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="1020" fill="#F8F9FC"/>
+
+  <!-- Title block -->
+  <rect x="40" y="20" width="1320" height="70" rx="12" fill="url(#headerGrad)" filter="url(#shadow)"/>
+  <text x="700" y="52" text-anchor="middle" font-size="22" font-weight="700" fill="#FFFFFF" letter-spacing="0.5">MoPilot – RACI-Matrix: Rollen und Verantwortlichkeiten</text>
+  <text x="700" y="72" text-anchor="middle" font-size="11" fill="#B0BEC5" letter-spacing="1">BEISPIEL FÜR AUSGEWÄHLTE PROZESSE IM CARSHARING-BETRIEB</text>
+
+  <!-- Legend -->
+  <rect x="40" y="100" width="1320" height="42" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <!-- R -->
+  <circle cx="120" cy="121" r="13" fill="#1B5E20" opacity="0.9"/>
+  <text x="120" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">R</text>
+  <text x="142" y="126" font-size="10.5" fill="#37474F" font-weight="600">Responsible</text>
+  <text x="217" y="126" font-size="10" fill="#78909C">– führt durch</text>
+  <!-- A -->
+  <circle cx="370" cy="121" r="13" fill="#0D47A1" opacity="0.9"/>
+  <text x="370" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">A</text>
+  <text x="392" y="126" font-size="10.5" fill="#37474F" font-weight="600">Accountable</text>
+  <text x="470" y="126" font-size="10" fill="#78909C">– verantwortlich</text>
+  <!-- C -->
+  <circle cx="640" cy="121" r="13" fill="#E65100" opacity="0.9"/>
+  <text x="640" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">C</text>
+  <text x="662" y="126" font-size="10.5" fill="#37474F" font-weight="600">Consulted</text>
+  <text x="725" y="126" font-size="10" fill="#78909C">– wird befragt</text>
+  <!-- I -->
+  <circle cx="880" cy="121" r="13" fill="#558B2F" opacity="0.9"/>
+  <text x="880" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">I</text>
+  <text x="902" y="126" font-size="10.5" fill="#37474F" font-weight="600">Informed</text>
+  <text x="958" y="126" font-size="10" fill="#78909C">– wird informiert</text>
+  <!-- - -->
+  <circle cx="1100" cy="121" r="13" fill="#ECEFF1" stroke="#B0BEC5" stroke-width="1"/>
+  <text x="1100" y="126" text-anchor="middle" font-size="13" font-weight="700" fill="#90A4AE">–</text>
+  <text x="1125" y="126" font-size="10" fill="#78909C">nicht beteiligt</text>
+
+  <!-- ==================== TABLE ==================== -->
+  <!-- Table container -->
+  <rect x="40" y="155" width="1320" height="830" rx="10" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+
+  <!-- Column widths: Process=280, then 10 roles × 104 = 1040, total = 1320 -->
+  <!-- Row height = 62, Header row = 50 -->
+
+  <!-- Column headers (roles) -->
+  <rect x="40" y="155" width="280" height="50" rx="10" fill="#37474F"/>
+  <rect x="40" y="175" width="280" height="30" fill="#37474F"/>
+  <text x="180" y="186" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">Prozess / Aktivität</text>
+
+  <!-- Role headers - green zone (kundennah) -->
+  <rect x="320" y="155" width="104" height="50" fill="#E8F5E9" stroke="#C8E6C9" stroke-width="0.5"/>
+  <text x="372" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#2E7D32">Endkunde</text>
+  <text x="372" y="190" text-anchor="middle" font-size="7" fill="#66BB6A">①</text>
+
+  <rect x="424" y="155" width="104" height="50" fill="#E8F5E9" stroke="#C8E6C9" stroke-width="0.5"/>
+  <text x="476" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#2E7D32">Stationspate</text>
+  <text x="476" y="190" text-anchor="middle" font-size="7" fill="#66BB6A">⑧</text>
+
+  <rect x="528" y="155" width="104" height="50" fill="#E8F5E9" stroke="#C8E6C9" stroke-width="0.5"/>
+  <text x="580" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#2E7D32">Hotline/</text>
+  <text x="580" y="187" text-anchor="middle" font-size="9" font-weight="700" fill="#2E7D32">Kundenservice</text>
+  <text x="580" y="199" text-anchor="middle" font-size="7" fill="#66BB6A">④</text>
+
+  <rect x="632" y="155" width="104" height="50" fill="#E8F5E9" stroke="#C8E6C9" stroke-width="0.5"/>
+  <text x="684" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#2E7D32">Validierungs-</text>
+  <text x="684" y="187" text-anchor="middle" font-size="9" font-weight="700" fill="#2E7D32">stelle</text>
+  <text x="684" y="199" text-anchor="middle" font-size="7" fill="#66BB6A">⑩</text>
+
+  <!-- Role headers - blue zone (Betrieb) -->
+  <rect x="736" y="155" width="104" height="50" fill="#E3F2FD" stroke="#BBDEFB" stroke-width="0.5"/>
+  <text x="788" y="180" text-anchor="middle" font-size="9" font-weight="700" fill="#1565C0">Betreiber</text>
+  <text x="788" y="194" text-anchor="middle" font-size="7" fill="#42A5F5">③</text>
+
+  <rect x="840" y="155" width="104" height="50" fill="#E3F2FD" stroke="#BBDEFB" stroke-width="0.5"/>
+  <text x="892" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#1565C0">Plattform-</text>
+  <text x="892" y="187" text-anchor="middle" font-size="9" font-weight="700" fill="#1565C0">Support</text>
+  <text x="892" y="199" text-anchor="middle" font-size="7" fill="#42A5F5">②</text>
+
+  <rect x="944" y="155" width="104" height="50" fill="#E3F2FD" stroke="#BBDEFB" stroke-width="0.5"/>
+  <text x="996" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#1565C0">Flotten-</text>
+  <text x="996" y="187" text-anchor="middle" font-size="9" font-weight="700" fill="#1565C0">management</text>
+  <text x="996" y="199" text-anchor="middle" font-size="7" fill="#42A5F5">⑤</text>
+
+  <rect x="1048" y="155" width="104" height="50" fill="#E3F2FD" stroke="#BBDEFB" stroke-width="0.5"/>
+  <text x="1100" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#1565C0">Fahrzeug-</text>
+  <text x="1100" y="187" text-anchor="middle" font-size="9" font-weight="700" fill="#1565C0">betreuer</text>
+  <text x="1100" y="199" text-anchor="middle" font-size="7" fill="#42A5F5">⑨</text>
+
+  <!-- Role headers - orange zone (Strategie) -->
+  <rect x="1152" y="155" width="104" height="50" fill="#FFF3E0" stroke="#FFE0B2" stroke-width="0.5"/>
+  <text x="1204" y="180" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100">Projektträger</text>
+  <text x="1204" y="194" text-anchor="middle" font-size="7" fill="#FFA726">⑥</text>
+
+  <rect x="1256" y="155" width="104" height="50" fill="#FFF3E0" stroke="#FFE0B2" stroke-width="0.5"/>
+  <text x="1308" y="175" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100">Fahrzeug-</text>
+  <text x="1308" y="187" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100">steller</text>
+  <text x="1308" y="199" text-anchor="middle" font-size="7" fill="#FFA726">⑦</text>
+
+  <!-- ==================== SECTION: Kundenprozesse ==================== -->
+  <!-- Section header -->
+  <rect x="40" y="205" width="1320" height="28" fill="#ECEFF1"/>
+  <text x="60" y="224" font-size="11" font-weight="700" fill="#37474F" letter-spacing="0.5">KUNDENPROZESSE</text>
+
+  <!-- Row 1: Fahrzeug buchen -->
+  <rect x="40" y="233" width="280" height="52" fill="url(#rowHeaderGrad)" stroke="#E8EAF6" stroke-width="0.5"/>
+  <text x="60" y="255" font-size="11" font-weight="600" fill="#283593">Fahrzeug buchen</text>
+  <text x="60" y="270" font-size="8.5" fill="#7986CB">Buchung erstellen, ändern, stornieren</text>
+  <!-- Grid lines -->
+  <line x1="320" y1="233" x2="1360" y2="233" stroke="#ECEFF1" stroke-width="0.5"/>
+  <line x1="320" y1="285" x2="1360" y2="285" stroke="#ECEFF1" stroke-width="0.5"/>
+  <!-- Cells Row 1: Endkunde=R, Stationspate=C, Hotline=C, Valid=-, Betreiber=A, Plattform=-, Flotte=I, FzBetreuer=-, Projekt=-, FzSteller=- -->
+  <circle cx="372" cy="259" r="15" fill="#1B5E20" opacity="0.9"/><text x="372" y="264" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="476" cy="259" r="15" fill="#E65100" opacity="0.9"/><text x="476" y="264" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+  <circle cx="580" cy="259" r="15" fill="#E65100" opacity="0.9"/><text x="580" y="264" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+  <circle cx="684" cy="259" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="684" y="264" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="788" cy="259" r="15" fill="#0D47A1" opacity="0.9"/><text x="788" y="264" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">A</text>
+  <circle cx="892" cy="259" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="892" y="264" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="996" cy="259" r="15" fill="#558B2F" opacity="0.9"/><text x="996" y="264" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="1100" cy="259" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1100" y="264" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1204" cy="259" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1204" y="264" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1308" cy="259" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1308" y="264" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+
+  <!-- Row 2: Kunden-Onboarding -->
+  <rect x="40" y="285" width="280" height="52" fill="#FFFFFF" stroke="#F5F5F5" stroke-width="0.5"/>
+  <text x="60" y="307" font-size="11" font-weight="600" fill="#283593">Kunden-Onboarding</text>
+  <text x="60" y="322" font-size="8.5" fill="#7986CB">Registrierung, Einführung, Schulung</text>
+  <line x1="320" y1="337" x2="1360" y2="337" stroke="#ECEFF1" stroke-width="0.5"/>
+  <!-- Endkunde=R, Stationspate=R, Hotline=C, Valid=R, Betreiber=A, Plattform=-, Flotte=-, FzBetreuer=-, Projekt=I, FzSteller=- -->
+  <circle cx="372" cy="311" r="15" fill="#1B5E20" opacity="0.9"/><text x="372" y="316" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="476" cy="311" r="15" fill="#1B5E20" opacity="0.9"/><text x="476" y="316" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="580" cy="311" r="15" fill="#E65100" opacity="0.9"/><text x="580" y="316" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+  <circle cx="684" cy="311" r="15" fill="#1B5E20" opacity="0.9"/><text x="684" y="316" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="788" cy="311" r="15" fill="#0D47A1" opacity="0.9"/><text x="788" y="316" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">A</text>
+  <circle cx="892" cy="311" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="892" y="316" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="996" cy="311" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="996" y="316" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1100" cy="311" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1100" y="316" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1204" cy="311" r="15" fill="#558B2F" opacity="0.9"/><text x="1204" y="316" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="1308" cy="311" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1308" y="316" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+
+  <!-- Row 3: Kundenanliegen bearbeiten -->
+  <rect x="40" y="337" width="280" height="52" fill="url(#rowHeaderGrad)" stroke="#E8EAF6" stroke-width="0.5"/>
+  <text x="60" y="359" font-size="11" font-weight="600" fill="#283593">Kundenanliegen bearbeiten</text>
+  <text x="60" y="374" font-size="8.5" fill="#7986CB">Tickets, Beschwerden, Rückfragen</text>
+  <line x1="320" y1="389" x2="1360" y2="389" stroke="#ECEFF1" stroke-width="0.5"/>
+  <!-- Endkunde=I, Stationspate=C, Hotline=R, Valid=-, Betreiber=A, Plattform=C, Flotte=C, FzBetreuer=-, Projekt=-, FzSteller=- -->
+  <circle cx="372" cy="363" r="15" fill="#558B2F" opacity="0.9"/><text x="372" y="368" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="476" cy="363" r="15" fill="#E65100" opacity="0.9"/><text x="476" y="368" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+  <circle cx="580" cy="363" r="15" fill="#1B5E20" opacity="0.9"/><text x="580" y="368" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="684" cy="363" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="684" y="368" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="788" cy="363" r="15" fill="#0D47A1" opacity="0.9"/><text x="788" y="368" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">A</text>
+  <circle cx="892" cy="363" r="15" fill="#E65100" opacity="0.9"/><text x="892" y="368" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+  <circle cx="996" cy="363" r="15" fill="#E65100" opacity="0.9"/><text x="996" y="368" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+  <circle cx="1100" cy="363" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1100" y="368" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1204" cy="363" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1204" y="368" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1308" cy="363" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1308" y="368" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+
+  <!-- ==================== SECTION: Fahrzeug- & Flottenprozesse ==================== -->
+  <rect x="40" y="389" width="1320" height="28" fill="#ECEFF1"/>
+  <text x="60" y="408" font-size="11" font-weight="700" fill="#37474F" letter-spacing="0.5">FAHRZEUG- &amp; FLOTTENPROZESSE</text>
+
+  <!-- Row 4: Fahrzeug in Flotte aufnehmen -->
+  <rect x="40" y="417" width="280" height="52" fill="url(#rowHeaderGrad)" stroke="#E8EAF6" stroke-width="0.5"/>
+  <text x="60" y="439" font-size="11" font-weight="600" fill="#283593">Fahrzeug in Flotte aufnehmen</text>
+  <text x="60" y="454" font-size="8.5" fill="#7986CB">Konfiguration, Freischaltung</text>
+  <line x1="320" y1="469" x2="1360" y2="469" stroke="#ECEFF1" stroke-width="0.5"/>
+  <!-- Endkunde=-, Stationspate=-, Hotline=-, Valid=-, Betreiber=A, Plattform=C, Flotte=R, FzBetreuer=I, Projekt=I, FzSteller=R -->
+  <circle cx="372" cy="443" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="372" y="448" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="476" cy="443" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="476" y="448" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="580" cy="443" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="580" y="448" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="684" cy="443" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="684" y="448" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="788" cy="443" r="15" fill="#0D47A1" opacity="0.9"/><text x="788" y="448" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">A</text>
+  <circle cx="892" cy="443" r="15" fill="#E65100" opacity="0.9"/><text x="892" y="448" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+  <circle cx="996" cy="443" r="15" fill="#1B5E20" opacity="0.9"/><text x="996" y="448" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="1100" cy="443" r="15" fill="#558B2F" opacity="0.9"/><text x="1100" y="448" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="1204" cy="443" r="15" fill="#558B2F" opacity="0.9"/><text x="1204" y="448" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="1308" cy="443" r="15" fill="#1B5E20" opacity="0.9"/><text x="1308" y="448" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+
+  <!-- Row 5: Wartung & Reparatur -->
+  <rect x="40" y="469" width="280" height="52" fill="#FFFFFF" stroke="#F5F5F5" stroke-width="0.5"/>
+  <text x="60" y="491" font-size="11" font-weight="600" fill="#283593">Wartung &amp; Reparatur</text>
+  <text x="60" y="506" font-size="8.5" fill="#7986CB">HU, Inspektion, Verschleiß</text>
+  <line x1="320" y1="521" x2="1360" y2="521" stroke="#ECEFF1" stroke-width="0.5"/>
+  <!-- Endkunde=I, Stationspate=-, Hotline=I, Valid=-, Betreiber=A, Plattform=-, Flotte=C, FzBetreuer=R, Projekt=-, FzSteller=C -->
+  <circle cx="372" cy="495" r="15" fill="#558B2F" opacity="0.9"/><text x="372" y="500" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="476" cy="495" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="476" y="500" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="580" cy="495" r="15" fill="#558B2F" opacity="0.9"/><text x="580" y="500" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="684" cy="495" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="684" y="500" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="788" cy="495" r="15" fill="#0D47A1" opacity="0.9"/><text x="788" y="500" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">A</text>
+  <circle cx="892" cy="495" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="892" y="500" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="996" cy="495" r="15" fill="#E65100" opacity="0.9"/><text x="996" y="500" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+  <circle cx="1100" cy="495" r="15" fill="#1B5E20" opacity="0.9"/><text x="1100" y="500" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="1204" cy="495" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1204" y="500" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1308" cy="495" r="15" fill="#E65100" opacity="0.9"/><text x="1308" y="500" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+
+  <!-- Row 6: Vorbeugende Wartung (KI) -->
+  <rect x="40" y="521" width="280" height="52" fill="url(#rowHeaderGrad)" stroke="#E8EAF6" stroke-width="0.5"/>
+  <text x="60" y="543" font-size="11" font-weight="600" fill="#283593">Vorbeugende Wartung (KI)</text>
+  <text x="60" y="558" font-size="8.5" fill="#7986CB">12V-Batterie, Verschleißprognose</text>
+  <line x1="320" y1="573" x2="1360" y2="573" stroke="#ECEFF1" stroke-width="0.5"/>
+  <!-- Endkunde=-, Stationspate=-, Hotline=-, Valid=-, Betreiber=A, Plattform=C, Flotte=R, FzBetreuer=R, Projekt=I, FzSteller=I -->
+  <circle cx="372" cy="547" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="372" y="552" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="476" cy="547" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="476" y="552" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="580" cy="547" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="580" y="552" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="684" cy="547" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="684" y="552" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="788" cy="547" r="15" fill="#0D47A1" opacity="0.9"/><text x="788" y="552" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">A</text>
+  <circle cx="892" cy="547" r="15" fill="#E65100" opacity="0.9"/><text x="892" y="552" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+  <circle cx="996" cy="547" r="15" fill="#1B5E20" opacity="0.9"/><text x="996" y="552" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="1100" cy="547" r="15" fill="#1B5E20" opacity="0.9"/><text x="1100" y="552" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="1204" cy="547" r="15" fill="#558B2F" opacity="0.9"/><text x="1204" y="552" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="1308" cy="547" r="15" fill="#558B2F" opacity="0.9"/><text x="1308" y="552" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+
+  <!-- ==================== SECTION: Betrieb & Plattform ==================== -->
+  <rect x="40" y="573" width="1320" height="28" fill="#ECEFF1"/>
+  <text x="60" y="592" font-size="11" font-weight="700" fill="#37474F" letter-spacing="0.5">BETRIEB &amp; PLATTFORM</text>
+
+  <!-- Row 7: Tarifgestaltung -->
+  <rect x="40" y="601" width="280" height="52" fill="url(#rowHeaderGrad)" stroke="#E8EAF6" stroke-width="0.5"/>
+  <text x="60" y="623" font-size="11" font-weight="600" fill="#283593">Tarifgestaltung</text>
+  <text x="60" y="638" font-size="8.5" fill="#7986CB">Preise, Konditionen, Tarifmodelle</text>
+  <line x1="320" y1="653" x2="1360" y2="653" stroke="#ECEFF1" stroke-width="0.5"/>
+  <!-- Endkunde=I, Stationspate=I, Hotline=I, Valid=-, Betreiber=R, Plattform=C, Flotte=C, FzBetreuer=-, Projekt=A, FzSteller=- -->
+  <circle cx="372" cy="627" r="15" fill="#558B2F" opacity="0.9"/><text x="372" y="632" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="476" cy="627" r="15" fill="#558B2F" opacity="0.9"/><text x="476" y="632" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="580" cy="627" r="15" fill="#558B2F" opacity="0.9"/><text x="580" y="632" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="684" cy="627" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="684" y="632" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="788" cy="627" r="15" fill="#1B5E20" opacity="0.9"/><text x="788" y="632" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="892" cy="627" r="15" fill="#E65100" opacity="0.9"/><text x="892" y="632" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+  <circle cx="996" cy="627" r="15" fill="#E65100" opacity="0.9"/><text x="996" y="632" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+  <circle cx="1100" cy="627" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1100" y="632" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1204" cy="627" r="15" fill="#0D47A1" opacity="0.9"/><text x="1204" y="632" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">A</text>
+  <circle cx="1308" cy="627" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1308" y="632" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+
+  <!-- Row 8: Plattform-Störung -->
+  <rect x="40" y="653" width="280" height="52" fill="#FFFFFF" stroke="#F5F5F5" stroke-width="0.5"/>
+  <text x="60" y="675" font-size="11" font-weight="600" fill="#283593">Plattform-Störung beheben</text>
+  <text x="60" y="690" font-size="8.5" fill="#7986CB">Ausfall, Einschränkung, Monitoring</text>
+  <line x1="320" y1="705" x2="1360" y2="705" stroke="#ECEFF1" stroke-width="0.5"/>
+  <!-- Endkunde=I, Stationspate=I, Hotline=I, Valid=-, Betreiber=I, Plattform=R, Flotte=-, FzBetreuer=-, Projekt=A, FzSteller=- -->
+  <circle cx="372" cy="679" r="15" fill="#558B2F" opacity="0.9"/><text x="372" y="684" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="476" cy="679" r="15" fill="#558B2F" opacity="0.9"/><text x="476" y="684" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="580" cy="679" r="15" fill="#558B2F" opacity="0.9"/><text x="580" y="684" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="684" cy="679" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="684" y="684" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="788" cy="679" r="15" fill="#0D47A1" opacity="0.9"/><text x="788" y="684" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">A</text>
+  <circle cx="892" cy="679" r="15" fill="#1B5E20" opacity="0.9"/><text x="892" y="684" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="996" cy="679" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="996" y="684" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1100" cy="679" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1100" y="684" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1204" cy="679" r="15" fill="#558B2F" opacity="0.9"/><text x="1204" y="684" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="1308" cy="679" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1308" y="684" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+
+  <!-- Row 9: Fuhrpark-Optimierung (KI) -->
+  <rect x="40" y="705" width="280" height="52" fill="url(#rowHeaderGrad)" stroke="#E8EAF6" stroke-width="0.5"/>
+  <text x="60" y="727" font-size="11" font-weight="600" fill="#283593">Fuhrpark-Optimierung (KI)</text>
+  <text x="60" y="742" font-size="8.5" fill="#7986CB">Auslastungsanalyse, Standortbewertung</text>
+  <line x1="320" y1="757" x2="1360" y2="757" stroke="#ECEFF1" stroke-width="0.5"/>
+  <!-- Endkunde=-, Stationspate=C, Hotline=-, Valid=-, Betreiber=R, Plattform=C, Flotte=R, FzBetreuer=I, Projekt=A, FzSteller=C -->
+  <circle cx="372" cy="731" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="372" y="736" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="476" cy="731" r="15" fill="#E65100" opacity="0.9"/><text x="476" y="736" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+  <circle cx="580" cy="731" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="580" y="736" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="684" cy="731" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="684" y="736" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="788" cy="731" r="15" fill="#1B5E20" opacity="0.9"/><text x="788" y="736" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="892" cy="731" r="15" fill="#E65100" opacity="0.9"/><text x="892" y="736" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+  <circle cx="996" cy="731" r="15" fill="#1B5E20" opacity="0.9"/><text x="996" y="736" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="1100" cy="731" r="15" fill="#558B2F" opacity="0.9"/><text x="1100" y="736" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="1204" cy="731" r="15" fill="#0D47A1" opacity="0.9"/><text x="1204" y="736" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">A</text>
+  <circle cx="1308" cy="731" r="15" fill="#E65100" opacity="0.9"/><text x="1308" y="736" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+
+  <!-- ==================== SECTION: Strategie ==================== -->
+  <rect x="40" y="757" width="1320" height="28" fill="#ECEFF1"/>
+  <text x="60" y="776" font-size="11" font-weight="700" fill="#37474F" letter-spacing="0.5">STRATEGIE &amp; AKQUISE</text>
+
+  <!-- Row 10: Regionale Kundenakquise -->
+  <rect x="40" y="785" width="280" height="52" fill="url(#rowHeaderGrad)" stroke="#E8EAF6" stroke-width="0.5"/>
+  <text x="60" y="807" font-size="11" font-weight="600" fill="#283593">Regionale Kundenakquise</text>
+  <text x="60" y="822" font-size="8.5" fill="#7986CB">Zielgruppen, Marketing, Partnerschaften</text>
+  <line x1="320" y1="837" x2="1360" y2="837" stroke="#ECEFF1" stroke-width="0.5"/>
+  <!-- Endkunde=-, Stationspate=R, Hotline=-, Valid=-, Betreiber=R, Plattform=-, Flotte=-, FzBetreuer=-, Projekt=A, FzSteller=C -->
+  <circle cx="372" cy="811" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="372" y="816" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="476" cy="811" r="15" fill="#1B5E20" opacity="0.9"/><text x="476" y="816" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="580" cy="811" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="580" y="816" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="684" cy="811" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="684" y="816" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="788" cy="811" r="15" fill="#1B5E20" opacity="0.9"/><text x="788" y="816" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="892" cy="811" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="892" y="816" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="996" cy="811" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="996" y="816" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1100" cy="811" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1100" y="816" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1204" cy="811" r="15" fill="#0D47A1" opacity="0.9"/><text x="1204" y="816" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">A</text>
+  <circle cx="1308" cy="811" r="15" fill="#E65100" opacity="0.9"/><text x="1308" y="816" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">C</text>
+
+  <!-- Row 11: Führerscheinvalidierung -->
+  <rect x="40" y="837" width="280" height="52" fill="#FFFFFF" stroke="#F5F5F5" stroke-width="0.5"/>
+  <text x="60" y="859" font-size="11" font-weight="600" fill="#283593">Führerscheinvalidierung</text>
+  <text x="60" y="874" font-size="8.5" fill="#7986CB">Prüfung, Freigabe, Sperrung</text>
+  <line x1="320" y1="889" x2="1360" y2="889" stroke="#ECEFF1" stroke-width="0.5"/>
+  <!-- Endkunde=R, Stationspate=-, Hotline=I, Valid=R, Betreiber=A, Plattform=-, Flotte=-, FzBetreuer=-, Projekt=-, FzSteller=- -->
+  <circle cx="372" cy="863" r="15" fill="#1B5E20" opacity="0.9"/><text x="372" y="868" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="476" cy="863" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="476" y="868" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="580" cy="863" r="15" fill="#558B2F" opacity="0.9"/><text x="580" y="868" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">I</text>
+  <circle cx="684" cy="863" r="15" fill="#1B5E20" opacity="0.9"/><text x="684" y="868" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">R</text>
+  <circle cx="788" cy="863" r="15" fill="#0D47A1" opacity="0.9"/><text x="788" y="868" text-anchor="middle" font-size="14" font-weight="700" fill="#FFF">A</text>
+  <circle cx="892" cy="863" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="892" y="868" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="996" cy="863" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="996" y="868" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1100" cy="863" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1100" y="868" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1204" cy="863" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1204" y="868" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+  <circle cx="1308" cy="863" r="15" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1"/><text x="1308" y="868" text-anchor="middle" font-size="14" fill="#B0BEC5">–</text>
+
+  <!-- KI badge row marker -->
+  <rect x="270" y="535" width="30" height="16" rx="4" fill="#7C4DFF" opacity="0.85"/>
+  <text x="285" y="546" text-anchor="middle" font-size="7.5" font-weight="700" fill="#FFF">KI</text>
+  <rect x="270" y="719" width="30" height="16" rx="4" fill="#7C4DFF" opacity="0.85"/>
+  <text x="285" y="730" text-anchor="middle" font-size="7.5" font-weight="700" fill="#FFF">KI</text>
+
+  <!-- Footer -->
+  <text x="700" y="920" text-anchor="middle" font-size="10" fill="#90A4AE">Hinweis: Diese RACI-Matrix ist ein Beispielentwurf. Die Zuordnungen sollten im Projektteam abgestimmt und validiert werden.</text>
+  <text x="700" y="938" text-anchor="middle" font-size="10" fill="#90A4AE">Prozesse mit dem Hinweis „KI" werden durch den MoPilot KI-Assistenten aktiv unterstützt.</text>
+  <text x="700" y="960" text-anchor="middle" font-size="9" fill="#B0BEC5">MoPilot – RACI-Matrix │ Entwurf Stand: 26.02.2026</text>
+
+  <!-- Zone color indicators on column headers -->
+  <line x1="320" y1="153" x2="736" y2="153" stroke="#66BB6A" stroke-width="3"/>
+  <line x1="736" y1="153" x2="1152" y2="153" stroke="#42A5F5" stroke-width="3"/>
+  <line x1="1152" y1="153" x2="1360" y2="153" stroke="#FFA726" stroke-width="3"/>
+</svg>

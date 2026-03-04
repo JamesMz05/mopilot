@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-
+import DokuSection from "@/components/DokuSection";
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 
 const ROLES = [
@@ -118,7 +118,8 @@ export default function LoginPage() {
             </div>
           </div>
         ))}
-
+        {/* Projekt Doku */}
+        <DokuSection />
         {/* Info footer */}
         <div className="mt-8 bg-white border border-gray-200 rounded-xl p-6 text-sm text-gray-500">
           <p className="font-semibold text-gray-700 mb-2">ℹ️ Demo-Hinweis</p>

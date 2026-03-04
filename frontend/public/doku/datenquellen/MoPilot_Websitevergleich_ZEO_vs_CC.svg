@@ -1,0 +1,311 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1480" font-family="Segoe UI, system-ui, sans-serif">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#00000015"/>
+    </filter>
+    <filter id="shadowLg" x="-3%" y="-3%" width="106%" height="112%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#00000020"/>
+    </filter>
+    <linearGradient id="zeoGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2E7D32"/>
+      <stop offset="100%" stop-color="#388E3C"/>
+    </linearGradient>
+    <linearGradient id="ccGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1565C0"/>
+      <stop offset="100%" stop-color="#1976D2"/>
+    </linearGradient>
+    <linearGradient id="matchGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F3E5F5"/>
+      <stop offset="100%" stop-color="#FCF5FF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="1480" fill="#F5F6FA"/>
+
+  <!-- ==================== TITLE ==================== -->
+  <rect x="40" y="20" width="1320" height="78" rx="14" fill="#1A237E" filter="url(#shadowLg)"/>
+  <text x="700" y="52" text-anchor="middle" font-size="22" font-weight="700" fill="#FFFFFF" letter-spacing="0.5">MoPilot – Vergleich der Projektwebseiten</text>
+  <text x="700" y="76" text-anchor="middle" font-size="12" fill="#9FA8DA" letter-spacing="1">STRUKTURANALYSE FÜR DIE KI-ASSISTENTEN-DATENQUELLEN</text>
+
+  <!-- Column headers -->
+  <rect x="40" y="115" width="620" height="50" rx="12" fill="url(#zeoGrad)" filter="url(#shadow)"/>
+  <text x="62" y="147" font-size="18" fill="#FFFFFF">🚗</text>
+  <text x="88" y="145" font-size="16" font-weight="700" fill="#FFFFFF">zeo-carsharing.de</text>
+  <text x="370" y="145" font-size="11" fill="#C8E6C9">ZEO Carsharing · Region Bruchsal</text>
+
+  <rect x="740" y="115" width="620" height="50" rx="12" fill="url(#ccGrad)" filter="url(#shadow)"/>
+  <text x="762" y="147" font-size="18" fill="#FFFFFF">🤝</text>
+  <text x="788" y="145" font-size="16" font-weight="700" fill="#FFFFFF">carsharing2go.net</text>
+  <text x="1050" y="145" font-size="11" fill="#90CAF9">Car&amp;RideSharing Community eG · Rheinland</text>
+
+  <!-- Divider line -->
+  <line x1="690" y1="175" x2="690" y2="1400" stroke="#C5CAE9" stroke-width="1.5" stroke-dasharray="8 4"/>
+
+  <!-- ==================== ROW 1: Organisation & Betreibermodell ==================== -->
+  <rect x="40" y="180" width="1320" height="28" rx="6" fill="#E8EAF6"/>
+  <text x="700" y="199" text-anchor="middle" font-size="12" font-weight="700" fill="#283593" letter-spacing="1">ORGANISATION &amp; BETREIBERMODELL</text>
+
+  <!-- ZEO -->
+  <rect x="40" y="218" width="620" height="105" rx="10" fill="#FFFFFF" filter="url(#shadow)" stroke="#A5D6A7" stroke-width="1"/>
+  <text x="60" y="242" font-size="12" font-weight="700" fill="#2E7D32">Kommunales Projektmodell</text>
+  <text x="60" y="260" font-size="10" fill="#546E7A">Träger: WFG Bruchsal + Stadtwerke + Umwelt-/EnergieAgentur</text>
+  <text x="60" y="278" font-size="10" fill="#546E7A">Betrieb über Vianova eG als Plattform-Dienstleister</text>
+  <text x="60" y="296" font-size="10" fill="#546E7A">Förderung: öffentliche Fördermittel (BMLEH)</text>
+  <rect x="500" y="228" width="140" height="22" rx="5" fill="#E8F5E9" stroke="#A5D6A7" stroke-width="0.8"/>
+  <text x="570" y="243" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">1 Domain</text>
+
+  <!-- CC -->
+  <rect x="740" y="218" width="620" height="105" rx="10" fill="#FFFFFF" filter="url(#shadow)" stroke="#90CAF9" stroke-width="1"/>
+  <text x="760" y="242" font-size="12" font-weight="700" fill="#1565C0">Genossenschaftsmodell</text>
+  <text x="760" y="260" font-size="10" fill="#546E7A">Eingetragene Genossenschaft (eG): Mitglieder investieren</text>
+  <text x="760" y="278" font-size="10" fill="#546E7A">in Infrastruktur (Ladesäulen, E-Fahrzeuge), Satzung regelt</text>
+  <text x="760" y="296" font-size="10" fill="#546E7A">Organisation, unabhängige Mitglieder, ehrenamtliche Struktur</text>
+  <rect x="1180" y="228" width="160" height="22" rx="5" fill="#E3F2FD" stroke="#90CAF9" stroke-width="0.8"/>
+  <text x="1260" y="243" text-anchor="middle" font-size="9" font-weight="600" fill="#1565C0">2 Domains verknüpft</text>
+
+  <!-- ==================== ROW 2: Umfang & Reichweite ==================== -->
+  <rect x="40" y="338" width="1320" height="28" rx="6" fill="#E8EAF6"/>
+  <text x="700" y="357" text-anchor="middle" font-size="12" font-weight="700" fill="#283593" letter-spacing="1">UMFANG &amp; REICHWEITE</text>
+
+  <!-- ZEO -->
+  <rect x="40" y="376" width="620" height="100" rx="10" fill="#FFFFFF" filter="url(#shadow)" stroke="#A5D6A7" stroke-width="1"/>
+  <rect x="60" y="392" width="80" height="28" rx="6" fill="#E8F5E9"/>
+  <text x="100" y="411" text-anchor="middle" font-size="18" font-weight="700" fill="#2E7D32">71</text>
+  <text x="150" y="406" font-size="10" fill="#546E7A">Standorte</text>
+  <rect x="60" y="430" width="80" height="28" rx="6" fill="#E8F5E9"/>
+  <text x="100" y="449" text-anchor="middle" font-size="18" font-weight="700" fill="#2E7D32">18</text>
+  <text x="150" y="444" font-size="10" fill="#546E7A">Gemeinden im nördl. Landkreis Karlsruhe</text>
+  <rect x="400" y="392" width="80" height="28" rx="6" fill="#E8F5E9"/>
+  <text x="440" y="411" text-anchor="middle" font-size="16" font-weight="700" fill="#2E7D32">4.500+</text>
+  <text x="490" y="406" font-size="10" fill="#546E7A">Nutzer*innen</text>
+  <rect x="400" y="430" width="80" height="28" rx="6" fill="#E8F5E9"/>
+  <text x="440" y="449" text-anchor="middle" font-size="16" font-weight="700" fill="#2E7D32">33k</text>
+  <text x="490" y="444" font-size="10" fill="#546E7A">Buchungen/Jahr (2024)</text>
+
+  <!-- CC -->
+  <rect x="740" y="376" width="620" height="100" rx="10" fill="#FFFFFF" filter="url(#shadow)" stroke="#90CAF9" stroke-width="1"/>
+  <rect x="760" y="392" width="80" height="28" rx="6" fill="#E3F2FD"/>
+  <text x="800" y="411" text-anchor="middle" font-size="18" font-weight="700" fill="#1565C0">11</text>
+  <text x="850" y="406" font-size="10" fill="#546E7A">Standorte (+ Unterstandorte)</text>
+  <rect x="760" y="430" width="80" height="28" rx="6" fill="#E3F2FD"/>
+  <text x="800" y="449" text-anchor="middle" font-size="18" font-weight="700" fill="#1565C0">~10</text>
+  <text x="850" y="444" font-size="10" fill="#546E7A">Gemeinden in Rheinland / Berg. Land</text>
+  <rect x="1100" y="392" width="100" height="28" rx="6" fill="#E3F2FD"/>
+  <text x="1150" y="411" text-anchor="middle" font-size="12" font-weight="700" fill="#1565C0">Regio+City</text>
+  <text x="1210" y="406" font-size="10" fill="#546E7A">Modell</text>
+  <text x="1100" y="458" font-size="10" fill="#546E7A">Ländlich + Wohnquartier (Köln Clouth)</text>
+
+  <!-- ==================== ROW 3: Inhaltsstruktur Vergleich ==================== -->
+  <rect x="40" y="491" width="1320" height="28" rx="6" fill="#E8EAF6"/>
+  <text x="700" y="510" text-anchor="middle" font-size="12" font-weight="700" fill="#283593" letter-spacing="1">INHALTSSTRUKTUR – VERGLEICH DER BEREICHE</text>
+
+  <!-- Table header -->
+  <rect x="40" y="530" width="300" height="32" rx="6" fill="#37474F"/>
+  <text x="190" y="551" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">Themenbereich</text>
+  <rect x="340" y="530" width="320" height="32" rx="0" fill="#2E7D32"/>
+  <text x="500" y="551" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">ZEO Carsharing</text>
+  <rect x="660" y="530" width="30" height="32" rx="0" fill="#37474F"/>
+  <rect x="690" y="530" width="30" height="32" rx="0" fill="#37474F"/>
+  <rect x="720" y="530" width="320" height="32" rx="0" fill="#1565C0"/>
+  <text x="880" y="551" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">Car&amp;RideSharing Community</text>
+  <rect x="1040" y="530" width="320" height="32" rx="6" fill="#78909C"/>
+  <text x="1200" y="551" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">Bewertung / Unterschied</text>
+
+  <!-- Row: Standorte -->
+  <rect x="40" y="562" width="300" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="60" y="584" font-size="11" font-weight="600" fill="#37474F">📍 Standorte &amp; Stationen</text>
+  <text x="60" y="598" font-size="9" fill="#90A4AE">Übersicht, Detailseiten, Karte</text>
+  <rect x="340" y="562" width="350" height="44" fill="#F1F8E9" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="360" y="584" font-size="10" fill="#2E7D32">✅ Interaktive Karte, 71 Stationen</text>
+  <text x="360" y="598" font-size="9" fill="#78909C">Detailseiten pro Standort</text>
+  <rect x="690" y="562" width="350" height="44" fill="#E8F4FD" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="710" y="584" font-size="10" fill="#1565C0">✅ Einzelseiten pro Standort, 11 Orte</text>
+  <text x="710" y="598" font-size="9" fill="#78909C">Mit Unterstandorten (Bad Honnef, Overath)</text>
+  <rect x="1040" y="562" width="320" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="1060" y="588" font-size="10" fill="#546E7A">Beide vorhanden; ZEO deutlich</text>
+  <text x="1060" y="601" font-size="10" fill="#546E7A">umfangreicher (71 vs. 11)</text>
+
+  <!-- Row: Tarife / Kosten -->
+  <rect x="40" y="606" width="300" height="44" fill="#FFFFFF" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="60" y="628" font-size="11" font-weight="600" fill="#37474F">💰 Tarife &amp; Kosten</text>
+  <text x="60" y="642" font-size="9" fill="#90A4AE">Preise, Modelle, Vergleich</text>
+  <rect x="340" y="606" width="350" height="44" fill="#F1F8E9" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="360" y="628" font-size="10" fill="#2E7D32">✅ 2 Tarife detailliert (Eco, Eco-plus)</text>
+  <text x="360" y="642" font-size="9" fill="#78909C">Eigene Seite /kosten</text>
+  <rect x="690" y="606" width="350" height="44" fill="#E8F4FD" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="710" y="628" font-size="10" fill="#1565C0">✅ Kostenbeispiele + Online-Rechner</text>
+  <text x="710" y="642" font-size="9" fill="#78909C">Vergleich eigenes Auto vs. Carsharing</text>
+  <rect x="1040" y="606" width="320" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="1060" y="628" font-size="10" fill="#546E7A">Beide vorhanden; CC hat stärkeren</text>
+  <text x="1060" y="642" font-size="10" fill="#546E7A">Fokus auf Kostenvergleich</text>
+
+  <!-- Row: Fahrzeuge -->
+  <rect x="40" y="650" width="300" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="60" y="672" font-size="11" font-weight="600" fill="#37474F">🚙 Fahrzeug-Infos &amp; Manuals</text>
+  <text x="60" y="686" font-size="9" fill="#90A4AE">Modelle, Anleitungen, Ausstattung</text>
+  <rect x="340" y="650" width="350" height="44" fill="#F1F8E9" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="360" y="672" font-size="10" fill="#2E7D32">✅ Modellseite + ZEO Manuals</text>
+  <text x="360" y="686" font-size="9" fill="#78909C">Pro Modell Tipps &amp; Tricks, Laden unterwegs</text>
+  <rect x="690" y="650" width="350" height="44" fill="#E8F4FD" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="710" y="672" font-size="10" fill="#1565C0">⚠️ Basis: Fahrzeugseite mit Links</text>
+  <text x="710" y="686" font-size="9" fill="#78909C">zu Hersteller-Anleitungen (VW, MG5)</text>
+  <rect x="1040" y="650" width="320" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="1060" y="672" font-size="10" fill="#2E7D32" font-weight="600">ZEO deutlich umfangreicher</text>
+  <text x="1060" y="686" font-size="10" fill="#546E7A">Eigene Manuals pro Modell</text>
+
+  <!-- Row: FAQs / Anleitungen -->
+  <rect x="40" y="694" width="300" height="44" fill="#FFFFFF" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="60" y="716" font-size="11" font-weight="600" fill="#37474F">❓ FAQs &amp; Anleitungen</text>
+  <text x="60" y="730" font-size="9" fill="#90A4AE">Hilfe, Schritt-für-Schritt, App</text>
+  <rect x="340" y="694" width="350" height="44" fill="#F1F8E9" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="360" y="716" font-size="10" fill="#2E7D32">✅ FAQs + So funktioniert ZEO</text>
+  <text x="360" y="730" font-size="9" fill="#78909C">App-Anleitung, Downloads (AGB, Verträge)</text>
+  <rect x="690" y="694" width="350" height="44" fill="#E8F4FD" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="710" y="716" font-size="10" fill="#1565C0">⚠️ Support-Seite + Informationen</text>
+  <text x="710" y="730" font-size="9" fill="#78909C">Weniger strukturiert, kein dedizierter FAQ-Bereich</text>
+  <rect x="1040" y="694" width="320" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="1060" y="716" font-size="10" fill="#2E7D32" font-weight="600">ZEO deutlich umfangreicher</text>
+  <text x="1060" y="730" font-size="10" fill="#546E7A">Strukturierte FAQs + Downloads</text>
+
+  <!-- Row: Blog / News -->
+  <rect x="40" y="738" width="300" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="60" y="760" font-size="11" font-weight="600" fill="#37474F">📰 Blog &amp; Aktuelles</text>
+  <text x="60" y="774" font-size="9" fill="#90A4AE">News, Social Media, PR</text>
+  <rect x="340" y="738" width="350" height="44" fill="#F1F8E9" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="360" y="760" font-size="10" fill="#2E7D32">✅ ZEO Blog + Social Wall</text>
+  <text x="360" y="774" font-size="9" fill="#78909C">Regelmäßige Beiträge, MoPilot-Meldung</text>
+  <rect x="690" y="738" width="350" height="44" fill="#E8F4FD" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="710" y="760" font-size="10" fill="#1565C0">✅ Pressespiegel + Pressemappe</text>
+  <text x="710" y="774" font-size="9" fill="#78909C">Auf sharing-community.de, PR-fokussiert</text>
+  <rect x="1040" y="738" width="320" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="1060" y="760" font-size="10" fill="#546E7A">Beide vorhanden; ZEO aktiver</text>
+  <text x="1060" y="774" font-size="10" fill="#546E7A">und nutzerorientierter</text>
+
+  <!-- Row: Community / Genossenschaft -->
+  <rect x="40" y="782" width="300" height="44" fill="#FFFFFF" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="60" y="804" font-size="11" font-weight="600" fill="#37474F">🤝 Community &amp; Mitgliedschaft</text>
+  <text x="60" y="818" font-size="9" fill="#90A4AE">Genossenschaft, Mitglieder</text>
+  <rect x="340" y="782" width="350" height="44" fill="#F1F8E9" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="360" y="804" font-size="10" fill="#E65100">✖ Nicht vorhanden</text>
+  <text x="360" y="818" font-size="9" fill="#78909C">Kommunales Modell ohne Mitgliedschaft</text>
+  <rect x="690" y="782" width="350" height="44" fill="#E8F4FD" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="710" y="804" font-size="10" fill="#1565C0">✅ Eigenes Portal sharing-community.de</text>
+  <text x="710" y="818" font-size="9" fill="#78909C">Satzung, Mitglied werden, Team, Genossenschaft</text>
+  <rect x="1040" y="782" width="320" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="1060" y="804" font-size="10" fill="#1565C0" font-weight="600">CC-Alleinstellungsmerkmal</text>
+  <text x="1060" y="818" font-size="10" fill="#546E7A">Genossenschaftliche Beteiligung</text>
+
+  <!-- Row: Zielgruppen / Leistungsspektrum -->
+  <rect x="40" y="826" width="300" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="60" y="848" font-size="11" font-weight="600" fill="#37474F">🎯 Zielgruppen-Differenzierung</text>
+  <text x="60" y="862" font-size="9" fill="#90A4AE">Privat, Business, Kommunen</text>
+  <rect x="340" y="826" width="350" height="44" fill="#F1F8E9" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="360" y="848" font-size="10" fill="#2E7D32">⚠️ ZEO Business als Unterseite</text>
+  <text x="360" y="862" font-size="9" fill="#78909C">Fokus auf Privatnutzer</text>
+  <rect x="690" y="826" width="350" height="44" fill="#E8F4FD" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="710" y="848" font-size="10" fill="#1565C0">✅ 6 Zielgruppen explizit adressiert</text>
+  <text x="710" y="862" font-size="9" fill="#78909C">Privat, Kommunen, Unternehmen, WBG, Vereine, Beratung</text>
+  <rect x="1040" y="826" width="320" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="1060" y="848" font-size="10" fill="#1565C0" font-weight="600">CC deutlich differenzierter</text>
+  <text x="1060" y="862" font-size="10" fill="#546E7A">Breites Leistungsspektrum</text>
+
+  <!-- Row: Standortpate -->
+  <rect x="40" y="870" width="300" height="44" fill="#FFFFFF" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="60" y="892" font-size="11" font-weight="600" fill="#37474F">🏘️ Standortpate-Konzept</text>
+  <text x="60" y="906" font-size="9" fill="#90A4AE">Ehrenamtliche vor Ort</text>
+  <rect x="340" y="870" width="350" height="44" fill="#F1F8E9" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="360" y="892" font-size="10" fill="#E65100">✖ Nicht auf der Website</text>
+  <text x="360" y="906" font-size="9" fill="#78909C">Aber als Rolle im MoPilot-Dokument definiert</text>
+  <rect x="690" y="870" width="350" height="44" fill="#E8F4FD" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="710" y="892" font-size="10" fill="#1565C0">✅ Eigene Seite „Standortpate werden"</text>
+  <text x="710" y="906" font-size="9" fill="#78909C">Aktiv beworben auf Informationsseite</text>
+  <rect x="1040" y="870" width="320" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="1060" y="892" font-size="10" fill="#1565C0" font-weight="600">CC-Alleinstellungsmerkmal</text>
+  <text x="1060" y="906" font-size="10" fill="#546E7A">Direkt MoPilot-Rolle „Stationspate"</text>
+
+  <!-- Row: App / Buchung -->
+  <rect x="40" y="914" width="300" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="60" y="936" font-size="11" font-weight="600" fill="#37474F">📱 App &amp; Buchungsportal</text>
+  <text x="60" y="950" font-size="9" fill="#90A4AE">Digitale Nutzungskanäle</text>
+  <rect x="340" y="914" width="350" height="44" fill="#F1F8E9" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="360" y="936" font-size="10" fill="#2E7D32">✅ „mein zeo" App (iOS + Android)</text>
+  <text x="360" y="950" font-size="9" fill="#78909C">+ mein.zeo-carsharing.de Webportal + Doku</text>
+  <rect x="690" y="914" width="350" height="44" fill="#E8F4FD" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="710" y="936" font-size="10" fill="#1565C0">✅ Smartphone-Sharing-App</text>
+  <text x="710" y="950" font-size="9" fill="#78909C">Registrierung über Quiz mit Startguthaben</text>
+  <rect x="1040" y="914" width="320" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="1060" y="936" font-size="10" fill="#546E7A">Beide App-basiert; ZEO mit</text>
+  <text x="1060" y="950" font-size="10" fill="#546E7A">ausführlicherer App-Dokumentation</text>
+
+  <!-- Row: Kontakt / Hotline -->
+  <rect x="40" y="958" width="300" height="44" fill="#FFFFFF" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="60" y="980" font-size="11" font-weight="600" fill="#37474F">📞 Kontakt &amp; Hotline</text>
+  <text x="60" y="994" font-size="9" fill="#90A4AE">Erreichbarkeit, Support</text>
+  <rect x="340" y="958" width="350" height="44" fill="#F1F8E9" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="360" y="980" font-size="10" fill="#2E7D32">✅ Hotline + E-Mail + Kontaktformular</text>
+  <text x="360" y="994" font-size="9" fill="#78909C">+ Bild-Upload, prominenter Footer</text>
+  <rect x="690" y="958" width="350" height="44" fill="#E8F4FD" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="710" y="980" font-size="10" fill="#1565C0">✅ Kontaktformular auf beiden Domains</text>
+  <text x="710" y="994" font-size="9" fill="#78909C">Support-Seite für App-Fragen</text>
+  <rect x="1040" y="958" width="320" height="44" fill="#FAFAFA" stroke="#ECEFF1" stroke-width="0.5"/>
+  <text x="1060" y="980" font-size="10" fill="#546E7A">Vergleichbar; ZEO mit</text>
+  <text x="1060" y="994" font-size="10" fill="#546E7A">dedizierter Telefon-Hotline</text>
+
+  <!-- ==================== FAZIT ==================== -->
+  <rect x="40" y="1025" width="1320" height="28" rx="6" fill="#283593"/>
+  <text x="700" y="1044" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF" letter-spacing="1">FAZIT &amp; IMPLIKATIONEN FÜR MoPilot</text>
+
+  <!-- Stärken ZEO -->
+  <rect x="40" y="1068" width="420" height="195" rx="12" fill="#FFFFFF" filter="url(#shadow)" stroke="#A5D6A7" stroke-width="1.5"/>
+  <rect x="40" y="1068" width="420" height="32" rx="12" fill="#2E7D32"/>
+  <rect x="40" y="1086" width="420" height="14" fill="#2E7D32"/>
+  <text x="60" y="1091" font-size="12" font-weight="700" fill="#FFFFFF">✅ Stärken ZEO</text>
+  <text x="60" y="1118" font-size="10.5" fill="#37474F">▸ Umfangreichste Nutzer-Dokumentation (FAQs,</text>
+  <text x="66" y="1134" font-size="10.5" fill="#37474F">  Manuals, App-Anleitung, Downloads)</text>
+  <text x="60" y="1154" font-size="10.5" fill="#37474F">▸ Aktiver Blog mit regelmäßigen Beiträgen</text>
+  <text x="60" y="1174" font-size="10.5" fill="#37474F">▸ Größere Reichweite (71 Standorte, 4.500 Nutzer)</text>
+  <text x="60" y="1194" font-size="10.5" fill="#37474F">▸ Detaillierte Tarif-Transparenz (2 Modelle)</text>
+  <text x="60" y="1214" font-size="10.5" fill="#37474F">▸ Prominente Hotline mit Bild-Upload im Formular</text>
+  <text x="60" y="1234" font-size="10.5" fill="#37474F">▸ Laden-unterwegs-Infos für E-Fahrzeuge</text>
+
+  <!-- Stärken CC -->
+  <rect x="490" y="1068" width="420" height="195" rx="12" fill="#FFFFFF" filter="url(#shadow)" stroke="#90CAF9" stroke-width="1.5"/>
+  <rect x="490" y="1068" width="420" height="32" rx="12" fill="#1565C0"/>
+  <rect x="490" y="1086" width="420" height="14" fill="#1565C0"/>
+  <text x="510" y="1091" font-size="12" font-weight="700" fill="#FFFFFF">✅ Stärken Car&amp;RideSharing Community</text>
+  <text x="510" y="1118" font-size="10.5" fill="#37474F">▸ Genossenschaftsmodell mit Mitglieder-</text>
+  <text x="516" y="1134" font-size="10.5" fill="#37474F">  beteiligung (Investition + Mitbestimmung)</text>
+  <text x="510" y="1154" font-size="10.5" fill="#37474F">▸ Breites Zielgruppen-Spektrum (6 Segmente)</text>
+  <text x="510" y="1174" font-size="10.5" fill="#37474F">▸ Aktives Standortpate-Konzept (auf Website!)</text>
+  <text x="510" y="1194" font-size="10.5" fill="#37474F">▸ Dual-Modell: ländlich (Regio) + urban (City)</text>
+  <text x="510" y="1214" font-size="10.5" fill="#37474F">▸ Online-Kostenrechner zum Selbstvergleich</text>
+  <text x="510" y="1234" font-size="10.5" fill="#37474F">▸ Registrierungs-Quiz als Gamification-Ansatz</text>
+
+  <!-- MoPilot Empfehlungen -->
+  <rect x="940" y="1068" width="420" height="195" rx="12" fill="url(#matchGrad)" filter="url(#shadow)" stroke="#CE93D8" stroke-width="1.5"/>
+  <rect x="940" y="1068" width="420" height="32" rx="12" fill="#6A1B9A"/>
+  <rect x="940" y="1086" width="420" height="14" fill="#6A1B9A"/>
+  <text x="960" y="1091" font-size="12" font-weight="700" fill="#FFFFFF">🤖 MoPilot-Empfehlungen</text>
+  <text x="960" y="1118" font-size="10.5" fill="#37474F">▸ KI muss beide Websitestrukturen kennen</text>
+  <text x="966" y="1134" font-size="10.5" fill="#37474F">  und betreiberspezifisch antworten</text>
+  <text x="960" y="1154" font-size="10.5" fill="#37474F">▸ ZEO-FAQs als Vorlage für CC-Ausbau</text>
+  <text x="960" y="1174" font-size="10.5" fill="#37474F">▸ Standortpate-Inhalte von CC als Best</text>
+  <text x="966" y="1190" font-size="10.5" fill="#37474F">  Practice für Stationspaten-Rolle</text>
+  <text x="960" y="1210" font-size="10.5" fill="#37474F">▸ Genossenschafts-Fragen = neuer Use Case</text>
+  <text x="960" y="1230" font-size="10.5" fill="#37474F">▸ Multi-Domain-Crawling nötig (CC: 2 Domains)</text>
+  <text x="960" y="1250" font-size="10.5" fill="#37474F">▸ Kostenrechner-Logik in KI integrierbar</text>
+
+  <!-- ==================== SUMMARY BAR ==================== -->
+  <rect x="40" y="1285" width="1320" height="90" rx="12" fill="#FFFFFF" filter="url(#shadow)" stroke="#C5CAE9" stroke-width="1"/>
+  <text x="60" y="1312" font-size="12" font-weight="700" fill="#1A237E">Kernaussage für die MoPilot-Dokumentation:</text>
+  <text x="60" y="1332" font-size="11" fill="#37474F">Beide Webseiten adressieren dasselbe Grundproblem (E-Carsharing im ländlichen Raum), unterscheiden sich aber fundamental im</text>
+  <text x="60" y="1350" font-size="11" fill="#37474F">Betreibermodell (kommunal vs. genossenschaftlich) und in der Inhaltstiefe. Der MoPilot KI-Assistent muss diese Unterschiede erkennen</text>
+  <text x="60" y="1368" font-size="11" fill="#37474F">und betreiberspezifisch reagieren – insbesondere bei Fragen zu Tarif, Mitgliedschaft, Standortpaten und Registrierungsprozessen.</text>
+
+  <!-- Footer -->
+  <text x="700" y="1410" text-anchor="middle" font-size="9" fill="#B0BEC5">MoPilot – Vergleichende Websiteanalyse │ Stand: 26.02.2026</text>
+
+  <!-- Decorative comparison arrows -->
+  <text x="680" y="1090" text-anchor="middle" font-size="18" fill="#C5CAE9">⟷</text>
+</svg>

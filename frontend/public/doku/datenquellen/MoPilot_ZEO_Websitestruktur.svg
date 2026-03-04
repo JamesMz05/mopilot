@@ -1,0 +1,277 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 1050" font-family="Segoe UI, system-ui, sans-serif">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#00000015"/>
+    </filter>
+    <filter id="shadowLg" x="-3%" y="-3%" width="106%" height="112%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#00000020"/>
+    </filter>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2E7D32"/>
+      <stop offset="100%" stop-color="#388E3C"/>
+    </linearGradient>
+    <linearGradient id="navGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8F5E9"/>
+      <stop offset="100%" stop-color="#F1F8E9" stop-opacity="0.5"/>
+    </linearGradient>
+    <marker id="arrowDown" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto">
+      <polygon points="0 0, 8 0, 4 6" fill="#A5D6A7"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1300" height="1050" fill="#F8FAF8"/>
+
+  <!-- ==================== HEADER ==================== -->
+  <rect x="40" y="20" width="1220" height="80" rx="14" fill="url(#headerGrad)" filter="url(#shadowLg)"/>
+  <rect x="60" y="34" width="52" height="52" rx="8" fill="#FFFFFF" opacity="0.15"/>
+  <text x="86" y="60" text-anchor="middle" font-size="22" fill="#FFFFFF">🚗</text>
+  <text x="86" y="76" text-anchor="middle" font-size="7" fill="#A5D6A7" font-weight="600">ZEO</text>
+  <text x="130" y="55" font-size="20" font-weight="700" fill="#FFFFFF" letter-spacing="0.3">www.zeo-carsharing.de</text>
+  <text x="130" y="78" font-size="12" fill="#C8E6C9" letter-spacing="0.5">Projektwebseite – Inhaltsübersicht für MoPilot-Dokumentation</text>
+  <text x="1200" y="55" text-anchor="end" font-size="10" fill="#A5D6A7">71 Standorte · 4.500+ Nutzer</text>
+  <text x="1200" y="72" text-anchor="end" font-size="10" fill="#A5D6A7">Region Bruchsal · 18 Gemeinden</text>
+
+  <!-- ==================== NAVIGATION BAR ==================== -->
+  <rect x="40" y="115" width="1220" height="46" rx="10" fill="#FFFFFF" filter="url(#shadow)" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="60" y="143" font-size="10" font-weight="700" fill="#2E7D32" letter-spacing="1">HAUPTNAVIGATION:</text>
+  <!-- Nav items -->
+  <rect x="200" y="124" width="100" height="28" rx="6" fill="#E8F5E9" stroke="#A5D6A7" stroke-width="0.8"/>
+  <text x="250" y="143" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">Registrierung</text>
+  <rect x="310" y="124" width="115" height="28" rx="6" fill="#E8F5E9" stroke="#A5D6A7" stroke-width="0.8"/>
+  <text x="367" y="143" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">Fahrzeug Buchen</text>
+  <rect x="435" y="124" width="85" height="28" rx="6" fill="#E8F5E9" stroke="#A5D6A7" stroke-width="0.8"/>
+  <text x="477" y="143" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">Losfahren</text>
+  <rect x="530" y="124" width="100" height="28" rx="6" fill="#E8F5E9" stroke="#A5D6A7" stroke-width="0.8"/>
+  <text x="580" y="143" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">Tipps &amp; Tricks</text>
+  <rect x="640" y="124" width="90" height="28" rx="6" fill="#E8F5E9" stroke="#A5D6A7" stroke-width="0.8"/>
+  <text x="685" y="143" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">ZEO Aktuell</text>
+
+  <!-- External links -->
+  <rect x="870" y="124" width="165" height="28" rx="6" fill="#FFF3E0" stroke="#FFB74D" stroke-width="0.8"/>
+  <text x="952" y="139" text-anchor="middle" font-size="9" font-weight="600" fill="#E65100">↗ mein.zeo-carsharing.de</text>
+  <text x="952" y="150" text-anchor="middle" font-size="7.5" fill="#BF360C">Buchungsportal</text>
+  <rect x="1045" y="124" width="170" height="28" rx="6" fill="#FFF3E0" stroke="#FFB74D" stroke-width="0.8"/>
+  <text x="1130" y="139" text-anchor="middle" font-size="9" font-weight="600" fill="#E65100">↗ partner.zeo-carsharing.de</text>
+  <text x="1130" y="150" text-anchor="middle" font-size="7.5" fill="#BF360C">Partner Login</text>
+
+  <!-- ==================== CONTENT SECTIONS ==================== -->
+  <!-- Drop lines from nav -->
+  <line x1="477" y1="152" x2="195" y2="185" stroke="#A5D6A7" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+  <line x1="580" y1="152" x2="600" y2="185" stroke="#A5D6A7" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+  <line x1="685" y1="152" x2="1010" y2="185" stroke="#A5D6A7" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+
+  <!-- ===== COLUMN 1: Losfahren ===== -->
+  <rect x="40" y="185" width="370" height="440" rx="12" fill="url(#navGrad)" stroke="#A5D6A7" stroke-width="1" filter="url(#shadow)"/>
+  <rect x="40" y="185" width="370" height="36" rx="12" fill="#43A047"/>
+  <rect x="40" y="203" width="370" height="18" fill="#43A047"/>
+  <text x="60" y="209" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="0.5">🚀  Losfahren</text>
+  <text x="370" y="209" text-anchor="end" font-size="9" fill="#C8E6C9">/jetzt-losfahren</text>
+
+  <!-- Subpages -->
+  <rect x="58" y="235" width="335" height="54" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="78" y="258" font-size="12" font-weight="600" fill="#2E7D32">📍 ZEO Standorte</text>
+  <text x="78" y="275" font-size="9.5" fill="#78909C">Interaktive Karte aller 71 Stationen in 18 Gemeinden</text>
+
+  <rect x="58" y="298" width="335" height="68" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="78" y="321" font-size="12" font-weight="600" fill="#2E7D32">💰 Tarife</text>
+  <text x="159" y="321" font-size="9" fill="#78909C">/kosten</text>
+  <text x="78" y="338" font-size="9.5" fill="#78909C">Eco-Tarif: ab 0,27 €/km, 1,90 €/h (ohne Grundgebühr)</text>
+  <text x="78" y="353" font-size="9.5" fill="#78909C">Eco-plus: 9,90 €/Monat, ab 0,19 €/km, 1,70 €/h</text>
+
+  <rect x="58" y="375" width="335" height="54" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="78" y="398" font-size="12" font-weight="600" fill="#2E7D32">🚙 Unsere Modelle</text>
+  <text x="195" y="398" font-size="9" fill="#78909C">/unsere-modelle</text>
+  <text x="78" y="415" font-size="9.5" fill="#78909C">Übersicht der E-Fahrzeugflotte mit Ausstattungsdetails</text>
+
+  <rect x="58" y="438" width="335" height="54" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="78" y="461" font-size="12" font-weight="600" fill="#2E7D32">🏢 ZEO Business</text>
+  <text x="191" y="461" font-size="9" fill="#78909C">/zeo-business</text>
+  <text x="78" y="478" font-size="9.5" fill="#78909C">Carsharing-Angebote für Firmen und Organisationen</text>
+
+  <rect x="58" y="501" width="335" height="54" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="78" y="524" font-size="12" font-weight="600" fill="#2E7D32">⚡ E-Carsharing in der Region</text>
+  <text x="78" y="541" font-size="9.5" fill="#78909C">Die Idee hinter elektrischem Carsharing auf dem Land</text>
+
+  <rect x="58" y="564" width="335" height="45" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="78" y="587" font-size="12" font-weight="600" fill="#2E7D32">🌿 ZEO Philosophie</text>
+  <text x="200" y="587" font-size="9" fill="#78909C">/zeo-philosophie</text>
+
+  <!-- ===== COLUMN 2: Tipps & Tricks ===== -->
+  <rect x="425" y="185" width="370" height="440" rx="12" fill="url(#navGrad)" stroke="#A5D6A7" stroke-width="1" filter="url(#shadow)"/>
+  <rect x="425" y="185" width="370" height="36" rx="12" fill="#43A047"/>
+  <rect x="425" y="203" width="370" height="18" fill="#43A047"/>
+  <text x="445" y="209" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="0.5">💡  Tipps &amp; Tricks</text>
+  <text x="755" y="209" text-anchor="end" font-size="9" fill="#C8E6C9">/so-funktioniert-es</text>
+
+  <rect x="443" y="235" width="335" height="54" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="463" y="258" font-size="12" font-weight="600" fill="#2E7D32">📖 Tipps &amp; Tricks</text>
+  <text x="579" y="258" font-size="9" fill="#78909C">/wiefunktionierts</text>
+  <text x="463" y="275" font-size="9.5" fill="#78909C">Schritt für Schritt: Carsharing leicht gemacht</text>
+
+  <rect x="443" y="298" width="335" height="54" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="463" y="321" font-size="12" font-weight="600" fill="#2E7D32">❓ FAQs</text>
+  <text x="517" y="321" font-size="9" fill="#78909C">/faqs</text>
+  <text x="463" y="338" font-size="9.5" fill="#78909C">Häufig gestellte Fragen und Antworten zu ZEO</text>
+
+  <rect x="443" y="361" width="335" height="54" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="463" y="384" font-size="12" font-weight="600" fill="#2E7D32">📱 Handhabung App</text>
+  <text x="596" y="384" font-size="9" fill="#78909C">/handhabung-app</text>
+  <text x="463" y="401" font-size="9.5" fill="#78909C">Anleitung zur „mein zeo" App (iOS + Android)</text>
+
+  <rect x="443" y="424" width="335" height="54" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="463" y="447" font-size="12" font-weight="600" fill="#2E7D32">📋 ZEO Manuals</text>
+  <text x="575" y="447" font-size="9" fill="#78909C">/zeo-manuals</text>
+  <text x="463" y="464" font-size="9.5" fill="#78909C">Fahrzeughandbücher, Tipps zu jedem Modell</text>
+
+  <rect x="443" y="487" width="335" height="54" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="463" y="510" font-size="12" font-weight="600" fill="#2E7D32">🔌 Aufladen unterwegs</text>
+  <text x="615" y="510" font-size="9" fill="#78909C">/aufladen-unterwegs</text>
+  <text x="463" y="527" font-size="9.5" fill="#78909C">Infos zu Ladeinfrastruktur und Laden bei Nutzung</text>
+
+  <rect x="443" y="550" width="335" height="54" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="463" y="573" font-size="12" font-weight="600" fill="#2E7D32">📥 Downloads</text>
+  <text x="552" y="573" font-size="9" fill="#78909C">/downloads</text>
+  <text x="463" y="590" font-size="9.5" fill="#78909C">Verträge, AGB, Dokumente zum Herunterladen</text>
+
+  <!-- ===== COLUMN 3: ZEO Aktuell ===== -->
+  <rect x="810" y="185" width="450" height="440" rx="12" fill="url(#navGrad)" stroke="#A5D6A7" stroke-width="1" filter="url(#shadow)"/>
+  <rect x="810" y="185" width="450" height="36" rx="12" fill="#43A047"/>
+  <rect x="810" y="203" width="450" height="18" fill="#43A047"/>
+  <text x="830" y="209" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="0.5">📰  ZEO Aktuell</text>
+  <text x="1220" y="209" text-anchor="end" font-size="9" fill="#C8E6C9">/blog</text>
+
+  <rect x="828" y="235" width="415" height="54" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="848" y="258" font-size="12" font-weight="600" fill="#2E7D32">📝 ZEO Blog</text>
+  <text x="935" y="258" font-size="9" fill="#78909C">/zeo-blog</text>
+  <text x="848" y="275" font-size="9.5" fill="#78909C">Neuigkeiten, Pressemitteilungen, Projektberichte</text>
+
+  <rect x="828" y="298" width="415" height="54" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="848" y="321" font-size="12" font-weight="600" fill="#2E7D32">💬 Social Wall</text>
+  <text x="951" y="321" font-size="9" fill="#78909C">/social-wall</text>
+  <text x="848" y="338" font-size="9.5" fill="#78909C">Social-Media-Feed, Community-Beiträge</text>
+
+  <rect x="828" y="361" width="415" height="54" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="848" y="384" font-size="12" font-weight="600" fill="#2E7D32">⚡ E-Carsharing</text>
+  <text x="964" y="384" font-size="9" fill="#78909C">/e-carsharing</text>
+  <text x="848" y="401" font-size="9.5" fill="#78909C">Hintergrund und Vision zu E-Mobilität in der Region</text>
+
+  <!-- Highlighted: Aktuelle Blogposts -->
+  <rect x="828" y="430" width="415" height="185" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#C8E6C9" stroke-width="1"/>
+  <rect x="828" y="430" width="415" height="26" rx="8" fill="#E8F5E9"/>
+  <rect x="828" y="445" width="415" height="11" fill="#E8F5E9"/>
+  <text x="848" y="449" font-size="10" font-weight="700" fill="#2E7D32">AKTUELLE BEITRÄGE (Stand Feb. 2026)</text>
+
+  <circle cx="845" cy="476" r="4" fill="#66BB6A"/>
+  <text x="857" y="474" font-size="9.5" font-weight="600" fill="#37474F">Startschuss für MoPilot</text>
+  <text x="857" y="488" font-size="8.5" fill="#90A4AE">9. Feb. 2026 · KI-Assistent für ländliche Mobilität</text>
+
+  <circle cx="845" cy="511" r="4" fill="#66BB6A"/>
+  <text x="857" y="509" font-size="9.5" font-weight="600" fill="#37474F">Jahresbilanz 2024: 4.500 Nutzer, 184 t CO₂ gespart</text>
+  <text x="857" y="523" font-size="8.5" fill="#90A4AE">10. Jan. 2025 · 33.000 Buchungen, +60% Nutzerwachstum</text>
+
+  <circle cx="845" cy="546" r="4" fill="#66BB6A"/>
+  <text x="857" y="544" font-size="9.5" font-weight="600" fill="#37474F">ZEO in der KVV.regiomove-App buchbar</text>
+  <text x="857" y="558" font-size="8.5" fill="#90A4AE">8. Nov. 2024 · Integration in ÖPNV-App des KVV</text>
+
+  <rect x="848" y="575" width="120" height="24" rx="6" fill="#E8F5E9" stroke="#A5D6A7" stroke-width="0.8"/>
+  <text x="908" y="591" text-anchor="middle" font-size="9" font-weight="600" fill="#2E7D32">Weitere Beiträge →</text>
+
+  <!-- ==================== HOMEPAGE CONTENT ==================== -->
+  <rect x="40" y="645" width="1220" height="38" rx="10" fill="#37474F" filter="url(#shadow)"/>
+  <text x="650" y="670" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="1">STARTSEITE – INHALTSBLÖCKE</text>
+
+  <!-- Row of homepage content blocks -->
+  <rect x="40" y="695" width="180" height="90" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="130" y="722" text-anchor="middle" font-size="20">📝</text>
+  <text x="130" y="744" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">Registrierung</text>
+  <text x="130" y="758" text-anchor="middle" font-size="8.5" fill="#90A4AE">CTA → Buchungsportal</text>
+  <text x="130" y="772" text-anchor="middle" font-size="8.5" fill="#90A4AE">mein.zeo-carsharing.de</text>
+
+  <rect x="232" y="695" width="180" height="90" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="322" y="722" text-anchor="middle" font-size="20">📅</text>
+  <text x="322" y="744" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">Buchung</text>
+  <text x="322" y="758" text-anchor="middle" font-size="8.5" fill="#90A4AE">CTA → Buchungsportal</text>
+  <text x="322" y="772" text-anchor="middle" font-size="8.5" fill="#90A4AE">mein.zeo-carsharing.de</text>
+
+  <rect x="424" y="695" width="180" height="90" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="514" y="722" text-anchor="middle" font-size="20">💰</text>
+  <text x="514" y="744" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">Tarifübersicht</text>
+  <text x="514" y="758" text-anchor="middle" font-size="8.5" fill="#90A4AE">→ /kosten</text>
+
+  <rect x="616" y="695" width="180" height="90" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="706" y="722" text-anchor="middle" font-size="20">🎬</text>
+  <text x="706" y="744" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">Video / Modelle</text>
+  <text x="706" y="758" text-anchor="middle" font-size="8.5" fill="#90A4AE">Kino-Ad + Fuhrpark</text>
+  <text x="706" y="772" text-anchor="middle" font-size="8.5" fill="#90A4AE">→ /unsere-modelle</text>
+
+  <rect x="808" y="695" width="180" height="90" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="898" y="722" text-anchor="middle" font-size="20">📍</text>
+  <text x="898" y="744" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">Standortkarte</text>
+  <text x="898" y="758" text-anchor="middle" font-size="8.5" fill="#90A4AE">71 Stationen in der</text>
+  <text x="898" y="772" text-anchor="middle" font-size="8.5" fill="#90A4AE">Region anzeigen</text>
+
+  <rect x="1000" y="695" width="260" height="90" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="1130" y="722" text-anchor="middle" font-size="20">🖼️</text>
+  <text x="1130" y="744" text-anchor="middle" font-size="10" font-weight="600" fill="#2E7D32">Bildergalerie / Slideshow</text>
+  <text x="1130" y="758" text-anchor="middle" font-size="8.5" fill="#90A4AE">„zeo ist da – wo, wann, wie immer</text>
+  <text x="1130" y="772" text-anchor="middle" font-size="8.5" fill="#90A4AE">ich ihn brauche"</text>
+
+  <!-- Info cards row -->
+  <rect x="40" y="798" width="220" height="70" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="150" y="825" text-anchor="middle" font-size="11" font-weight="600" fill="#2E7D32">❓ FAQs</text>
+  <text x="150" y="842" text-anchor="middle" font-size="9" fill="#90A4AE">Fragen &amp; Antworten zu ZEO</text>
+  <text x="150" y="856" text-anchor="middle" font-size="8.5" fill="#78909C">→ /faqs</text>
+
+  <rect x="272" y="798" width="220" height="70" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="382" y="825" text-anchor="middle" font-size="11" font-weight="600" fill="#2E7D32">📖 So funktioniert ZEO</text>
+  <text x="382" y="842" text-anchor="middle" font-size="9" fill="#90A4AE">Schritt-für-Schritt-Anleitung</text>
+  <text x="382" y="856" text-anchor="middle" font-size="8.5" fill="#78909C">→ /so-funktioniert-es</text>
+
+  <rect x="504" y="798" width="220" height="70" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="614" y="825" text-anchor="middle" font-size="11" font-weight="600" fill="#2E7D32">📋 Fahrzeug-Manuals</text>
+  <text x="614" y="842" text-anchor="middle" font-size="9" fill="#90A4AE">Tipps &amp; Tricks je Modell</text>
+  <text x="614" y="856" text-anchor="middle" font-size="8.5" fill="#78909C">→ /zeo-manuals</text>
+
+  <rect x="736" y="798" width="220" height="70" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="846" y="825" text-anchor="middle" font-size="11" font-weight="600" fill="#2E7D32">📱 Die ZEO App</text>
+  <text x="846" y="842" text-anchor="middle" font-size="9" fill="#90A4AE">Mobil buchen und losfahren</text>
+  <text x="846" y="856" text-anchor="middle" font-size="8.5" fill="#78909C">→ /handhabung-app</text>
+
+  <rect x="968" y="798" width="292" height="70" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#C8E6C9" stroke-width="1"/>
+  <text x="1114" y="825" text-anchor="middle" font-size="11" font-weight="600" fill="#2E7D32">📰 ZEO Aktuell + Social Wall</text>
+  <text x="1114" y="842" text-anchor="middle" font-size="9" fill="#90A4AE">Blog-Beiträge und Social-Media-Feed</text>
+  <text x="1114" y="856" text-anchor="middle" font-size="8.5" fill="#78909C">→ /blog · /social-wall</text>
+
+  <!-- ==================== FOOTER ==================== -->
+  <rect x="40" y="885" width="1220" height="38" rx="10" fill="#37474F" filter="url(#shadow)"/>
+  <text x="650" y="910" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="1">FOOTER &amp; KONTAKT</text>
+
+  <rect x="40" y="935" width="290" height="80" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="60" y="958" font-size="11" font-weight="600" fill="#37474F">📞 Carsharing-Hotline (Vianova)</text>
+  <text x="60" y="976" font-size="10" fill="#2E7D32" font-weight="600">0 61 31 – 83 832 333</text>
+  <text x="60" y="994" font-size="10" fill="#1565C0">service@zeo-carsharing.de</text>
+
+  <rect x="345" y="935" width="210" height="80" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="365" y="958" font-size="11" font-weight="600" fill="#37474F">✉️ Kontaktformular</text>
+  <text x="365" y="976" font-size="9.5" fill="#78909C">Name, E-Mail, Nachricht</text>
+  <text x="365" y="993" font-size="9.5" fill="#78909C">+ Bild-Upload möglich</text>
+
+  <rect x="570" y="935" width="220" height="80" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="590" y="958" font-size="11" font-weight="600" fill="#37474F">📱 App-Downloads</text>
+  <text x="590" y="976" font-size="9.5" fill="#78909C">Apple App Store</text>
+  <text x="590" y="993" font-size="9.5" fill="#78909C">Google Play Store</text>
+
+  <rect x="805" y="935" width="210" height="80" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="825" y="958" font-size="11" font-weight="600" fill="#37474F">📄 Rechtliches</text>
+  <text x="825" y="976" font-size="9.5" fill="#78909C">/impressum</text>
+  <text x="825" y="993" font-size="9.5" fill="#78909C">/datenschutz</text>
+
+  <rect x="1030" y="935" width="230" height="80" rx="8" fill="#FFFFFF" filter="url(#shadow)" stroke="#E0E0E0" stroke-width="0.5"/>
+  <text x="1050" y="958" font-size="11" font-weight="600" fill="#37474F">🤝 Projektpartner</text>
+  <text x="1050" y="976" font-size="9.5" fill="#78909C">WFG Bruchsal · Stadtwerke Bruchsal</text>
+  <text x="1050" y="993" font-size="9.5" fill="#78909C">Umwelt- und EnergieAgentur KA</text>
+
+  <!-- Footer line -->
+  <text x="650" y="1040" text-anchor="middle" font-size="9" fill="#B0BEC5">MoPilot – Inhaltsübersicht Projektwebseite www.zeo-carsharing.de │ Stand: 26.02.2026</text>
+</svg>
