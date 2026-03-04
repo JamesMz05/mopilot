@@ -30,14 +30,12 @@ export default function HeroChat() {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null) 
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-useEffect(() => {
-    if (bottomRef.current) {
-      const container = bottomRef.current.parentElement
-      if (container) {
-        container.scrollTop = container.scrollHeight
-      }
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight
     }
   }, [messages])
 
@@ -150,7 +148,7 @@ useEffect(() => {
         {/* Chat container */}
         <div className="bg-white rounded-2xl shadow-lg border border-zeo-100 overflow-hidden">
           {/* Messages */}
-          <div className="h-[420px] overflow-y-auto p-4 sm:p-6 space-y-4 bg-gradient-to-b from-zeo-50/30 to-white">
+         <div ref={scrollContainerRef} className="h-[420px] overflow-y-auto p-4 sm:p-6 space-y-4 bg-gradient-to-b from-zeo-50/30 to-white">
             {messages.map((msg, i) => (
               <div
                 key={i}
