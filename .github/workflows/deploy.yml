@@ -8,7 +8,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull latest code on server
+      - name: Pull code + deploy ZEO-Kunden
         uses: appleboy/ssh-action@v1
         with:
           host: 142.132.232.211
@@ -18,10 +18,14 @@ jobs:
             cd /opt/mopilot
             git fetch https://${{ secrets.GH_PAT }}@github.com/JamesMz05/mopilot.git master
             git reset --hard FETCH_HEAD
-            echo "Code updated to $(git rev-parse --short HEAD)"
+            echo "Hauptsystem: $(git rev-parse --short HEAD)"
+            rsync -a --delete /opt/mopilot/MoPilot_ZEO_Kunden/frontend/ /opt/zeo-kunden/frontend/
+            rsync -a --delete /opt/mopilot/MoPilot_ZEO_Kunden/backend/ /opt/zeo-kunden/backend/
+            echo "ZEO-Kunden Code synchronisiert"
+            cd /opt/zeo-kunden
+            docker compose up -d --build
+            echo "ZEO-Kunden deployed"
 
-      - name: Trigger Coolify Rebuild
+      - name: Coolify Rebuild (Hauptsystem)
         run: |
-          curl -s -X GET \
-            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
-            "https://coolify.pydna.de/api/v1/deploy?uuid=ns8wok04s4sgkcggwg48okcg&force=true"
+          curl -s -X GET -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" "https://coolify.pydna.de/api/v1/deploy?uuid=ns8wok04s4sgkcggwg48okcg&force=true"
