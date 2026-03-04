@@ -99,6 +99,26 @@ export default function RollenPage() {
           einen individuell angepassten KI-Kontext.
         </p>
 
+        {/* Grafiken */}
+        <div className="space-y-6 mb-10">
+          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+            <h2 className="text-base font-semibold text-gray-700 mb-3">📊 Rollenübersicht</h2>
+            <img
+              src="/doku/rollen/MoPilot_Rollenuebersicht.svg"
+              alt="MoPilot Rollenübersicht"
+              className="w-full h-auto"
+            />
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+            <h2 className="text-base font-semibold text-gray-700 mb-3">📋 RACI Matrix</h2>
+            <img
+              src="/doku/rollen/MoPilot_RACI_Matrix.svg"
+              alt="MoPilot RACI Matrix"
+              className="w-full h-auto"
+            />
+          </div>
+        </div>
+
         {/* Kategorien */}
         {rollen.map((kat) => (
           <div key={kat.kategorie} className="mb-8">
