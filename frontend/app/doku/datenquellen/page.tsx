@@ -123,6 +123,22 @@ export default function DatenquellenPage() {
           })}
         </div>
 
+        {/* Grafiken */}
+        <div className="space-y-6 mt-8">
+          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+            <h2 className="text-base font-semibold text-gray-700 mb-3">🌐 ZEO Websitestruktur</h2>
+            <img src="/doku/datenquellen/MoPilot_ZEO_Websitestruktur.svg" alt="ZEO Websitestruktur" className="w-full h-auto" />
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+            <h2 className="text-base font-semibold text-gray-700 mb-3">🌐 Carsharing2go Websitestruktur</h2>
+            <img src="/doku/datenquellen/MoPilot_Carsharing2go_Websitestruktur.svg" alt="Carsharing2go Websitestruktur" className="w-full h-auto" />
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+            <h2 className="text-base font-semibold text-gray-700 mb-3">⚖️ Websitevergleich ZEO vs. CC</h2>
+            <img src="/doku/datenquellen/MoPilot_Websitevergleich_ZEO_vs_CC.svg" alt="Websitevergleich ZEO vs CC" className="w-full h-auto" />
+          </div>
+        </div>
+
         <div className="mt-8 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800">
           ⚠️ <strong>Hinweis Quelle 5:</strong> Umgebungsinformationen sind noch in Evaluierung –
           Antworten auf dieser Basis gelten als vorläufig.
