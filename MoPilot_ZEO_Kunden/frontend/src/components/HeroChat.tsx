@@ -32,13 +32,13 @@ export default function HeroChat() {
   const bottomRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  useEffect(() => {
-  if (bottomRef.current) {
-  bottomRef.current.parentElement?.scrollTo({
-    top: bottomRef.current.offsetTop,
-    behavior: 'smooth'
-  })
-}
+useEffect(() => {
+    if (bottomRef.current) {
+      const container = bottomRef.current.parentElement
+      if (container) {
+        container.scrollTop = container.scrollHeight
+      }
+    }
   }, [messages])
 
   const sendMessage = async (text: string) => {
