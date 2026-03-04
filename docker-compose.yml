@@ -4,17 +4,22 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - NEXT_PUBLIC_API_URL=https://api.mopilot.website
+        - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-https://api.zeo-kunden.mopilot.website}
     environment:
-      - NEXT_PUBLIC_API_URL=https://api.mopilot.website
-      - NEXT_PUBLIC_SITE_URL=https://mopilot.website
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-https://api.zeo-kunden.mopilot.website}
     expose:
       - "3000"
     depends_on:
       - backend
     networks:
-      - mopilot-net
-
+      - zeo-net
+      - coolify
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.zeo-frontend.rule=Host(`zeo-kunden.mopilot.website`)"
+      - "traefik.http.routers.zeo-frontend.tls=true"
+      - "traefik.http.routers.zeo-frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.zeo-frontend.loadbalancer.server.port=3000"
   backend:
     build:
       context: ./backend
@@ -22,49 +27,21 @@ services:
     expose:
       - "8000"
     environment:
-      - DATABASE_URL=${DATABASE_URL:-postgresql+asyncpg://mopilot:mopilot_secret_2026@postgres:5432/mopilot}
-      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-sk-placeholder}
-      - SECRET_KEY=${SECRET_KEY:-mopilot-jwt-secret-change-in-production}
-      - CORS_ORIGINS=${CORS_ORIGINS:-https://mopilot.website,https://api.mopilot.website}
+      - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-sonnet-4-6}
+      - CORS_ORIGINS=${CORS_ORIGINS:-https://zeo-kunden.mopilot.website,http://localhost:3000}
       - ENVIRONMENT=${ENVIRONMENT:-production}
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_started
     networks:
-      - mopilot-net
-
-  postgres:
-    image: postgres:16-alpine
-    environment:
-      - POSTGRES_DB=mopilot
-      - POSTGRES_USER=mopilot
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-mopilot_secret_2026}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./backend/data/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mopilot"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - mopilot-net
-
-  redis:
-    image: redis:7-alpine
-    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
-    volumes:
-      - redis_data:/data
-    networks:
-      - mopilot-net
-
-volumes:
-  postgres_data:
-  redis_data:
-
+      - zeo-net
+      - coolify
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.zeo-backend.rule=Host(`api.zeo-kunden.mopilot.website`)"
+      - "traefik.http.routers.zeo-backend.tls=true"
+      - "traefik.http.routers.zeo-backend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.zeo-backend.loadbalancer.server.port=8000"
 networks:
-  mopilot-net:
+  zeo-net:
     driver: bridge
+  coolify:
+    external: true
