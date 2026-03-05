@@ -123,8 +123,8 @@ export default function LoginPage() {
         {/* Info footer */}
         <div className="mt-8 bg-white border border-gray-200 rounded-xl p-6 text-sm text-gray-500">
           <p className="font-semibold text-gray-700 mb-2">ℹ️ Demo-Hinweis</p>
-          <p>Alle Accounts verwenden das Passwort <code className="bg-gray-100 px-1 rounded">mopilot2026</code>. Jede Rolle erhält einen eigenen KI-Kontext: Der Assistent passt Tonalität, Wissen und Funktionen an die jeweilige Rolle an.</p>
-          <p className="mt-2">Betreiber: <strong>ZEO Carsharing</strong> (Region Bruchsal) · Server: Hetzner CX33 · Domain: mopilot.website</p>
+          <p>Noch keine Account- und Rollenverwaltung. PW bei <strong>Vianova eG</strong> erfragen. Server: Hetzner CX33 · Domain: mopilot.website. Deployment über Coolify für das Hauptsystem und direkt via Docker Compose.</p>
+          <p className="mt-2"><a href="http://localhost:3001/status/mopilot" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800 underline">📊 System-Monitoring (Status-Seite)</a></p>
         </div>
       </div>
     </div>
