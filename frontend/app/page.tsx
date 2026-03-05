@@ -50,14 +50,16 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-blue-50">
       {/* Header */}
       <div className="bg-gradient-to-r from-indigo-900 to-indigo-800 text-white py-8 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="text-3xl">🤖</span>
-            <h1 className="text-3xl font-bold tracking-tight">MoPilot</h1>
-            <span className="bg-indigo-700/50 text-indigo-200 text-xs px-2 py-1 rounded-full ml-2">PROTOTYP v0.1</span>
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <img src="/mopilot-logo-2.png" alt="MoPilot" className="h-12" />
+              <span className="bg-indigo-700/50 text-indigo-200 text-xs px-2 py-1 rounded-full">PROTOTYP v0.1</span>
+            </div>
+            <p className="text-indigo-200 text-lg">KI-gestützter Mobilitätsassistent für nachhaltiges Carsharing</p>
+            <p className="text-indigo-300 text-sm mt-1">Wählen Sie eine Rolle, um die rollenbasierte Demo zu starten</p>
           </div>
-          <p className="text-indigo-200 text-lg">KI-gestützter Mobilitätsassistent für nachhaltiges Carsharing</p>
-          <p className="text-indigo-300 text-sm mt-1">Wählen Sie eine Rolle, um die rollenbasierte Demo zu starten</p>
+          <img src="/foerderlogo-bmleh.png" alt="Gefördert durch BMEL" className="h-16 hidden sm:block" />
         </div>
       </div>
 
