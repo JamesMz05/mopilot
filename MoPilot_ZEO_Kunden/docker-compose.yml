@@ -7,8 +7,15 @@ services:
         - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-https://api.zeo-kunden.mopilot.website}
     environment:
       - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-https://api.zeo-kunden.mopilot.website}
+      - HOSTNAME=0.0.0.0
+    restart: unless-stopped
     expose:
       - "3000"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     depends_on:
       - backend
     networks:
@@ -16,19 +23,24 @@ services:
       - coolify
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=coolify"
       - "traefik.http.routers.zeo-frontend.rule=Host(`zeo-kunden.mopilot.website`)"
-      - "traefik.http.routers.zeo-frontend.entrypoints=https"
       - "traefik.http.routers.zeo-frontend.tls=true"
       - "traefik.http.routers.zeo-frontend.tls.certresolver=letsencrypt"
       - "traefik.http.services.zeo-frontend.loadbalancer.server.port=3000"
-      - "traefik.docker.network=coolify"
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    restart: unless-stopped
     expose:
       - "8000"
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c 'import urllib.request; urllib.request.urlopen("http://127.0.0.1:8000/api/health")'"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     environment:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-sk-placeholder}
       - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-sonnet-4-6}
@@ -39,12 +51,11 @@ services:
       - coolify
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=coolify"
       - "traefik.http.routers.zeo-backend.rule=Host(`api.zeo-kunden.mopilot.website`)"
-      - "traefik.http.routers.zeo-backend.entrypoints=https"
       - "traefik.http.routers.zeo-backend.tls=true"
       - "traefik.http.routers.zeo-backend.tls.certresolver=letsencrypt"
       - "traefik.http.services.zeo-backend.loadbalancer.server.port=8000"
-      - "traefik.docker.network=coolify"
 
 networks:
   zeo-net:
