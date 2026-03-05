@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const VALID_USERNAME = 'MoPilot'
+const VALID_USERNAME = 'mopilot'
 const VALID_PASSWORD = 'mopilot2027'
 const AUTH_COOKIE = 'demo_auth'
 const AUTH_TOKEN = 'mopilot_demo_authenticated'
