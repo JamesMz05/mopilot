@@ -192,7 +192,7 @@ export default function Dashboard() {
                 <p className="text-xs text-surface-500 mt-1">{user.operator === 'zeo' ? 'ZEO Carsharing, Region Bruchsal' : 'Car&RideSharing Community eG'}</p>
               </div>
               <div className="bg-primary-50 rounded-xl p-3">
-                <p className="font-semibold text-primary-700">🤖 Prototyp v0.71</p>
+                <p className="font-semibold text-primary-700">🤖 Prototyp v0.73</p>
                 <p className="text-xs text-primary-600 mt-1">MoPilot Demo mit rollenbasiertem KI-Chat. Daten sind Beispieldaten.</p>
               </div>
             </div>

@@ -53,7 +53,7 @@ export default function ImpressumPage() {
           <section>
             <h2 className="text-xl font-semibold text-gray-900 mb-3">Hinweis zum Dienst</h2>
             <p>
-              MoPilot ist ein KI-gestützter Prototyp (v0.1) für rollenbasiertes Carsharing-Management.
+              MoPilot ist ein KI-gestützter Prototyp (v0.73) für rollenbasiertes Carsharing-Management.
               Die Plattform wird betrieben von der <strong>Vianova eG</strong> in Kooperation mit dem
               ZEO Carsharing (Regionale Wirtschaftsförderung Bruchsal GmbH).
               Es handelt sich um eine Demo-Version, die ausschließlich für autorisierte Testzwecke zugänglich ist.

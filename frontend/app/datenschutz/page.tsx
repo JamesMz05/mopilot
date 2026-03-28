@@ -28,7 +28,7 @@ export default function DatenschutzPage() {
           <section>
             <h2 className="text-xl font-semibold text-gray-900 mb-3">2. Über diesen Dienst</h2>
             <p>
-              MoPilot ist ein KI-gestützter Demo-Prototyp (v0.1) für rollenbasiertes E-Carsharing-Management.
+              MoPilot ist ein KI-gestützter Demo-Prototyp (v0.73) für rollenbasiertes E-Carsharing-Management.
               Die Plattform ist passwortgeschützt und ausschließlich für autorisierte Testzwecke zugänglich.
             </p>
           </section>
