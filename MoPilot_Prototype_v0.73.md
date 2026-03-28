@@ -516,7 +516,7 @@ Die CI/CD-Pipeline deckt Hauptsystem und ZEO-Kunden ab. Die Ideenplattform und C
 
 ### 3.3 Ablauf eines Deployments
 
-1. **Lokale Entwicklung**: Code bearbeiten in `C:\Projekte\MoPilot`
+1. **Lokale Entwicklung**: Code bearbeiten in `C:\Users\james\Projekte\MoPilot`
 2. **Git Commit & Push** auf master
 3. **GitHub Actions startet** automatisch
 4. **SSH auf Server**: `git reset --hard FETCH_HEAD` – beide Systeme aktuell
@@ -579,7 +579,7 @@ jobs:
 
 ```
 +--[ Entwickler-PC ]-----+
-|  C:\Projekte\MoPilot   |
+|  C:\Users\james\Projekte\MoPilot   |
 |  Code bearbeiten       |
 |  git commit + push     |
 +----------+-------------+
@@ -1291,7 +1291,7 @@ git push master
 
 | Ort | Pfad / URL |
 |-----|------------|
-| Lokal | C:\Projekte\MoPilot\MoPilot_ZEO_Kunden\ |
+| Lokal | C:\Users\james\Projekte\MoPilot\MoPilot_ZEO_Kunden\ |
 | GitHub | github.com/JamesMz05/mopilot (master) |
 | Server (Git-Quelle) | /opt/mopilot/MoPilot_ZEO_Kunden/ |
 | Server (laufend) | /opt/zeo-kunden/ |

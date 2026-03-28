@@ -2,7 +2,7 @@
 
 ## Lokaler Workflow (Windows)
 
-1. Code ändern in `C:\Projekte\MoPilot`
+1. Code ändern in `C:\Users\james\Projekte\MoPilot`
 2. `git add <dateien>` → `git commit -m "Beschreibung"`
 3. `git push origin master`
 
