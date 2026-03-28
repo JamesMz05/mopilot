@@ -15,6 +15,7 @@ const ROLE_META: Record<string, { icon: string; label: string; color: string; bg
   projekttraeger: { icon: '📊', label: 'Projektträger', color: 'text-orange-700', bgColor: 'bg-orange-50' },
   fahrzeugsteller: { icon: '🚗', label: 'Fahrzeugsteller', color: 'text-orange-700', bgColor: 'bg-orange-50' },
   validierungsstelle: { icon: '✅', label: 'Validierungsstelle', color: 'text-orange-700', bgColor: 'bg-orange-50' },
+  mopilot_team: { icon: '🛡️', label: 'MoPilot-Team', color: 'text-indigo-700', bgColor: 'bg-indigo-50' },
 }
 
 interface Message { role: 'user' | 'assistant'; content: string }
@@ -88,46 +89,77 @@ export default function Dashboard() {
   }
   const quickActions = suggestions[user.role] || suggestions.endkunde
 
+  const initials = user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
+
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
-      {/* Top bar */}
-      <header className="bg-gradient-to-r from-indigo-900 to-indigo-800 text-white px-6 py-3 flex items-center justify-between shrink-0">
+    <div className="h-screen flex flex-col bg-surface-50">
+      {/* Glassmorphism Top bar */}
+      <header className="bg-white/80 backdrop-blur-md border-b border-surface-200/50 shadow-warm-sm px-4 sm:px-6 h-14 flex items-center justify-between shrink-0 z-50">
         <div className="flex items-center gap-3">
-          <span className="text-xl">🤖</span>
-          <span className="font-bold text-lg">MoPilot</span>
-          <span className="text-indigo-300 text-sm hidden sm:inline">KI-Assistent</span>
+          <a href="/" className="flex items-center gap-2 group">
+            <svg width="28" height="28" viewBox="0 0 48 48" fill="none" className="transition-transform duration-300 group-hover:scale-110" aria-hidden="true">
+              <circle cx="24" cy="24" r="22" stroke="#0F766E" strokeWidth="2.5" opacity="0.2" />
+              <path d="M14 32C14 32 16 20 24 16C32 12 36 24 36 24" stroke="#0F766E" strokeWidth="3" strokeLinecap="round" fill="none" />
+              <circle cx="24" cy="16" r="4" fill="#F59E0B" />
+              <circle cx="14" cy="32" r="3" fill="#0F766E" />
+              <circle cx="36" cy="24" r="3" fill="#0F766E" />
+            </svg>
+            <span className="font-display font-bold text-primary-800 text-lg">MoPilot</span>
+          </a>
+          <span className="text-surface-400 text-sm hidden sm:inline font-body">KI-Assistent</span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <a href="/" className="hidden sm:inline-flex relative px-3 py-2 text-sm font-medium font-body text-surface-600 hover:text-primary-700 transition-colors group">
+            Hauptmenü
+            <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-primary-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full" />
+          </a>
           <div className={`${meta.bgColor} px-3 py-1 rounded-full flex items-center gap-2`}>
-            <span>{meta.icon}</span>
-            <span className={`text-sm font-semibold ${meta.color}`}>{meta.label}</span>
+            <span className="text-sm">{meta.icon}</span>
+            <span className={`text-xs font-semibold font-body ${meta.color}`}>{meta.label}</span>
           </div>
-          <span className="text-indigo-300 text-sm hidden md:inline">{user.name}</span>
-          <span className="text-indigo-400 text-xs hidden lg:inline">({user.operator.toUpperCase()})</span>
-          <button onClick={logout} className="text-indigo-300 hover:text-white text-sm underline">Abmelden</button>
+          <div className="relative group">
+            <button className="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-surface-100 transition-colors" aria-label="Benutzermenu">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white text-xs font-bold font-body">
+                {initials}
+              </div>
+              <span className="hidden md:inline text-sm font-medium text-surface-700 font-body max-w-[120px] truncate">{user.name}</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-surface-400 hidden md:block"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-xl shadow-warm-lg border border-surface-200 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div className="px-3 py-2 border-b border-surface-100">
+                <p className="text-sm font-medium text-surface-800 font-body">{user.name}</p>
+                <p className="text-xs text-surface-500 font-body">{meta.label} · {user.operator.toUpperCase()}</p>
+              </div>
+              <a href="/" className="block px-3 py-2 text-sm text-surface-600 hover:bg-surface-50 transition-colors font-body">Hauptmenü</a>
+              <button onClick={logout} className="w-full text-left px-3 py-2 text-sm text-surface-600 hover:bg-surface-50 hover:text-red-600 transition-colors font-body flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Abmelden
+              </button>
+            </div>
+          </div>
         </div>
       </header>
 
       {/* Main content */}
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <aside className="w-64 bg-white border-r border-gray-200 flex-col hidden lg:flex">
-          <div className="p-4 border-b border-gray-100">
+        <aside className="w-64 bg-white border-r border-surface-200 flex-col hidden lg:flex">
+          <div className="p-4 border-b border-surface-100">
             <div className="flex gap-1">
-              <button onClick={() => setSidebarTab('chat')} className={`flex-1 text-xs font-semibold py-2 rounded-lg ${sidebarTab === 'chat' ? 'bg-indigo-100 text-indigo-700' : 'text-gray-400 hover:text-gray-600'}`}>💬 Chat</button>
-              <button onClick={() => setSidebarTab('info')} className={`flex-1 text-xs font-semibold py-2 rounded-lg ${sidebarTab === 'info' ? 'bg-indigo-100 text-indigo-700' : 'text-gray-400 hover:text-gray-600'}`}>ℹ️ Info</button>
+              <button onClick={() => setSidebarTab('chat')} className={`flex-1 text-xs font-semibold font-body py-2 rounded-lg ${sidebarTab === 'chat' ? 'bg-primary-100 text-primary-700' : 'text-surface-400 hover:text-surface-600'}`}>💬 Chat</button>
+              <button onClick={() => setSidebarTab('info')} className={`flex-1 text-xs font-semibold font-body py-2 rounded-lg ${sidebarTab === 'info' ? 'bg-primary-100 text-primary-700' : 'text-surface-400 hover:text-surface-600'}`}>ℹ️ Info</button>
             </div>
           </div>
 
           {sidebarTab === 'chat' ? (
             <div className="p-4 flex-1 overflow-y-auto">
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Schnellaktionen</p>
+              <p className="text-xs font-semibold font-body text-surface-500 uppercase tracking-wider mb-3">Schnellaktionen</p>
               <div className="space-y-2">
                 {quickActions.map((q, i) => (
                   <button
                     key={i}
                     onClick={() => { setInput(q); }}
-                    className="w-full text-left text-sm bg-gray-50 hover:bg-indigo-50 hover:text-indigo-700 border border-gray-200 rounded-lg px-3 py-2 transition-colors"
+                    className="w-full text-left text-sm font-body bg-surface-50 hover:bg-primary-50 hover:text-primary-700 border border-surface-200 rounded-xl px-3 py-2 transition-colors"
                   >
                     {q}
                   </button>
@@ -135,7 +167,7 @@ export default function Dashboard() {
               </div>
               <button
                 onClick={() => { setMessages([]); setSessionId(null) }}
-                className="w-full mt-4 text-sm text-gray-400 hover:text-red-500 border border-dashed border-gray-200 rounded-lg px-3 py-2"
+                className="w-full mt-4 text-sm font-body text-surface-400 hover:text-red-500 border border-dashed border-surface-200 rounded-xl px-3 py-2"
               >
                 🗑 Neuer Chat
               </button>
@@ -150,18 +182,18 @@ export default function Dashboard() {
               </a>
             </div>
           ) : (
-            <div className="p-4 flex-1 overflow-y-auto text-sm text-gray-600 space-y-3">
-              <div className="bg-gray-50 rounded-lg p-3">
-                <p className="font-semibold text-gray-700">Rolle: {meta.label}</p>
-                <p className="text-xs text-gray-500 mt-1">Der KI-Assistent passt seine Antworten, Tonalität und verfügbaren Informationen an Ihre Rolle an.</p>
+            <div className="p-4 flex-1 overflow-y-auto text-sm font-body text-surface-600 space-y-3">
+              <div className="bg-surface-50 rounded-xl p-3">
+                <p className="font-semibold text-surface-700">Rolle: {meta.label}</p>
+                <p className="text-xs text-surface-500 mt-1">Der KI-Assistent passt seine Antworten, Tonalität und verfügbaren Informationen an Ihre Rolle an.</p>
               </div>
-              <div className="bg-gray-50 rounded-lg p-3">
-                <p className="font-semibold text-gray-700">Betreiber: {user.operator.toUpperCase()}</p>
-                <p className="text-xs text-gray-500 mt-1">{user.operator === 'zeo' ? 'ZEO Carsharing, Region Bruchsal' : 'Car&RideSharing Community eG'}</p>
+              <div className="bg-surface-50 rounded-xl p-3">
+                <p className="font-semibold text-surface-700">Betreiber: {user.operator.toUpperCase()}</p>
+                <p className="text-xs text-surface-500 mt-1">{user.operator === 'zeo' ? 'ZEO Carsharing, Region Bruchsal' : 'Car&RideSharing Community eG'}</p>
               </div>
-              <div className="bg-indigo-50 rounded-lg p-3">
-                <p className="font-semibold text-indigo-700">🤖 Prototyp v0.1</p>
-                <p className="text-xs text-indigo-500 mt-1">MoPilot Demo mit rollenbasiertem KI-Chat. Daten sind Beispieldaten.</p>
+              <div className="bg-primary-50 rounded-xl p-3">
+                <p className="font-semibold text-primary-700">🤖 Prototyp v0.71</p>
+                <p className="text-xs text-primary-600 mt-1">MoPilot Demo mit rollenbasiertem KI-Chat. Daten sind Beispieldaten.</p>
               </div>
             </div>
           )}
@@ -170,16 +202,22 @@ export default function Dashboard() {
         {/* Chat area */}
         <main className="flex-1 flex flex-col">
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-4 py-6 chat-scroll">
+          <div className="flex-1 overflow-y-auto px-4 py-6 scrollbar-thin">
             {messages.length === 0 && (
               <div className="text-center py-20">
-                <span className="text-6xl">🤖</span>
-                <h2 className="text-xl font-bold text-gray-700 mt-4">Willkommen bei MoPilot, {user.name}!</h2>
-                <p className="text-gray-500 mt-2">Ich bin Ihr KI-Assistent als <strong>{meta.label}</strong>.</p>
-                <p className="text-gray-400 text-sm mt-1">Stellen Sie mir eine Frage oder nutzen Sie die Schnellaktionen links.</p>
+                <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center mb-4">
+                  <svg width="32" height="32" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                    <circle cx="24" cy="24" r="22" stroke="white" strokeWidth="2.5" opacity="0.3" />
+                    <path d="M14 32C14 32 16 20 24 16C32 12 36 24 36 24" stroke="white" strokeWidth="3" strokeLinecap="round" fill="none" />
+                    <circle cx="24" cy="16" r="4" fill="#F59E0B" />
+                  </svg>
+                </div>
+                <h2 className="text-xl font-display font-bold text-surface-800 mt-4">Willkommen bei MoPilot, {user.name}!</h2>
+                <p className="text-surface-500 font-body mt-2">Ich bin Ihr KI-Assistent als <strong className="text-primary-700">{meta.label}</strong>.</p>
+                <p className="text-surface-400 text-sm font-body mt-1">Stellen Sie mir eine Frage oder nutzen Sie die Schnellaktionen links.</p>
                 <div className="flex flex-wrap justify-center gap-2 mt-6 max-w-xl mx-auto lg:hidden">
                   {quickActions.slice(0, 3).map((q, i) => (
-                    <button key={i} onClick={() => setInput(q)} className="text-sm bg-white border border-gray-200 hover:border-indigo-300 rounded-full px-4 py-2 text-gray-600 hover:text-indigo-700 transition-colors">
+                    <button key={i} onClick={() => setInput(q)} className="text-sm font-body bg-white border border-surface-200 hover:border-primary-300 rounded-full px-4 py-2 text-surface-600 hover:text-primary-700 transition-colors">
                       {q}
                     </button>
                   ))}
@@ -188,25 +226,42 @@ export default function Dashboard() {
             )}
 
             {messages.map((msg, i) => (
-              <div key={i} className={`chat-msg flex mb-4 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[75%] rounded-2xl px-4 py-3 ${msg.role === 'user'
-                  ? 'bg-indigo-600 text-white rounded-br-md'
-                  : 'bg-white border border-gray-200 text-gray-800 rounded-bl-md shadow-sm'
+              <div key={i} className={`flex gap-2.5 mb-4 animate-fade-in-up ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                {/* AI avatar */}
+                {msg.role === 'assistant' && (
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-warm-sm" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                    </svg>
+                  </div>
+                )}
+                <div className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed font-body ${msg.role === 'user'
+                  ? 'bg-primary-600 text-white rounded-br-sm shadow-warm-sm'
+                  : 'bg-white border border-surface-200 text-surface-800 rounded-bl-sm shadow-warm-sm'
                 }`}>
-                  {msg.role === 'assistant' && <span className="text-xs text-indigo-500 font-semibold">🤖 MoPilot</span>}
-                  <p className="text-sm whitespace-pre-wrap mt-1">{msg.content}</p>
+                  <p className="whitespace-pre-wrap">{msg.content}</p>
                 </div>
+                {/* User avatar */}
+                {msg.role === 'user' && (
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white text-xs font-bold font-body shadow-warm-sm" aria-hidden="true">
+                    {initials}
+                  </div>
+                )}
               </div>
             ))}
 
             {loading && (
-              <div className="flex justify-start mb-4">
-                <div className="bg-white border border-gray-200 rounded-2xl rounded-bl-md px-4 py-3 shadow-sm">
-                  <span className="text-xs text-indigo-500 font-semibold">🤖 MoPilot</span>
-                  <div className="flex gap-1 mt-2">
-                    <span className="w-2 h-2 bg-indigo-300 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                    <span className="w-2 h-2 bg-indigo-300 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                    <span className="w-2 h-2 bg-indigo-300 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+              <div className="flex justify-start gap-2.5 mb-4">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-warm-sm" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                  </svg>
+                </div>
+                <div className="bg-white border border-surface-200 rounded-2xl rounded-bl-sm px-4 py-3 shadow-warm-sm">
+                  <div className="flex gap-1.5" aria-label="KI tippt...">
+                    <span className="typing-dot" />
+                    <span className="typing-dot" />
+                    <span className="typing-dot" />
                   </div>
                 </div>
               </div>
@@ -215,20 +270,20 @@ export default function Dashboard() {
           </div>
 
           {/* Input */}
-          <div className="border-t border-gray-200 bg-white px-4 py-3">
+          <div className="border-t border-surface-200 bg-white px-4 py-3">
             <form onSubmit={sendMessage} className="flex gap-3 max-w-4xl mx-auto">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={`Frage an MoPilot als ${meta.label} stellen...`}
-                className="flex-1 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
+                className="flex-1 border border-surface-300 rounded-xl px-4 py-3 text-sm font-body focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent transition-shadow"
                 disabled={loading}
               />
               <button
                 type="submit"
                 disabled={loading || !input.trim()}
-                className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 text-white px-6 py-3 rounded-xl text-sm font-semibold transition-colors"
+                className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 disabled:from-surface-300 disabled:to-surface-300 text-white px-6 py-3 rounded-xl text-sm font-semibold font-body transition-all duration-200 hover:shadow-warm-md"
               >
                 Senden
               </button>
