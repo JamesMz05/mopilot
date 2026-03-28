@@ -17,8 +17,13 @@ jobs:
           script: |
             cd /opt/mopilot
             git fetch https://${{ secrets.GH_PAT }}@github.com/JamesMz05/mopilot.git master
-            git reset --hard FETCH_HEAD
+            git merge --ff-only FETCH_HEAD || { echo "ERROR: Merge-Konflikt — manuelles Eingreifen nötig"; exit 1; }
             echo "Hauptsystem: $(git rev-parse --short HEAD)"
+
+            # Shared Design System synchronisieren
+            bash /opt/mopilot/sync-shared-ui.sh
+
+            # ZEO-Kunden synchronisieren und deployen
             rsync -a --delete /opt/mopilot/MoPilot_ZEO_Kunden/frontend/ /opt/zeo-kunden/frontend/
             rsync -a --delete /opt/mopilot/MoPilot_ZEO_Kunden/backend/ /opt/zeo-kunden/backend/
             echo "ZEO-Kunden Code synchronisiert"
@@ -26,6 +31,16 @@ jobs:
             docker compose up -d --build
             echo "ZEO-Kunden deployed"
 
-      - name: Coolify Rebuild (Hauptsystem)
-        run: |
-          curl -s -X GET -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" "https://coolify.pydna.de/api/v1/deploy?uuid=ns8wok04s4sgkcggwg48okcg&force=true"
+            # Hauptsystem Frontend neu bauen
+            cd /data/coolify/services/ns8wok04s4sgkcggwg48okcg
+            docker compose build frontend
+            docker compose up -d frontend
+            echo "Hauptsystem Frontend deployed"
+
+            # Health-Check (30s warten, dann prüfen)
+            sleep 10
+            if docker exec frontend-ns8wok04s4sgkcggwg48okcg node -e "fetch('http://localhost:3000').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))" 2>/dev/null; then
+              echo "Health-Check OK"
+            else
+              echo "WARNING: Health-Check fehlgeschlagen — Container prüfen!"
+            fi
