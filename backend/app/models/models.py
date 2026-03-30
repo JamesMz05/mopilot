@@ -16,6 +16,7 @@ class UserRole(str, enum.Enum):
     PROJEKTTRAEGER = "projekttraeger"
     FAHRZEUGSTELLER = "fahrzeugsteller"
     VALIDIERUNGSSTELLE = "validierungsstelle"
+    MOPILOT_TEAM = "mopilot_team"
 
 
 class User(Base):
