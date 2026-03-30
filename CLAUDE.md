@@ -152,3 +152,4 @@ Prototyp v0.1 – rollenbasierte Demo mit angepasster KI-Tonalität pro Nutzerro
 | CORS_ORIGINS        | `https://mopilot.website,https://api.mopilot.website`                |
 | ENVIRONMENT         | `production`                                                          |
 | CLAUDE_MODEL        | `claude-sonnet-4-20250514`                                            |
+
