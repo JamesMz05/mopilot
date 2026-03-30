@@ -153,3 +153,4 @@ Prototyp v0.1 – rollenbasierte Demo mit angepasster KI-Tonalität pro Nutzerro
 | ENVIRONMENT         | `production`                                                          |
 | CLAUDE_MODEL        | `claude-sonnet-4-20250514`                                            |
 
+
