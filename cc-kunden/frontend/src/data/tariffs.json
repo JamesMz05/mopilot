@@ -1,0 +1,200 @@
+{
+  "tariffs": [
+    {
+      "id": "cc-eco",
+      "name": "CC eco",
+      "subtitle": "Ideal für regelmäßige Fahrten",
+      "registration_fee": 0.00,
+      "monthly_fee": 19.00,
+      "monthly_fee_display": "19,00 €",
+      "included_hours": 5,
+      "included_hours_validity_months": 6,
+      "cancellation": "Frühestens 6 Monate nach Vertragsabschluss",
+      "cancellation_months": 6,
+      "target_group": "Regelmäßige Nutzer, Pendler, Familien",
+      "recommended": true,
+      "highlight": "5 Stunden Fahrtguthaben inklusive (6 Monate gültig)"
+    },
+    {
+      "id": "cc-go",
+      "name": "CC go",
+      "subtitle": "Ideal für gelegentliche Fahrten",
+      "registration_fee": 10.00,
+      "monthly_fee": 0.00,
+      "monthly_fee_display": "0,00 €",
+      "included_hours": 0,
+      "included_hours_validity_months": 0,
+      "cancellation": "Jederzeit kündbar, ohne Frist",
+      "cancellation_months": 0,
+      "target_group": "Einsteiger, Gelegenheitsnutzer",
+      "recommended": false,
+      "highlight": "Keine Grundgebühr, keine Bindung"
+    }
+  ],
+  "vehicle_classes": [
+    {
+      "id": "stadtauto",
+      "name": "Stadtauto",
+      "description": "Kleinwagen – ideal für Einkäufe und Kurzstrecken",
+      "vehicles": ["Fiat 500", "Smart", "Renault ZOE", "Renault Twingo", "VW eUP"],
+      "hourly_rate_eco": 2.00,
+      "hourly_rate_go": 2.90,
+      "km_rate_eco": 0.28,
+      "km_rate_eco_above_100": 0.21,
+      "km_rate_go": 0.32,
+      "booking_fee_eco": 1.50,
+      "booking_fee_go": 2.50,
+      "daily_rate_eco": 24.00,
+      "daily_rate_go": 34.80,
+      "early_return_discount_percent": 50,
+      "monthly_credit_value_eco": 10.00,
+      "icon": "🚗"
+    },
+    {
+      "id": "mittelklasse",
+      "name": "Mittelklasse",
+      "description": "Kompaktklasse – für Familien und größere Einkäufe",
+      "vehicles": ["MG5", "VW Caddy", "VW Tiguan"],
+      "hourly_rate_eco": 2.50,
+      "hourly_rate_go": 3.50,
+      "km_rate_eco": 0.33,
+      "km_rate_eco_above_100": 0.26,
+      "km_rate_go": 0.37,
+      "booking_fee_eco": 1.50,
+      "booking_fee_go": 2.50,
+      "daily_rate_eco": 30.00,
+      "daily_rate_go": 42.00,
+      "early_return_discount_percent": 50,
+      "monthly_credit_value_eco": 12.50,
+      "icon": "🚙"
+    },
+    {
+      "id": "kleinbus",
+      "name": "Kleinbus",
+      "description": "7-Sitzer – für Vereinsausflüge und Großfamilien",
+      "vehicles": ["VW T6"],
+      "hourly_rate_eco": 2.90,
+      "hourly_rate_go": 3.90,
+      "km_rate_eco": 0.38,
+      "km_rate_eco_above_100": 0.31,
+      "km_rate_go": 0.42,
+      "booking_fee_eco": 1.50,
+      "booking_fee_go": 2.50,
+      "daily_rate_eco": 34.80,
+      "daily_rate_go": 46.80,
+      "early_return_discount_percent": 50,
+      "monthly_credit_value_eco": 14.50,
+      "icon": "🚐"
+    }
+  ],
+  "included_in_price": [
+    "Gesetzliche Mehrwertsteuer",
+    "Energie/Strom, Wartung und Pflege",
+    "Versicherung (unbegrenzte Haftpflicht-, Teilkasko- und Vollkaskoversicherung mit 350 € Selbstbehalt)",
+    "Anteiliger Wertverlust",
+    "Stellplatz an der Station",
+    "24/7-Zugang per App"
+  ],
+  "additional_fees": {
+    "billing": {
+      "invoice_email": "kostenfrei",
+      "invoice_post": "3,00 €",
+      "payment_direct_debit": "kostenfrei",
+      "return_debit_fee": "25,00 €"
+    },
+    "reservation": {
+      "no_show_fee_per_hour": 3.00,
+      "note": "Reservierte Zeit kann berechnet werden, auch wenn das Fahrzeug nicht genutzt wird"
+    },
+    "late_return": {
+      "over_10_min": "10,00 €",
+      "over_15_min": "25,00 €",
+      "tolerance": "10 Minuten"
+    },
+    "misc": {
+      "smoking": "2.000,00 € pauschal",
+      "interior_damage": "mindestens 50,00 € (nach Aufwand)",
+      "lost_key_cable_card": "mindestens 50,00 € (nach Aufwand)",
+      "admin_traffic_violation": "25,00 €",
+      "admin_damage_own_fault": "75,00 €"
+    },
+    "max_booking_hours": 24,
+    "max_booking_note": "Die Buchungszeit beträgt maximal 24 Stunden. Längere Buchungen nur nach Absprache."
+  },
+  "cost_examples": [
+    {
+      "label": "Wocheneinkauf",
+      "description": "Samstags zum Supermarkt und zurück",
+      "hours": 2,
+      "km": 15,
+      "vehicle_class": "stadtauto",
+      "icon": "🛒"
+    },
+    {
+      "label": "Familienausflug",
+      "description": "Tagesausflug ins Bergische Land",
+      "hours": 6,
+      "km": 80,
+      "vehicle_class": "mittelklasse",
+      "icon": "👨‍👩‍👧‍👦"
+    },
+    {
+      "label": "Arztbesuch in Köln",
+      "description": "Hin- und Rückfahrt mit Wartezeit",
+      "hours": 4,
+      "km": 60,
+      "vehicle_class": "stadtauto",
+      "icon": "🏥"
+    },
+    {
+      "label": "Vereinsfahrt",
+      "description": "Mannschaftsausflug mit dem 7-Sitzer",
+      "hours": 8,
+      "km": 120,
+      "vehicle_class": "kleinbus",
+      "icon": "⚽"
+    }
+  ],
+  "savings_facts": {
+    "breakeven_km_per_year": 10000,
+    "savings_vs_own_car_eur": 741,
+    "used_car_breakeven_km_per_month": 300,
+    "cars_replaced_per_sharing": 20,
+    "private_car_idle_percent": 90,
+    "source": "Bundesverband CarSharing e.V. (bcs)"
+  },
+  "faq_tariff": [
+    {
+      "question": "Was ist im Preis alles enthalten?",
+      "answer": "Strom bzw. Kraftstoff, Versicherung (Vollkasko mit 350 € Selbstbehalt), Wartung, Pflege und der Stellplatz an der Station – alles inklusive. Du zahlst pro Fahrt: Buchungsgebühr + Zeitgebühr (pro Stunde) + Kilometergebühr."
+    },
+    {
+      "question": "Welcher Tarif passt zu mir?",
+      "answer": "Wenn du regelmäßig fährst, lohnt sich CC eco: 19 €/Monat mit 5 Inklusivstunden, niedrigere Stunden- und Kilometerpreise und nur 1,50 € Buchungsgebühr. Fährst du selten, ist CC go ohne Grundgebühr ideal – du zahlst nur, wenn du fährst."
+    },
+    {
+      "question": "Wie lange bin ich gebunden?",
+      "answer": "CC go ist jederzeit ohne Frist kündbar. Bei CC eco beträgt die Mindestlaufzeit 6 Monate ab Vertragsabschluss. Ein Tarifwechsel (z.B. von CC go zu CC eco) ist jederzeit möglich."
+    },
+    {
+      "question": "Gibt es eine Registrierungsgebühr?",
+      "answer": "Bei CC eco: nein, die Registrierung ist kostenlos. Bei CC go fällt eine einmalige Registrierungsgebühr von 10 € an."
+    },
+    {
+      "question": "Wie wird abgerechnet?",
+      "answer": "Pro Fahrt: Buchungsgebühr (eco: 1,50 €, go: 2,50 €) + Zeitgebühr (Stundenpreis × gebuchte Stunden) + Kilometergebühr (je km). Beim CC eco werden die 5 Inklusivstunden von der Zeitgebühr abgezogen. Bei CC eco gibt es ab dem 101. Kilometer einen günstigeren km-Preis."
+    },
+    {
+      "question": "Was passiert, wenn ich die Inklusivstunden nicht nutze?",
+      "answer": "Die 5 Stunden Zeitguthaben bei CC eco sind 6 Monate gültig. Der Wert hängt von der genutzten Fahrzeugklasse ab: Stadtauto 10 €, Mittelklasse 12,50 €, Kleinbus 14,50 €. Ungenutzte Stunden verfallen nach 6 Monaten."
+    },
+    {
+      "question": "Muss ich Genossenschaftsmitglied werden?",
+      "answer": "Nein! Du kannst alle Fahrzeuge nach einmaliger Registrierung nutzen. Eine Mitgliedschaft ist freiwillig und ermöglicht dir, das Angebot aktiv mitzugestalten."
+    },
+    {
+      "question": "Gibt es einen Frührückgabe-Rabatt?",
+      "answer": "Ja! Wenn du das Fahrzeug vor Ablauf der gebuchten Zeit zurückgibst, erhältst du 50 % Rabatt auf die nicht genutzte, gebuchte Zeit."
+    }
+  ]
+}

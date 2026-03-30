@@ -1,0 +1,66 @@
+services:
+  cc-kunden-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_BACKEND_URL=
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=
+      - AUTH_API_URL=http://backend-ns8wok04s4sgkcggwg48okcg:8000
+      - HOSTNAME=0.0.0.0
+      - BACKEND_INTERNAL_URL=http://cc-kunden-backend:8000
+    restart: unless-stopped
+    expose:
+      - "3000"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      - cc-kunden-backend
+    networks:
+      - cc-net
+      - coolify
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=coolify"
+      - "traefik.http.routers.cc-kunden-frontend.rule=Host(`cc-kunden.mopilot.website`)"
+      - "traefik.http.routers.cc-kunden-frontend.tls=true"
+      - "traefik.http.routers.cc-kunden-frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.cc-kunden-frontend.loadbalancer.server.port=3000"
+
+  cc-kunden-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    environment:
+      - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-sonnet-4-6}
+      - CORS_ORIGINS=${CORS_ORIGINS:-https://cc-kunden.mopilot.website,http://localhost:3000}
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+    networks:
+      - cc-net
+      - coolify
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=coolify"
+      - "traefik.http.routers.cc-kunden-backend.rule=Host(`api.cc-kunden.mopilot.website`)"
+      - "traefik.http.routers.cc-kunden-backend.tls=true"
+      - "traefik.http.routers.cc-kunden-backend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.cc-kunden-backend.loadbalancer.server.port=8000"
+
+networks:
+  cc-net:
+    driver: bridge
+  coolify:
+    external: true

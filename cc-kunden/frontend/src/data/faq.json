@@ -1,0 +1,61 @@
+[
+  {
+    "category": "Allgemein",
+    "questions": [
+      {
+        "question": "Was ist die Car&RideSharing Community eG?",
+        "answer": "Die CC ist eine ehrenamtlich geführte Bürgergenossenschaft mit Sitz in Overath (NRW). Wir betreiben stationsbasiertes E-Carsharing im ländlichen Raum nach dem Dorfauto-Prinzip: Bürger organisieren gemeinsam ein E-Fahrzeug in Wohnortnähe (max. 500 Schritte)."
+      },
+      {
+        "question": "Für wen ist CarSharing geeignet?",
+        "answer": "CC CarSharing ist ideal für alle, die kein eigenes Auto besitzen oder ihren Zweitwagen abschaffen möchten. Bis 10.000 km/Jahr ist CarSharing günstiger als ein eigener PKW. 1 CarSharing-Fahrzeug ersetzt bis zu 20 private PKW!"
+      },
+      {
+        "question": "Was ist das Dorfauto-Prinzip?",
+        "answer": "Das Dorfauto steht maximal 500 Schritte von deiner Haustür entfernt. Mindestens 12 Nachbarn teilen sich ein E-Fahrzeug. So wird CarSharing auch im ländlichen Raum möglich – günstig, nachhaltig und gemeinschaftlich."
+      },
+      {
+        "question": "Was ist RideSharing?",
+        "answer": "Die CC bietet auch RideSharing (Fahrgemeinschaften) in Kooperation mit goFlux Mobility GmbH aus Köln an. Ideal für Pendlerstrecken – Kosten teilen und CO2 sparen."
+      },
+      {
+        "question": "Wie bin ich versichert?",
+        "answer": "Alle CC-Fahrzeuge sind vollkaskoversichert. Im Schadensfall gilt eine Selbstbeteiligung gemäß den Nutzungsbedingungen."
+      }
+    ]
+  },
+  {
+    "category": "Fahren & Reichweite",
+    "questions": [
+      {
+        "question": "Wie weit komme ich mit den CC-Fahrzeugen?",
+        "answer": "Das hängt vom Modell ab: Renault ZOE (40 kWh) ca. 180-250 km, ZOE (50 kWh) ca. 230-320 km, Twingo ca. 110-160 km, MG5 ca. 240-330 km, Fiat 500e ca. 190-260 km. Im Winter kann die Reichweite um ca. 20-40% sinken."
+      },
+      {
+        "question": "Muss ich den Strom bezahlen?",
+        "answer": "Nein! Die Stromkosten sind im Nutzungspreis enthalten. Einfach an der Station ans Ladekabel anschließen – fertig."
+      },
+      {
+        "question": "Muss das Fahrzeug zur selben Station zurück?",
+        "answer": "Ja, die CC betreibt stationsbasiertes Carsharing. Das Fahrzeug muss an die Ausleihstation zurückgebracht und ans Ladekabel angeschlossen werden."
+      }
+    ]
+  },
+  {
+    "category": "Registrierung & Buchung",
+    "questions": [
+      {
+        "question": "Wie registriere ich mich?",
+        "answer": "1. Optional: Quiz auf sharing-community.de/quiz für Startguthaben. 2. Registrierung auf cc.evemo.app. 3. Personalausweis und Führerschein nachweisen. 4. Sofort losfahren!"
+      },
+      {
+        "question": "Welche App brauche ich?",
+        "answer": "Du buchst und öffnest die Fahrzeuge über die evemo-App. Download und Registrierung unter cc.evemo.app."
+      },
+      {
+        "question": "Wie werde ich Standortpate?",
+        "answer": "Standortpaten sind ehrenamtliche Botschafter der CC. Du brauchst mind. 12 interessierte Nachbarn, einen Stellplatz und idealerweise eine Lademöglichkeit. Dafür erhältst du 20 Euro/Monat Gutschrift. Mehr unter sharing-community.de/standortpate."
+      }
+    ]
+  }
+]

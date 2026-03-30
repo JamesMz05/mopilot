@@ -1,0 +1,73 @@
+{
+  "organization": {
+    "name": "Car&RideSharing Community eG",
+    "short": "CC",
+    "type": "Bürgergenossenschaft (ehrenamtlich geführt)",
+    "location": "Overath, NRW",
+    "principle": "Dorfauto – max. 500 Schritte von der Haustür",
+    "websites": {
+      "carsharing_portal": "https://carsharing2go.net",
+      "genossenschaft": "https://sharing-community.de",
+      "buchung": "https://cc.evemo.app",
+      "registrierung": "https://cc.evemo.app/admin/signup",
+      "standortpate": "https://sharing-community.de/standortpate",
+      "mitgliedschaft": "https://sharing-community.de/mitgliedschaft-beantragen",
+      "quiz": "https://sharing-community.de/quiz"
+    },
+    "support_email": "cc-flottenmanagement@vianova.coop"
+  },
+  "standortpaten": {
+    "description": "Ehrenamtliche Botschafter der CC vor Ort",
+    "tasks": [
+      "Kümmern sich um Fahrzeug und Stellplatz",
+      "Gewinnen neue Nutzer aus der Nachbarschaft",
+      "Weisen neue Nutzer in App, Fahrzeug und Ladestation ein"
+    ],
+    "reward": "20 € Gutschrift/Monat auf Nutzungsgebühren",
+    "minimum_users": 12,
+    "success_factors": [
+      "Mindestens 12 interessierte Nachbarn",
+      "Geeigneter Stellplatz (öffentlich oder privat zugänglich)",
+      "Lademöglichkeit vorhanden oder installierbar",
+      "Unterstützung durch Kommune oder lokale Partner",
+      "Engagierter Standortpate vor Ort"
+    ]
+  },
+  "ridesharing": {
+    "partner": "goFlux Mobility GmbH, Köln",
+    "description": "Fahrgemeinschaften als Ergänzung zum CarSharing",
+    "benefit": "Kosten teilen, CO₂ sparen, Pendlerstrecken abdecken"
+  },
+  "sponsors": [
+    {"name": "KSK Köln", "role": "Hauptsponsor VW Multivan T6"},
+    {"name": "AggerEnergie", "role": "Ladestation-Wartung"},
+    {"name": "Dr. Rembold Stiftung", "role": "Vergünstigungen für Vereine"},
+    {"name": "WBGO Overath", "role": "Stellplatz"},
+    {"name": "MH Aggerpark", "role": "Stellplatz"},
+    {"name": "Automobile Clever", "role": "Fahrzeug-Service"},
+    {"name": "Stadt Lohmar", "role": "Smart City Projekt"},
+    {"name": "goFlux", "role": "RideSharing-Kooperation"}
+  ],
+  "key_facts": {
+    "cars_replaced_per_sharing_vehicle": 20,
+    "private_car_idle_percent": 90,
+    "german_municipalities_with_carsharing": 677,
+    "german_municipalities_total": 13312,
+    "carsharing_coverage_percent": 5.1,
+    "station_based_pkw_abandonment_factor": "15x höher als Free-Floating",
+    "break_even_used_car_km_per_month": 300,
+    "annual_saving_vs_small_car_eur": 741,
+    "cost_example_100km_5h_eur": 65
+  },
+  "co2_calculation": {
+    "petrol_g_per_km": 150,
+    "diesel_g_per_km": 130,
+    "e_car_grid_mix_g_per_km": 50,
+    "cc_e_car_green_energy_g_per_km": 0,
+    "tree_absorbs_kg_co2_per_year": 22,
+    "flight_mallorca_kg_co2": 500,
+    "adac_full_cost_midsize_eur_per_month": 600,
+    "parking_space_sqm": 12
+  },
+  "regions": ["Oberbergischer Kreis", "Rhein-Sieg-Kreis", "Köln", "Rheinisch-Bergischer Kreis"]
+}
