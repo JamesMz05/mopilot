@@ -1,0 +1,67 @@
+/* MoPilot Ideenplattform – Global Styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface-50 text-surface-800;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    @apply font-bold tracking-tight;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2;
+  }
+
+  .skip-nav {
+    @apply absolute -top-10 left-4 z-[100] bg-primary-700 text-white px-4 py-2 rounded-b-lg transition-all duration-200;
+  }
+  .skip-nav:focus {
+    @apply top-0;
+  }
+}
+
+@layer components {
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+  .card-hover:hover {
+    @apply shadow-warm-lg -translate-y-1;
+  }
+
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border-b border-surface-200/50;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-700 to-primary-500;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-track { @apply bg-surface-100 rounded-full; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { @apply bg-primary-300 rounded-full; }
+}

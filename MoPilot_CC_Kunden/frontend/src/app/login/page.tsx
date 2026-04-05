@@ -5,7 +5,7 @@ import { Zap, LogIn } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -19,15 +19,21 @@ export default function LoginPage() {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       })
       const data = await res.json()
 
       if (data.success) {
+        if (data.access_token) {
+          localStorage.setItem('token', data.access_token)
+        }
+        if (data.user) {
+          localStorage.setItem('user', JSON.stringify(data.user))
+        }
         router.push('/')
         router.refresh()
       } else {
-        setError('Ungültiger Benutzername oder Passwort.')
+        setError(data.error || 'Ungültige E-Mail oder Passwort.')
       }
     } catch {
       setError('Ein Fehler ist aufgetreten. Bitte versuche es erneut.')
@@ -37,36 +43,33 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zeo-50 to-white px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cc-50 to-white px-4">
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
-          <div className="w-14 h-14 bg-zeo-600 rounded-2xl flex items-center justify-center shadow-lg mb-4">
+          <div className="w-14 h-14 bg-cc-600 rounded-2xl flex items-center justify-center shadow-lg mb-4">
             <Zap className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-zeo-800">ZEO Kundenassistent</h1>
-          <p className="text-sm text-zeo-600 font-medium mt-0.5">powered by MoPilot</p>
-          <p className="text-xs text-gray-500 mt-3 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5 text-center">
-            Demo-Version – Bitte anmelden
-          </p>
+          <h1 className="text-2xl font-bold text-cc-800">CC Kundenassistent</h1>
+          <p className="text-sm text-cc-600 font-medium mt-0.5">powered by MoPilot</p>
         </div>
 
         {/* Form */}
-        <div className="bg-white rounded-2xl shadow-md border border-zeo-100 p-6">
+        <div className="bg-white rounded-2xl shadow-md border border-cc-100 p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-                Benutzername
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                E-Mail
               </label>
               <input
-                id="username"
-                type="text"
-                autoComplete="username"
+                id="email"
+                type="email"
+                autoComplete="email"
                 required
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zeo-500 focus:border-transparent transition"
-                placeholder="Benutzername eingeben"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-cc-500 focus:border-transparent transition"
+                placeholder="ihre@email.de"
               />
             </div>
 
@@ -81,7 +84,7 @@ export default function LoginPage() {
                 required
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zeo-500 focus:border-transparent transition"
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-cc-500 focus:border-transparent transition"
                 placeholder="Passwort eingeben"
               />
             </div>
@@ -95,7 +98,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-zeo-600 text-white text-sm font-semibold rounded-lg hover:bg-zeo-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-cc-600 text-white text-sm font-semibold rounded-lg hover:bg-cc-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
             >
               <LogIn className="w-4 h-4" />
               {loading ? 'Anmelden...' : 'Anmelden'}
@@ -108,7 +111,7 @@ export default function LoginPage() {
               href="https://ideen.mopilot.website/passwort-zuruecksetzen"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-zeo-600 hover:text-zeo-800 hover:underline transition-colors"
+              className="text-sm text-cc-600 hover:text-cc-800 hover:underline transition-colors"
             >
               Passwort vergessen?
             </a>
@@ -125,7 +128,7 @@ export default function LoginPage() {
                 href="https://ideen.mopilot.website/register"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-zeo-600 hover:text-zeo-800 font-semibold hover:underline transition-colors"
+                className="text-cc-600 hover:text-cc-800 font-semibold hover:underline transition-colors"
               >
                 Jetzt registrieren
               </a>

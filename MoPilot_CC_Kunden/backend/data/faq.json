@@ -1,0 +1,78 @@
+[
+  {
+    "category": "Allgemein",
+    "questions": [
+      {
+        "q": "Was ist die Car&RideSharing Community eG?",
+        "a": "Die CC ist eine ehrenamtlich geführte Bürgergenossenschaft mit Sitz in Overath (NRW). Wir betreiben stationsbasiertes E-Carsharing im ländlichen Raum nach dem 'Dorfauto'-Prinzip: Bürger organisieren gemeinsam ein E-Fahrzeug in Wohnortnähe."
+      },
+      {
+        "q": "Wo kann ich die CC-Fahrzeuge nutzen?",
+        "a": "Wir haben 12 Stationen in 11 Orten: Overath (3×), Bad Honnef (2×), Dieringhausen, Gummersbach, Köln (Clouth-Quartier), Lohmar, Nümbrecht, Radevormwald, Ruppichteroth und Wipperfürth."
+      },
+      {
+        "q": "Was ist das Dorfauto-Prinzip?",
+        "a": "Das Dorfauto steht maximal 500 Schritte von deiner Haustür entfernt. Mindestens 12 Nachbarn teilen sich ein E-Fahrzeug. So wird CarSharing auch im ländlichen Raum möglich – günstig, nachhaltig und gemeinschaftlich."
+      },
+      {
+        "q": "Was ist RideSharing?",
+        "a": "Zusätzlich zum CarSharing bietet die CC auch RideSharing (Fahrgemeinschaften) in Kooperation mit goFlux Mobility GmbH aus Köln an. So kannst du Fahrten mit anderen teilen und Kosten sowie CO₂ sparen."
+      },
+      {
+        "q": "Wie werde ich Mitglied der Genossenschaft?",
+        "a": "Du kannst eine Mitgliedschaft bei der Genossenschaft unter sharing-community.de/mitgliedschaft-beantragen beantragen. Als Mitglied bist du Miteigentümer und kannst bei Entscheidungen mitbestimmen."
+      }
+    ]
+  },
+  {
+    "category": "Registrierung & Buchung",
+    "questions": [
+      {
+        "q": "Wie registriere ich mich?",
+        "a": "1. Optional: Quiz auf sharing-community.de/quiz für Startguthaben. 2. Registrierung auf cc.evemo.app/admin/signup. 3. Personalausweis und Führerschein nachweisen. 4. Erste Fahrt sofort starten!"
+      },
+      {
+        "q": "Welche App brauche ich?",
+        "a": "Du buchst und öffnest die Fahrzeuge über die evemo-App. Download und Registrierung unter cc.evemo.app."
+      },
+      {
+        "q": "Muss ich das Auto an die gleiche Station zurückbringen?",
+        "a": "Ja, die CC betreibt stationsbasiertes Carsharing. Das Fahrzeug muss immer an die Ausleihstation zurückgebracht und ans Ladekabel angeschlossen werden."
+      }
+    ]
+  },
+  {
+    "category": "Kosten & Tarife",
+    "questions": [
+      {
+        "q": "Was kostet CarSharing bei der CC?",
+        "a": "Es gibt zwei Tarife: CC eco (19 €/Monat, inkl. 5 Stunden Fahrtguthaben) für regelmäßige Nutzer und CC go (0 €/Monat) zum Schnuppern. Ab ca. 65 €/Monat für 100 km / 5 Stunden Nutzung."
+      },
+      {
+        "q": "Ab wann lohnt sich CarSharing?",
+        "a": "Bis 10.000 km/Jahr ist CarSharing günstiger als ein eigener PKW. Die Ersparnis beträgt ca. 741 €/Jahr im Vergleich zu einem Kleinstwagen (Quelle: bcs). Gebrauchtwagen lohnen sich erst ab ca. 300 km/Monat."
+      },
+      {
+        "q": "Ist der Strom inklusive?",
+        "a": "Ja! Bei allen E-Fahrzeugen der CC ist der Ladestrom bereits im Nutzungspreis enthalten."
+      }
+    ]
+  },
+  {
+    "category": "Standortpaten",
+    "questions": [
+      {
+        "q": "Was ist ein Standortpate?",
+        "a": "Standortpaten sind ehrenamtliche Botschafter der CC vor Ort. Sie kümmern sich um Fahrzeug und Stellplatz, gewinnen neue Nutzer und weisen diese ein. Dafür erhalten sie 20 € Gutschrift pro Monat."
+      },
+      {
+        "q": "Wie werde ich Standortpate?",
+        "a": "Du brauchst mindestens 12 interessierte Nachbarn, einen geeigneten Stellplatz und idealerweise eine Lademöglichkeit. Melde dich unter sharing-community.de/standortpate oder kontaktiere uns unter cc-flottenmanagement@vianova.coop."
+      },
+      {
+        "q": "Welche Vorteile hat ein Standortpate?",
+        "a": "Du erhältst 20 € Gutschrift pro Monat auf deine Nutzungsgebühren, bist Teil einer aktiven Community und gestaltest nachhaltige Mobilität in deiner Nachbarschaft mit."
+      }
+    ]
+  }
+]

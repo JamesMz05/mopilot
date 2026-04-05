@@ -1,0 +1,143 @@
+[
+  {
+    "id": 1,
+    "name": "Overath Bahnhof",
+    "address": "Dr.-Ringens-Straße, 51491 Overath",
+    "lat": 50.9322,
+    "lng": 7.2836,
+    "vehicles": ["Renault ZOE Z.E. Limited (40 kWh)"],
+    "transit": [
+      { "type": "bahn", "line": "S11", "direction": "Köln ↔ Bergisch Gladbach", "interval": "alle 20 Min." },
+      { "type": "bahn", "line": "RB25", "direction": "Köln ↔ Meinerzhagen", "interval": "stündlich" }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Overath Zentrum",
+    "address": "Weberstraße, 51491 Overath",
+    "lat": 50.9335,
+    "lng": 7.2790,
+    "vehicles": ["Renault ZOE Z.E. Limited (40 kWh)"],
+    "transit": []
+  },
+  {
+    "id": 3,
+    "name": "Overath Marialinden",
+    "address": "Marialinden, 51491 Overath",
+    "lat": 50.9580,
+    "lng": 7.3050,
+    "vehicles": ["Renault ZOE Z.E. Limited (40 kWh)", "Renault ZOE Z.E. Limited (50 kWh)"],
+    "transit": []
+  },
+  {
+    "id": 4,
+    "name": "Bad Honnef Rathaus",
+    "address": "Rathausplatz, 53604 Bad Honnef",
+    "lat": 50.6445,
+    "lng": 7.2281,
+    "vehicles": ["FIAT 500e"],
+    "transit": [
+      { "type": "bahn", "line": "Linie 66", "direction": "Bonn ↔ Bad Honnef", "interval": "alle 20 Min." }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Bad Honnef Stadtwerke BHAG",
+    "address": "BHAG, 53604 Bad Honnef",
+    "lat": 50.6460,
+    "lng": 7.2310,
+    "vehicles": ["FIAT 500e"],
+    "transit": [
+      { "type": "bahn", "line": "Linie 66", "direction": "Bonn ↔ Bad Honnef", "interval": "alle 20 Min." }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Dieringhausen",
+    "address": "Dieringhausen, 51645 Gummersbach",
+    "lat": 51.0180,
+    "lng": 7.5530,
+    "vehicles": ["Renault ZOE Z.E. Limited (40 kWh)"],
+    "transit": [
+      { "type": "bahn", "line": "RB25", "direction": "Köln ↔ Meinerzhagen", "interval": "stündlich" }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Gummersbach",
+    "address": "Gummersbach Zentrum, 51643 Gummersbach",
+    "lat": 51.0263,
+    "lng": 7.5644,
+    "vehicles": ["VW Multivan T6"],
+    "transit": [
+      { "type": "bahn", "line": "RB25", "direction": "Köln ↔ Meinerzhagen", "interval": "stündlich" }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Köln Clouth-Quartier",
+    "address": "Clouth-Quartier, 50733 Köln-Nippes",
+    "lat": 50.9680,
+    "lng": 6.9560,
+    "vehicles": ["Renault Twingo Electric"],
+    "transit": [
+      { "type": "bahn", "line": "S-Bahn", "direction": "Köln Hbf", "interval": "alle 10 Min." },
+      { "type": "bus", "line": "Bus 127", "direction": "Nippes ↔ Chorweiler", "interval": "alle 15 Min." }
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Lohmar Stadthaus",
+    "address": "Stadthaus, 53797 Lohmar",
+    "lat": 50.8362,
+    "lng": 7.2136,
+    "vehicles": ["MG5", "Renault ZOE Z.E. Limited (40 kWh)", "FIAT 500e", "Renault Twingo Electric"],
+    "transit": [
+      { "type": "bus", "line": "Bus 501", "direction": "Siegburg ↔ Lohmar", "interval": "alle 30 Min." }
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Nümbrecht",
+    "address": "Nümbrecht Zentrum, 51588 Nümbrecht",
+    "lat": 50.9060,
+    "lng": 7.5400,
+    "vehicles": ["VW Tiguan TSI"],
+    "transit": [
+      { "type": "bus", "line": "Bus 302", "direction": "Waldbröl ↔ Nümbrecht", "interval": "stündlich" }
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Radevormwald",
+    "address": "Radevormwald Zentrum, 42477 Radevormwald",
+    "lat": 51.2020,
+    "lng": 7.3570,
+    "vehicles": ["Renault ZOE Z.E. Limited (40 kWh)"],
+    "transit": [
+      { "type": "bus", "line": "Bus 336", "direction": "Wuppertal ↔ Radevormwald", "interval": "stündlich" }
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Ruppichteroth",
+    "address": "Ruppichteroth Zentrum, 53809 Ruppichteroth",
+    "lat": 50.8440,
+    "lng": 7.4840,
+    "vehicles": ["Renault ZOE Z.E. Limited (40 kWh)"],
+    "transit": [
+      { "type": "bus", "line": "Bus 576", "direction": "Eitorf ↔ Ruppichteroth", "interval": "stündlich" }
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Wipperfürth",
+    "address": "Wipperfürth Zentrum, 51688 Wipperfürth",
+    "lat": 51.1170,
+    "lng": 7.3960,
+    "vehicles": ["Renault ZOE Z.E. Limited (40 kWh)"],
+    "transit": [
+      { "type": "bus", "line": "Bus 336", "direction": "Wipperfürth ↔ Remscheid", "interval": "stündlich" }
+    ]
+  }
+]

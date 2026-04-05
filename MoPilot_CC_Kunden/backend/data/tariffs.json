@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "CC eco",
+    "monthly_fee_eur": 19.00,
+    "included": "5 Stunden Fahrtguthaben (3 Monate gültig)",
+    "target_group": "Regelmäßige Nutzer",
+    "cancellation": "Monatlich kündbar",
+    "note": "Ideal für alle, die regelmäßig ein Auto brauchen"
+  },
+  {
+    "id": 2,
+    "name": "CC go",
+    "monthly_fee_eur": 0.00,
+    "included": "Keine Inklusivleistungen",
+    "target_group": "Gelegenheitsnutzer / Schnupperer",
+    "cancellation": "Jederzeit kündbar",
+    "note": "Perfekt zum Ausprobieren – du zahlst nur, wenn du fährst"
+  }
+]

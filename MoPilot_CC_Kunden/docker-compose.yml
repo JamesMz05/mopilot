@@ -1,13 +1,15 @@
 services:
-  frontend:
+  cc-kunden-frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-https://api.zeo-kunden.mopilot.website}
+        - NEXT_PUBLIC_BACKEND_URL=
     environment:
-      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-https://api.zeo-kunden.mopilot.website}
+      - NEXT_PUBLIC_BACKEND_URL=
+      - AUTH_API_URL=http://backend-ns8wok04s4sgkcggwg48okcg:8000
       - HOSTNAME=0.0.0.0
+      - BACKEND_INTERNAL_URL=http://cc-kunden-backend:8000
     restart: unless-stopped
     expose:
       - "3000"
@@ -17,23 +19,24 @@ services:
       timeout: 5s
       retries: 3
     depends_on:
-      - backend
+      - cc-kunden-backend
     networks:
-      - zeo-net
+      - cc-net
       - coolify
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=coolify"
-      - "traefik.http.routers.zeo-frontend.rule=Host(`zeo-kunden.mopilot.website`)"
-      - "traefik.http.routers.zeo-frontend.tls=true"
-      - "traefik.http.routers.zeo-frontend.tls.certresolver=letsencrypt"
-      - "traefik.http.services.zeo-frontend.loadbalancer.server.port=3000"
+      - "traefik.http.routers.cc-kunden-frontend.rule=Host(`cc-kunden.mopilot.website`)"
+      - "traefik.http.routers.cc-kunden-frontend.tls=true"
+      - "traefik.http.routers.cc-kunden-frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.cc-kunden-frontend.loadbalancer.server.port=3000"
 
-  backend:
+  cc-kunden-backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     restart: unless-stopped
+    env_file: .env
     expose:
       - "8000"
     healthcheck:
@@ -42,23 +45,22 @@ services:
       timeout: 5s
       retries: 3
     environment:
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-sk-placeholder}
       - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-sonnet-4-6}
-      - CORS_ORIGINS=${CORS_ORIGINS:-https://zeo-kunden.mopilot.website,http://localhost:3000}
+      - CORS_ORIGINS=${CORS_ORIGINS:-https://cc-kunden.mopilot.website,http://localhost:3000}
       - ENVIRONMENT=${ENVIRONMENT:-production}
     networks:
-      - zeo-net
+      - cc-net
       - coolify
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=coolify"
-      - "traefik.http.routers.zeo-backend.rule=Host(`api.zeo-kunden.mopilot.website`)"
-      - "traefik.http.routers.zeo-backend.tls=true"
-      - "traefik.http.routers.zeo-backend.tls.certresolver=letsencrypt"
-      - "traefik.http.services.zeo-backend.loadbalancer.server.port=8000"
+      - "traefik.http.routers.cc-kunden-backend.rule=Host(`api.cc-kunden.mopilot.website`)"
+      - "traefik.http.routers.cc-kunden-backend.tls=true"
+      - "traefik.http.routers.cc-kunden-backend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.cc-kunden-backend.loadbalancer.server.port=8000"
 
 networks:
-  zeo-net:
+  cc-net:
     driver: bridge
   coolify:
     external: true

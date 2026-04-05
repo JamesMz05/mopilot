@@ -1,0 +1,80 @@
+[
+  {
+    "id": "cc-eco",
+    "name": "CC eco",
+    "tagline": "Für regelmäßige Nutzer – 5 Freistunden inklusive",
+    "registrationFee": 0,
+    "startCredit": 0,
+    "monthlyFee": 19.00,
+    "cancellationMonths": 1,
+    "freeHoursPerMonth": 5,
+    "highlight": true,
+    "perks": [
+      "19 €/Monat Grundgebühr",
+      "5 Stunden Fahrtguthaben inklusive (3 Monate gültig)",
+      "Monatlich kündbar",
+      "Ideal für regelmäßige Nutzung"
+    ],
+    "vehicles": {
+      "kleinwagen": {
+        "label": "Kleinwagen (z.B. Renault ZOE, Twingo, Fiat 500e)",
+        "perBooking": 0,
+        "perKm": null,
+        "perKmUpTo50": null,
+        "perKmFrom51": null,
+        "perHour": null,
+        "perHourNight": null,
+        "perDay": null
+      },
+      "kompakt": {
+        "label": "Kombi / SUV / Bus (z.B. MG5, VW Tiguan, Multivan)",
+        "perBooking": 0,
+        "perKm": null,
+        "perKmUpTo50": null,
+        "perKmFrom51": null,
+        "perHour": null,
+        "perHourNight": null,
+        "perDay": null
+      }
+    }
+  },
+  {
+    "id": "cc-go",
+    "name": "CC go",
+    "tagline": "Flexibel ohne Grundgebühr – ideal zum Schnuppern",
+    "registrationFee": 0,
+    "startCredit": 0,
+    "monthlyFee": 0,
+    "cancellationMonths": 0,
+    "freeHoursPerMonth": 0,
+    "highlight": false,
+    "perks": [
+      "Keine Grundgebühr",
+      "Keine Inklusivleistungen",
+      "Jederzeit kündbar",
+      "Du zahlst nur, wenn du fährst"
+    ],
+    "vehicles": {
+      "kleinwagen": {
+        "label": "Kleinwagen (z.B. Renault ZOE, Twingo, Fiat 500e)",
+        "perBooking": 0,
+        "perKm": null,
+        "perKmUpTo50": null,
+        "perKmFrom51": null,
+        "perHour": null,
+        "perHourNight": null,
+        "perDay": null
+      },
+      "kompakt": {
+        "label": "Kombi / SUV / Bus (z.B. MG5, VW Tiguan, Multivan)",
+        "perBooking": 0,
+        "perKm": null,
+        "perKmUpTo50": null,
+        "perKmFrom51": null,
+        "perHour": null,
+        "perHourNight": null,
+        "perDay": null
+      }
+    }
+  }
+]
