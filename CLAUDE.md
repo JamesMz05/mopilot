@@ -1,156 +1,154 @@
 # MoPilot – Projektkontext für Claude
 
-> Zuletzt aktualisiert: 2026-02-27
+> Zuletzt aktualisiert: 2026-04-05 (v0.8.1)
 
 ## Projektbeschreibung
 
 **MoPilot** ist ein KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum.
-Prototyp v0.1 – rollenbasierte Demo mit angepasster KI-Tonalität pro Nutzerrolle.
+Prototyp v0.8 – 5 Plattformen auf einem Server mit rollenbasiertem Demo-Cockpit, KI-Chat und Self-Service-Funktionen.
 
-- **Betreiber:** ZEO Carsharing (Region Bruchsal) + Car&RideSharing Community eG (cc)
+- **Betreiber:** ZEO Carsharing (Region Bruchsal, BW) + Car&RideSharing Community eG (Overath, NRW)
 - **Zweck:** Intelligenter Assistent, der Tonalität, Wissen und Funktionen an die jeweilige Nutzerrolle anpasst
-- **KI-Model:** Claude Sonnet (`claude-sonnet-4-20250514`)
+- **KI-Model:** Claude Sonnet (`claude-sonnet-4-6`) via Anthropic API
+
+## Plattformen
+
+| Plattform | URL | Funktion |
+|-----------|-----|----------|
+| Hauptsystem | https://mopilot.website | Rollenbasiertes Demo-Cockpit mit KI-Chat |
+| Ideenplattform | https://ideen.mopilot.website | Ideen, Bewertungen, Kommentare, Admin |
+| ZEO Kundenassistent | https://zeo-kunden.mopilot.website | KI-Chat für ZEO-Endkunden |
+| CC Kundenassistent | https://cc-kunden.mopilot.website | KI-Chat für CC-Endkunden |
+| CC Fuhrpark | https://ccfuhrpark.vianova.website | Digitale Fuhrparkverwaltung |
+| VIANOVA Verwaltung | https://verwaltung.vianova.website | Genossenschaftsverwaltung |
 
 ## Infrastruktur
 
-| Komponente        | Details                                       |
-|-------------------|-----------------------------------------------|
-| Server            | Hetzner CX33 – IP: `142.132.232.211`         |
-| IPv6              | `2a01:4f8:c17:b65c::1`                       |
-| Deployment        | **Coolify** mit Docker Compose                |
-| Coolify-Dashboard | `http://localhost:8000` (via SSH-Tunnel)      |
-| Coolify Service   | `service-l0ko88csko448w8kwo0gww0k`            |
-| Frontend-Domain   | `https://mopilot.website`                     |
-| Backend-Domain    | `https://api.mopilot.website`                 |
-| API Docs          | `https://api.mopilot.website/docs`            |
-| Frontend-Stack    | **Next.js** (SSR, App Router, Node 20)        |
-| Backend-Stack     | **FastAPI** (Python 3.11, Uvicorn, 2 Workers) |
-| Datenbank         | **PostgreSQL 16** (Alpine)                    |
-| Cache             | **Redis 7** (Alpine, 256MB)                   |
-| Projektpfad lokal | `C:\Projekte\MoPilot`                         |
-| Projektpfad Server| `/opt/mopilot/` (Coolify-managed)             |
-| SSH-Zugang        | `ssh root@142.132.232.211` (Passwort-Auth)    |
+| Komponente | Details |
+|------------|---------|
+| Server | Hetzner CX33 – IP: `142.132.232.211` |
+| OS | Ubuntu + Docker CE |
+| Deployment | **Coolify 4.0** mit Docker Compose + Traefik v3.1 |
+| Coolify-Dashboard | `http://localhost:8000` (via SSH-Tunnel) |
+| Monitoring | Uptime Kuma (11 Monitore, Port 3001 via SSH-Tunnel) |
+| SSH-Zugang | `ssh root@142.132.232.211` |
+| Projektpfad Server | `/opt/mopilot/` |
+| Projektpfad lokal | `C:\Users\james\Projekte\MoPilot` |
 
-## Docker Compose Services
+## Tech-Stack
 
-| Container                           | Image/Build                    | Port | Netzwerke              |
-|-------------------------------------|--------------------------------|------|------------------------|
-| frontend-ns8wok04s4sgkcggwg48okcg   | /opt/mopilot/frontend          | 3000 | mopilot-net, coolify   |
-| backend-ns8wok04s4sgkcggwg48okcg    | /opt/mopilot/backend           | 8000 | mopilot-net, coolify   |
-| postgres-ns8wok04s4sgkcggwg48okcg   | postgres:16-alpine             | 5432 | mopilot-net            |
-| redis-ns8wok04s4sgkcggwg48okcg      | redis:7-alpine                 | 6379 | mopilot-net            |
+| Komponente | Technologie |
+|------------|-------------|
+| Frontend (alle) | Next.js 14, React 18, Tailwind CSS, TypeScript, Node 20 Alpine |
+| Shared Design System | `/opt/mopilot/shared-ui/` (Tailwind Preset, globals.css, TSX-Komponenten) |
+| Typografie | Plus Jakarta Sans (font-display), DM Sans (font-body) |
+| Backend (Hauptsystem) | FastAPI, Python 3.11, async SQLAlchemy 2.0, Uvicorn |
+| Backend (Ideenplattform) | FastAPI, Python 3.11, sync SQLAlchemy 2.0, Uvicorn |
+| Backend (ZEO/CC-Kunden) | FastAPI, Python 3.11, SSE-Streaming |
+| Datenbank | PostgreSQL 16 – DBs: `mopilot` + `mopilot_ideen` + `cc_fuhrpark` + `vianova_verwaltung` |
+| Cache | Redis 7 Alpine, 256 MB, LRU |
+| Reverse Proxy | Traefik v3.1 (via Coolify), SSL via Let's Encrypt |
+| E-Mail | IONOS SMTP (smtp.ionos.de:587, STARTTLS) |
+| CI/CD | GitHub Actions → SSH + rsync + Coolify API |
 
-## Backend-Architektur
+## Docker Services
 
-```
-/opt/mopilot/backend/
-  app/
-    main.py              # FastAPI App + Startup/Seeding
-    core/
-      config.py          # Pydantic Settings (ENV-basiert)
-      database.py        # SQLAlchemy Async Engine (asyncpg)
-      seed.py            # Demo-Daten Seeding
-    models/
-      models.py          # SQLAlchemy Models (User, ChatMessage, Station, Vehicle, Tariff, FAQ)
-    api/
-      auth.py            # Login, JWT, Demo-Accounts
-      chat.py            # KI-Chat (Send + SSE-Stream)
-      knowledge.py       # FAQ/Wissensbasis
-      stations.py        # Standorte
-      vehicles.py        # Fahrzeuge
-      tariffs.py         # Tarife
-      users.py           # Benutzerprofil
-```
+**Hauptsystem (Coolify-managed):** frontend, backend, postgres, redis
+**Ideenplattform (manuell):** ideen-backend, ideen-frontend
+**ZEO-Kunden (CI/CD via rsync):** zeo-frontend, zeo-backend
+**CC-Kunden (manuell via rsync):** cc-kunden-frontend, cc-kunden-backend
 
-### API-Endpunkte
-| Endpunkt                    | Methode | Auth  | Beschreibung                    |
-|-----------------------------|---------|-------|---------------------------------|
-| `/api/auth/login`           | POST    | Nein  | Login (Email + Passwort)        |
-| `/api/auth/me`              | GET     | JWT   | Aktueller User                  |
-| `/api/auth/demo-accounts`   | GET     | Nein  | Liste aller Demo-Accounts       |
-| `/api/chat/send`            | POST    | JWT   | KI-Nachricht (non-streaming)    |
-| `/api/chat/stream`          | POST    | JWT   | KI-Nachricht (SSE-Stream)       |
-| `/api/knowledge/`           | GET     | Nein  | FAQ-Liste                       |
-| `/api/knowledge/{topic}`    | GET     | Nein  | Wissen zu Thema                 |
-| `/api/stations/`            | GET     | Nein  | Standort-Liste                  |
-| `/api/vehicles/`            | GET     | Nein  | Fahrzeug-Liste                  |
-| `/api/tariffs/`             | GET     | Nein  | Tarif-Liste                     |
-| `/api/users/profile`        | GET     | JWT   | Benutzerprofil                  |
-| `/api/health`               | GET     | Nein  | Health-Check                    |
+## Serverpfade
 
-## Rollen-System (10 Rollen in 3 Kategorien)
+| System | Pfad |
+|--------|------|
+| Hauptsystem | `/opt/mopilot/` (Git-Repo) |
+| Shared Design System | `/opt/mopilot/shared-ui/` |
+| Sync-Script | `/opt/mopilot/sync-shared-ui.sh` |
+| Ideenplattform | `/opt/mopilot/ideen/` |
+| ZEO-Kunden (Git) | `/opt/mopilot/MoPilot_ZEO_Kunden/` |
+| ZEO-Kunden (laufend) | `/opt/zeo-kunden/` |
+| CC-Kunden (Git) | `/opt/mopilot/cc-kunden/` |
+| CC-Kunden (laufend) | `/opt/cc-kunden/` |
+| Coolify Hauptsystem | `/data/coolify/services/ns8wok04s4sgkcggwg48okcg/` |
+| Backups | `/opt/backups/db/` |
+| Health-Check | `/opt/mopilot/scripts/health-check-all.sh` |
 
-### Kundennah
-| Rolle         | Email                           | Beschreibung                      |
-|---------------|---------------------------------|-----------------------------------|
-| Endkunde      | endkunde@mopilot.website        | Buchung, FAQs, Standorte          |
-| Stationspate  | stationspate@mopilot.website    | Standortbetreuung, Meldungen      |
-| Hotline       | hotline@mopilot.website         | Gesprächsleitfaden, Kundenhilfe   |
+## Authentifizierung
 
-### Betrieb
-| Rolle             | Email                           | Beschreibung                      |
-|-------------------|---------------------------------|-----------------------------------|
-| Betreiber         | betreiber@mopilot.website       | Dashboard, Kennzahlen, Strategie  |
-| Flottenmanagement | flotte@mopilot.website          | Fahrzeuge, Wartung, Zuweisung     |
-| Fahrzeugbetreuer  | fahrzeug@mopilot.website        | Zustandsprüfung, Laden            |
-| Plattform-Support | support@mopilot.website         | Technik, Tickets, Systeme         |
+- **Registrierung:** Zentral auf ideen.mopilot.website/register
+- **User-Sync:** Ideen-DB → mopilot-DB via psycopg2 (INSERT ON CONFLICT)
+- **Gleiche Credentials** auf allen 4 Plattformen (separater Login pro Plattform, kein SSO)
+- **Passwort-Reset (Ideenplattform):**
+  - `/passwort-vergessen` → User gibt E-Mail ein → erhält Reset-Link per Mail
+  - `/passwort-zuruecksetzen?token=...` → User setzt neues Passwort
+- **Login-Seiten (ZEO/CC):** Enthalten Links "Passwort vergessen?" und "Noch kein Konto?" (NEU v0.8)
+- **JWT-Token:** Hauptsystem 8h, Ideenplattform 24h
+- **Cookie:** `demo_auth = mopilot_demo_authenticated` (httpOnly, secure, 8h)
+- **Demo:** mopilot/mopilot2027 (nur mopilot.website)
 
-### Strategie
-| Rolle              | Email                           | Beschreibung                      |
-|--------------------|---------------------------------|-----------------------------------|
-| Projektträger      | traeger@mopilot.website         | KPIs, Förderung, Strategie        |
-| Fahrzeugsteller    | steller@mopilot.website         | Fahrzeugintegration, Verträge     |
-| Validierungsstelle | validierung@mopilot.website     | Führerscheinprüfung, Dokumente    |
+## Rollen-System (10 Rollen + MOPILOT_TEAM)
 
-### CC-Operator Accounts
-| Rolle    | Email                           |
-|----------|---------------------------------|
-| Endkunde | endkunde-cc@mopilot.website     |
-| Betreiber| betreiber-cc@mopilot.website    |
+| Kategorie | Rolle | E-Mail | Operator |
+|-----------|-------|--------|----------|
+| Kundennah | Endkunde | endkunde@mopilot.website | zeo |
+| Kundennah | Stationspate | stationspate@mopilot.website | zeo |
+| Kundennah | Hotline | hotline@mopilot.website | zeo |
+| Betrieb | Betreiber | betreiber@mopilot.website | zeo |
+| Betrieb | Flottenmanagement | flotte@mopilot.website | zeo |
+| Betrieb | Fahrzeugbetreuer | fahrzeug@mopilot.website | zeo |
+| Betrieb | Plattform-Support | support@mopilot.website | zeo |
+| Strategie | Projektträger | traeger@mopilot.website | zeo |
+| Strategie | Fahrzeugsteller | steller@mopilot.website | zeo |
+| Strategie | Validierungsstelle | validierung@mopilot.website | zeo |
+| CC | Endkunde | endkunde-cc@mopilot.website | cc |
+| CC | Betreiber | betreiber-cc@mopilot.website | cc |
 
-## Demo-Zugang
+**Passwort für alle Demo-Accounts:** `mopilot2026`
 
-- **Passwort für alle Accounts:** `mopilot2026`
-- Login erfolgt über Rollenauswahl auf der Startseite oder via API
-- JWT-Token wird bei Login zurückgegeben (8h gültig)
+## API-Key & Secrets-Management
 
-## Aktueller Status (2026-02-27)
+| Projekt | `.env`-Pfad | Pattern |
+|---------|-------------|---------|
+| ZEO-Kunden | `/opt/zeo-kunden/.env` | env_file: .env |
+| CC-Kunden | `/opt/cc-kunden/.env` | env_file: .env |
+| Hauptsystem | Coolify-managed | Coolify UI |
+| Ideenplattform | `/opt/mopilot/ideen/.env` | Kein Anthropic-Key |
 
-| Service              | Status | Details                                              |
-|----------------------|--------|------------------------------------------------------|
-| Frontend             | ✅ OK  | Next.js App antwortet korrekt                        |
-| Backend/API          | ✅ OK  | FastAPI läuft, Swagger UI unter /docs erreichbar     |
-| Demo-Login           | ✅ OK  | Login mit endkunde@mopilot.website funktioniert      |
-| Postgres             | ✅ OK  | Healthy, Seeding erfolgreich                         |
-| Redis                | ✅ OK  | Läuft                                                |
+**KRITISCH:** ANTHROPIC_API_KEY darf NIE in `environment:` stehen (überschreibt env_file).
 
-## Behobene Probleme (2026-02-27)
+## Dashboard-Features (NEU v0.8)
 
-1. **`asyncpg` fehlte** in requirements.txt – hinzugefügt (`asyncpg==0.29.0`)
-2. **`bcrypt`-Inkompatibilität** mit passlib – gefixt durch `bcrypt==4.0.1`
-3. **DNS-Konflikt**: Doppelter Postgres-Service verursachte falsches DNS-Routing – Duplikat-Service gestoppt
-4. **DATABASE_URL**: Muss vollen Container-Namen nutzen (`postgres-ns8wok04s4sgkcggwg48okcg` statt `postgres`) wegen Coolify-Netzwerk
-5. **Tariff VARCHAR(20)** zu kurz – auf VARCHAR(50) erweitert in models.py
-6. **Port nicht exposed**: `expose: ["8000"]` in Compose-Datei hinzugefügt
+- **Vianova Fahrzeugverwaltung Beispiel:** Screenshot + Link zu ccfuhrpark.vianova.website
+- Bild: `/opt/mopilot/frontend/public/images/260405_BeispielCCfuhrpark_dashboard.jpg`
 
-## Wichtige Hinweise für zukünftige Sessions
+## Backup & Monitoring
 
-- **Coolify überschreibt ENV-Variablen** aus seiner DB – Änderungen an docker-compose.yml auf dem Server werden ignoriert, Edit muss in Coolify UI erfolgen
-- **Zweiter Service** (`service-tkokw440w4040ogw0o0w4cg4`) ist ein Duplikat und sollte gestoppt bleiben
-- **Dritter Postgres** (`postgresql-bog0swkc88g084c8ocwkg0go`) gehört zu n8n – nicht löschen
-- Bei Problemen mit Postgres-Verbindung: Immer prüfen ob DNS `postgres` auf den richtigen Container zeigt
-- SSH-Passwort wird benötigt (kein Key-Auth vom lokalen Rechner)
+- **DB-Backup:** täglich 03:00, 14-Tage-Retention, 4 Datenbanken
+- **Secrets-Backup:** wöchentlich Sonntag 03:30, 6 .env-Dateien
+- **Hetzner-Snapshots:** 7 rotierende automatische Backups
+- **Health-Check:** `bash /opt/mopilot/scripts/health-check-all.sh`
+- **Uptime Kuma:** 11 Monitore (SSH-Tunnel Port 3001)
 
-## Umgebungsvariablen (Backend)
+## Versionshistorie
 
-| Variable            | Wert/Beschreibung                                                     |
-|---------------------|-----------------------------------------------------------------------|
-| DATABASE_URL        | `postgresql+asyncpg://mopilot:mopilot_secret_2026@postgres-ns8wok04...:5432/mopilot` |
-| REDIS_URL           | `redis://redis:6379/0`                                                |
-| ANTHROPIC_API_KEY   | Über Coolify ENV gesetzt (nicht im Code)                              |
-| SECRET_KEY          | JWT-Secret (Coolify ENV)                                              |
-| CORS_ORIGINS        | `https://mopilot.website,https://api.mopilot.website`                |
-| ENVIRONMENT         | `production`                                                          |
-| CLAUDE_MODEL        | `claude-sonnet-4-20250514`                                            |
+| Version | Datum | Schwerpunkt |
+|---------|-------|-------------|
+| v0.7 | — | Hauptsystem, Ideenplattform, Auth, User-Sync |
+| v0.71 | — | User-Sync Bugfix, Admin-Seite, Login/Logout, DKIM |
+| v0.72 | — | CC Kundenassistent, API-Key Management |
+| v0.73 | — | UI/UX-Redesign, Shared Design System |
+| v0.74 | 01.04.2026 | CC-Kunden Monorepo, MOPILOT_TEAM Bugfix, Backup-System |
+| **v0.8** | **05.04.2026** | **User-Sync Fix, Login Self-Service, Dashboard Vianova** |
+| **v0.8.1** | **05.04.2026** | **ZEO Login DB-Auth, Passwort-Link Fix, Sentinel Sync** |
 
+## Wichtige Hinweise
 
+- **Coolify überschreibt ENV-Variablen** – Änderungen in Coolify UI, nicht in docker-compose.yml
+- **sync-shared-ui.sh vor jedem Build** ausführen
+- **docker compose restart lädt .env NICHT** – immer `down && up -d`
+- **HOSTNAME=0.0.0.0** in Next.js Docker-Container erforderlich
+- **127.0.0.1 statt localhost** in Docker-Healthchecks (IPv6-Trap)
+- **ZEO Login-Route** war bis v0.8.1 nur Demo-Login – seit v0.8.1 DB-Auth Proxy
+- **Ideenplattform Passwort-Seiten:** `/passwort-vergessen` (Anforderung) ≠ `/passwort-zuruecksetzen` (Token-Reset)
+- **Git-Tags:** v0.74, v0.8 auf origin/master (GitHub: JamesMz05/mopilot)
