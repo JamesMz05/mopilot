@@ -216,7 +216,7 @@ export default function LoginPage() {
           {/* Passwort vergessen Link */}
           <div className="mt-4 text-center">
             <a
-              href="https://ideen.mopilot.website/passwort-zuruecksetzen"
+              href="https://ideen.mopilot.website/passwort-vergessen"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-primary-600 hover:text-primary-800 hover:underline transition-colors font-body"

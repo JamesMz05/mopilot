@@ -5,7 +5,7 @@ import { Zap, LogIn } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -19,7 +19,7 @@ export default function LoginPage() {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       })
       const data = await res.json()
 
@@ -47,7 +47,7 @@ export default function LoginPage() {
           <h1 className="text-2xl font-bold text-zeo-800">ZEO Kundenassistent</h1>
           <p className="text-sm text-zeo-600 font-medium mt-0.5">powered by MoPilot</p>
           <p className="text-xs text-gray-500 mt-3 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5 text-center">
-            Demo-Version – Bitte anmelden
+            Bitte mit Ihren Zugangsdaten anmelden
           </p>
         </div>
 
@@ -55,18 +55,18 @@ export default function LoginPage() {
         <div className="bg-white rounded-2xl shadow-md border border-zeo-100 p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-                Benutzername
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                E-Mail-Adresse
               </label>
               <input
-                id="username"
-                type="text"
-                autoComplete="username"
+                id="email"
+                type="email"
+                autoComplete="email"
                 required
-                value={username}
-                onChange={e => setUsername(e.target.value)}
+                value={email}
+                onChange={e => setEmail(e.target.value)}
                 className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zeo-500 focus:border-transparent transition"
-                placeholder="Benutzername eingeben"
+                placeholder="E-Mail-Adresse eingeben"
               />
             </div>
 
@@ -105,7 +105,7 @@ export default function LoginPage() {
           {/* Passwort vergessen Link */}
           <div className="mt-4 text-center">
             <a
-              href="https://ideen.mopilot.website/passwort-zuruecksetzen"
+              href="https://ideen.mopilot.website/passwort-vergessen"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-zeo-600 hover:text-zeo-800 hover:underline transition-colors"
