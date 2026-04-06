@@ -3,10 +3,23 @@ import { NextRequest, NextResponse } from 'next/server'
 const AUTH_COOKIE = 'demo_auth'
 const AUTH_TOKEN = 'mopilot_demo_authenticated'
 
+const PUBLIC_PATHS = [
+  '/',
+  '/login',
+  '/api/auth',
+  '/impressum',
+  '/datenschutz',
+  '/doku',
+]
+
+function isPublicPath(pathname: string): boolean {
+  return PUBLIC_PATHS.some(p => pathname === p || pathname.startsWith(p + '/'))
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  if (pathname.startsWith('/login') || pathname.startsWith('/api/auth') || pathname.startsWith('/impressum') || pathname.startsWith('/datenschutz')) {
+  if (isPublicPath(pathname)) {
     return NextResponse.next()
   }
 
@@ -21,5 +34,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|icon.svg|robots.txt).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|icon.svg|robots.txt|images/).*)'],
 }
