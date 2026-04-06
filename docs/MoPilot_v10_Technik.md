@@ -1,7 +1,7 @@
-# MoPilot v0.9 – Technische Projektdokumentation
+# MoPilot v1.0 – Technische Projektdokumentation
 
 **KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum**
-Version 0.9 | 6. April 2026 | Server: Hetzner CX33 (142.132.232.211)
+Version 1.0 | 6. April 2026 | Server: Hetzner CX33 (142.132.232.211)
 
 ---
 
@@ -402,4 +402,4 @@ Abschließend testen: Registrierung mit neuer Rolle auf ideen.mopilot.website, L
 
 ---
 
-*Erstellt mit Claude (Anthropic) | MoPilot v0.9 – 6. April 2026*
+*Erstellt mit Claude (Anthropic) | MoPilot v1.0 – 6. April 2026*
