@@ -1,0 +1,240 @@
+# MoPilot – Zentrale Docker Compose Konfiguration
+# Alle 4 Plattformen + Postgres + Redis in einem File.
+# Secrets kommen aus .env (env_file ist implizit für Variablen-Substitution).
+
+services:
+  # =================================================================
+  # INFRASTRUKTUR
+  # =================================================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: mopilot-postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-mopilot}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mopilot}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - internal
+
+  redis:
+    image: redis:7-alpine
+    container_name: mopilot-redis
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - internal
+
+  # =================================================================
+  # HAUPTSYSTEM (mopilot.website)
+  # =================================================================
+  main-backend:
+    build: ./backend
+    container_name: mopilot-main-backend
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    environment:
+      DATABASE_URL: "postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@mopilot-postgres:5432/${POSTGRES_DB:-mopilot}"
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      CLAUDE_MODEL: ${CLAUDE_MODEL}
+      SECRET_KEY: ${MAIN_SECRET_KEY}
+      REDIS_URL: "redis://mopilot-redis:6379"
+      CORS_ORIGINS: "https://${DOMAIN},https://ideen.${DOMAIN}"
+      ENVIRONMENT: production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.main-api.rule=Host(`api.${DOMAIN}`)"
+      - "traefik.http.routers.main-api.entrypoints=https"
+      - "traefik.http.routers.main-api.tls=true"
+      - "traefik.http.routers.main-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.main-api.loadbalancer.server.port=8000"
+    restart: unless-stopped
+    networks:
+      - internal
+      - coolify
+
+  main-frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: "https://api.${DOMAIN}"
+    container_name: mopilot-main-frontend
+    depends_on:
+      - main-backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.main-web.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.main-web.entrypoints=https"
+      - "traefik.http.routers.main-web.tls=true"
+      - "traefik.http.routers.main-web.tls.certresolver=letsencrypt"
+      - "traefik.http.services.main-web.loadbalancer.server.port=3000"
+    restart: unless-stopped
+    networks:
+      - coolify
+
+  # =================================================================
+  # IDEENPLATTFORM (ideen.mopilot.website)
+  # =================================================================
+  ideen-backend:
+    build: ./ideen/backend
+    container_name: mopilot-ideen-backend
+    depends_on:
+      postgres: { condition: service_healthy }
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@mopilot-postgres:5432/mopilot_ideen"
+      JWT_SECRET: ${IDEEN_JWT_SECRET}
+      CORS_ORIGINS: ${IDEEN_CORS_ORIGINS}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_FROM: ${SMTP_FROM}
+      FRONTEND_URL: "https://ideen.${DOMAIN}"
+      BACKEND_URL: "https://api.ideen.${DOMAIN}"
+      ENVIRONMENT: production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ideen-api.rule=Host(`ideen.${DOMAIN}`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.ideen-api.entrypoints=https"
+      - "traefik.http.routers.ideen-api.tls=true"
+      - "traefik.http.routers.ideen-api.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.ideen-api.priority=20"
+      - "traefik.http.services.ideen-api.loadbalancer.server.port=8000"
+    restart: unless-stopped
+    networks:
+      - internal
+      - coolify
+
+  ideen-frontend:
+    build:
+      context: .
+      dockerfile: ideen/frontend/Dockerfile
+    container_name: mopilot-ideen-frontend
+    depends_on:
+      - ideen-backend
+    environment:
+      NEXT_PUBLIC_API_URL: "https://ideen.${DOMAIN}/api"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ideen-web.rule=Host(`ideen.${DOMAIN}`)"
+      - "traefik.http.routers.ideen-web.entrypoints=https"
+      - "traefik.http.routers.ideen-web.tls=true"
+      - "traefik.http.routers.ideen-web.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.ideen-web.priority=10"
+      - "traefik.http.services.ideen-web.loadbalancer.server.port=3000"
+    restart: unless-stopped
+    networks:
+      - coolify
+
+  # =================================================================
+  # ZEO KUNDENASSISTENT (zeo-kunden.mopilot.website)
+  # =================================================================
+  zeo-backend:
+    build: ./MoPilot_ZEO_Kunden/backend
+    container_name: mopilot-zeo-backend
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      CLAUDE_MODEL: ${CLAUDE_MODEL}
+      CORS_ORIGINS: ${ZEO_CORS_ORIGINS}
+      ENVIRONMENT: production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.zeo-api.rule=Host(`api.zeo-kunden.${DOMAIN}`)"
+      - "traefik.http.routers.zeo-api.entrypoints=https"
+      - "traefik.http.routers.zeo-api.tls=true"
+      - "traefik.http.routers.zeo-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.zeo-api.loadbalancer.server.port=8000"
+    restart: unless-stopped
+    networks:
+      - coolify
+
+  zeo-frontend:
+    build:
+      context: .
+      dockerfile: MoPilot_ZEO_Kunden/frontend/Dockerfile
+      args:
+        NEXT_PUBLIC_BACKEND_URL: "https://api.zeo-kunden.${DOMAIN}"
+    container_name: mopilot-zeo-frontend
+    depends_on:
+      - zeo-backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.zeo-web.rule=Host(`zeo-kunden.${DOMAIN}`)"
+      - "traefik.http.routers.zeo-web.entrypoints=https"
+      - "traefik.http.routers.zeo-web.tls=true"
+      - "traefik.http.routers.zeo-web.tls.certresolver=letsencrypt"
+      - "traefik.http.services.zeo-web.loadbalancer.server.port=3000"
+    restart: unless-stopped
+    networks:
+      - coolify
+
+  # =================================================================
+  # CC KUNDENASSISTENT (cc-kunden.mopilot.website)
+  # =================================================================
+  cc-backend:
+    build: ./MoPilot_CC_Kunden/backend
+    container_name: mopilot-cc-backend
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      CLAUDE_MODEL: ${CLAUDE_MODEL}
+      CORS_ORIGINS: ${CC_CORS_ORIGINS}
+      ENVIRONMENT: production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cc-api.rule=Host(`api.cc-kunden.${DOMAIN}`)"
+      - "traefik.http.routers.cc-api.entrypoints=https"
+      - "traefik.http.routers.cc-api.tls=true"
+      - "traefik.http.routers.cc-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.cc-api.loadbalancer.server.port=8000"
+    restart: unless-stopped
+    networks:
+      - coolify
+
+  cc-frontend:
+    build:
+      context: .
+      dockerfile: MoPilot_CC_Kunden/frontend/Dockerfile
+      args:
+        NEXT_PUBLIC_BACKEND_URL: "https://api.cc-kunden.${DOMAIN}"
+        NEXT_PUBLIC_AUTH_API_URL: "https://api.${DOMAIN}"
+    container_name: mopilot-cc-frontend
+    depends_on:
+      - cc-backend
+      - main-backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cc-web.rule=Host(`cc-kunden.${DOMAIN}`)"
+      - "traefik.http.routers.cc-web.entrypoints=https"
+      - "traefik.http.routers.cc-web.tls=true"
+      - "traefik.http.routers.cc-web.tls.certresolver=letsencrypt"
+      - "traefik.http.services.cc-web.loadbalancer.server.port=3000"
+    restart: unless-stopped
+    networks:
+      - coolify
+
+networks:
+  internal:
+    name: mopilot-internal
+  coolify:
+    external: true
+
+volumes:
+  postgres_data:
+    external: true
+    name: ns8wok04s4sgkcggwg48okcg_postgres-data
