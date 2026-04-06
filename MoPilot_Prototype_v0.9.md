@@ -1,6 +1,6 @@
 # MoPilot
 **KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum**
-**Prototyp v0.8**   Datum: 5. April 2026
+**Prototyp v0.9**   Datum: 6. April 2026
 
 MoPilot Projektlaufzeit
 01.01.2026 – 31.07.2027
@@ -113,12 +113,22 @@ Carsharing Projekte: ZEO Carsharing (Region Bruchsal) | Car&RideSharing Communit
     - 15.4 Bugfix: MOPILOT_TEAM Enum wiederhergestellt
     - 15.5 Auswirkungen auf Deployment
     - 15.6 Geänderte Dateien
+16. User-Sync Fix, Login Self-Service & Dashboard Vianova – NEU in v0.8
+17. Hotfix v0.8.1 – Login-Route Fix & Passwort-Link Korrektur
+18. Rollenspezifische Dashboards & Landing Page – NEU in v0.9
+    - 18.1 Übersicht der Änderungen
+    - 18.2 Landing Page: Öffentliche Startseite mit Rollenkarten
+    - 18.3 Login: Nur DB-Auth, kein Demo-Login
+    - 18.4 Dashboard-Layout mit KI-Chat und Sidebar
+    - 18.5 10 rollenspezifische Dashboard-Seiten
+    - 18.6 Middleware: Landing Page öffentlich
+    - 18.7 Geänderte Dateien
 
 ---
 
 ## 1. Zusammenfassung
 
-MoPilot ist ein KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum. Der Prototyp v0.74 erweitert v0.73 um die **Integration von CC-Kunden ins Monorepo** (bisher nur auf dem Server, jetzt versioniert unter `cc-kunden/` im Git-Repository), die **Wiederherstellung der MOPILOT_TEAM-Rolle** im Backend-Datenmodell sowie die Aktualisierung der CI/CD-Dokumentation.
+MoPilot ist ein KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum. Der Prototyp v0.9 erweitert v0.8.1 um **rollenspezifische Dashboard-Seiten** mit individuellen Schnellaktionen für alle 10 Rollen, ein **gemeinsames Dashboard-Layout** mit integriertem KI-Chat und Sidebar, eine **öffentliche Landing Page** mit klickbaren Rollenkarten, sowie die **Umstellung auf reine DB-Authentifizierung** (kein Demo-Login mehr).
 
 ### Projektkontext
 
@@ -166,7 +176,18 @@ Der Prototyp implementiert 10 verschiedene Nutzerrollen in 3 Kategorien. Jede Ro
 | | Fahrzeugsteller | fahrzeugsteller | steller@mopilot.website | Fahrzeugintegration, Verträge |
 | | Validierungsstelle | validierungsstelle | validierung@mopilot.website | Führerscheinprüfung, Dokumente |
 
-### Funktionsumfang v0.74
+### Funktionsumfang v0.9
+
+**Neu in v0.9 (Rollenspezifische Dashboards & Landing Page)**
+- Öffentliche Landing Page mit Rollenkarten (klickbar → Dashboard) und Logout-Button
+- Login nur noch per E-Mail/Passwort (DB-Auth), Demo-Login entfernt
+- Login leitet nach Erfolg zur Landing Page weiter (statt direkt zum Dashboard)
+- Gemeinsames Dashboard-Layout (`layout.tsx`) mit Header, KI-Chat-Bereich und Sidebar
+- 10 rollenspezifische Dashboard-Unterseiten (`/dashboard/endkunde`, `/dashboard/betreiber`, etc.)
+- Jede Rolle hat individuelle Schnellaktionen im Sidebar
+- `/dashboard` leitet automatisch zur rollenspezifischen URL weiter
+- Willkommenstext zeigt Seitenname der aktuellen Rolle
+- Middleware erlaubt Landing Page (`/`) als öffentlichen Pfad
 
 **Neu in v0.74 (Monorepo-Integration & Bugfix)**
 - CC-Kunden ins Git-Monorepo aufgenommen: Quellcode unter `cc-kunden/` versioniert (war bisher nur auf dem Server unter `/opt/cc-kunden/`)
@@ -2224,4 +2245,106 @@ Diese Korrektur wurde in folgenden Dateien vorgenommen:
 
 ---
 
-*Erstellt mit Claude (Anthropic) | v0.8.1 – 5. April 2026*
+---
+
+## Kapitel 18: Rollenspezifische Dashboards & Landing Page – NEU in v0.9
+
+### 18.1 Übersicht der Änderungen
+
+| # | Änderung | Typ | Schwere |
+|---|----------|-----|---------|
+| 1 | Demo-Login entfernt – nur noch DB-Authentifizierung per E-Mail/Passwort | Breaking Change | Kritisch |
+| 2 | Landing Page (`/`) als öffentliche Startseite mit Rollenkarten | Feature | Hoch |
+| 3 | Gemeinsames Dashboard-Layout mit Header, KI-Chat und Sidebar | Feature | Hoch |
+| 4 | 10 rollenspezifische Dashboard-Seiten mit individuellen Schnellaktionen | Feature | Hoch |
+| 5 | `/dashboard` leitet automatisch zur rollenspezifischen URL weiter | Feature | Mittel |
+| 6 | Login leitet nach Erfolg zur Landing Page (`/`) statt direkt zum Dashboard | Feature | Mittel |
+| 7 | Willkommenstext zeigt Seitenname der aktuellen Rolle | Feature | Niedrig |
+| 8 | Middleware: Landing Page als öffentlicher Pfad konfiguriert | Feature | Mittel |
+
+### 18.2 Landing Page: Öffentliche Startseite mit Rollenkarten
+
+Die bisherige Startseite (`/`) wurde zur öffentlichen Landing Page umgebaut. Sie zeigt:
+
+- **MoPilot-Branding** mit Beschreibung des Projekts
+- **10 Rollenkarten** in 3 Zonen (Kundennah/Betrieb/Strategie) mit farbcodierten Stilen
+- **Klickbare Karten:** Jede Rolle verlinkt auf `/dashboard/{slug}` (z.B. `/dashboard/endkunde`)
+- **Eingeloggter User:** Anzeige von Name und Rolle im Header mit Logout-Button
+- **Zonenstile:** Kundennah=Emerald, Betrieb=Blue, Strategie=Amber
+
+**Datei:** `frontend/app/page.tsx`
+
+### 18.3 Login: Nur DB-Auth, kein Demo-Login
+
+- **Entfernt:** Demo-Credentials (mopilot/mopilot2027) aus der Login-Route
+- **Nur noch:** E-Mail + Passwort gegen Hauptsystem-Backend (via `AUTH_API_URL`)
+- **Redirect:** Nach erfolgreichem Login → `/` (Landing Page) statt `/dashboard`
+- **Demo-Zugang** bleibt über Seed-Accounts möglich (z.B. endkunde@mopilot.website / mopilot2026)
+
+**Datei:** `frontend/app/login/page.tsx`, `frontend/app/api/auth/login/route.ts`
+
+### 18.4 Dashboard-Layout mit KI-Chat und Sidebar
+
+Neues gemeinsames Layout (`layout.tsx`) für alle Dashboard-Seiten:
+
+- **Header:** MoPilot-Logo, Rollenname mit Icon, Seitenname, Logout-Button
+- **Hauptbereich:** KI-Chat mit Streaming (SSE), Markdown-Rendering, Auto-Scroll
+- **Sidebar (rechts):** Rollenspezifische Inhalte aus der jeweiligen Unterseite
+- **DashboardContext:** React Context für `setInput()` – Schnellaktionen füllen das Chat-Eingabefeld
+- **Responsive:** Sidebar als ausklappbares Panel auf mobilen Geräten
+
+**Datei:** `frontend/app/dashboard/layout.tsx`
+
+### 18.5 10 rollenspezifische Dashboard-Seiten
+
+Jede Rolle erhält eine eigene Seite unter `/dashboard/{slug}`:
+
+| Rolle | URL-Slug | Schnellaktionen |
+|-------|----------|-----------------|
+| Endkunde | `/dashboard/endkunde` | Buchung, Kosten, Standorte, E-Auto laden + Links zu ZEO/CC Kundenportalen |
+| Stationspate | `/dashboard/stationspate` | Stationsmeldungen, Ladezustand, Kontakt |
+| Hotline | `/dashboard/hotline` | Gesprächsleitfaden, häufige Probleme, Eskalation |
+| Betreiber | `/dashboard/betreiber` | Nutzungszahlen, Tarifvergleich, Standortplanung |
+| Flottenmanagement | `/dashboard/flottenmanagement` | Fahrzeugstatus, Wartungsplan, Zuweisung + Vianova-Dashboard-Link |
+| Fahrzeugbetreuer | `/dashboard/fahrzeugbetreuer` | Zustandsprüfung, Ladeprotokoll, Schadenmeldung |
+| Plattform-Support | `/dashboard/plattform-support` | Systemstatus, offene Tickets, Nutzerfeedback |
+| Projektträger | `/dashboard/projekttraeger` | KPIs, Fördernachweis, Strategiepapier |
+| Fahrzeugsteller | `/dashboard/fahrzeugsteller` | Fahrzeugstatus, Vertragslaufzeiten, Integration |
+| Validierungsstelle | `/dashboard/validierungsstelle` | Offene Prüfungen, Führerscheinprüfung, Dokumentenstatus |
+
+**Architektur:** Jede Seite importiert `useDashboard()` aus dem Layout-Context und nutzt `setInput()` für Schnellaktionen.
+
+### 18.6 Middleware: Landing Page öffentlich
+
+Die Middleware wurde erweitert, um die Landing Page (`/`) und Dashboard-Unterrouten korrekt zu handhaben:
+
+- **Öffentliche Pfade:** `/`, `/login`, `/api/auth`, `/impressum`, `/datenschutz`, `/doku`
+- **Geschützte Pfade:** `/dashboard/*` – erfordern `demo_auth` Cookie
+- **Dashboard-Redirect:** `/dashboard` → `/dashboard/{user-role-slug}` (clientseitig via Layout)
+
+**Datei:** `frontend/middleware.ts`
+
+### 18.7 Geänderte Dateien
+
+| Datei | Änderung |
+|-------|----------|
+| `frontend/app/page.tsx` | Komplett umgebaut: Landing Page mit Rollenkarten |
+| `frontend/app/login/page.tsx` | Nur E-Mail-Login, Redirect zu `/` |
+| `frontend/app/api/auth/login/route.ts` | Demo-Credentials entfernt, nur DB-Auth |
+| `frontend/app/dashboard/layout.tsx` | NEU – Gemeinsames Layout mit Header, Chat, Sidebar |
+| `frontend/app/dashboard/page.tsx` | Redirect zur rollenspezifischen URL |
+| `frontend/app/dashboard/endkunde/page.tsx` | NEU – Schnellaktionen + Kundenportal-Links |
+| `frontend/app/dashboard/stationspate/page.tsx` | NEU – Schnellaktionen Stationspate |
+| `frontend/app/dashboard/hotline/page.tsx` | NEU – Schnellaktionen Hotline |
+| `frontend/app/dashboard/betreiber/page.tsx` | NEU – Schnellaktionen Betreiber |
+| `frontend/app/dashboard/flottenmanagement/page.tsx` | NEU – Schnellaktionen + Vianova-Link |
+| `frontend/app/dashboard/fahrzeugbetreuer/page.tsx` | NEU – Schnellaktionen Fahrzeugbetreuer |
+| `frontend/app/dashboard/plattform-support/page.tsx` | NEU – Schnellaktionen Support |
+| `frontend/app/dashboard/projekttraeger/page.tsx` | NEU – Schnellaktionen Projektträger |
+| `frontend/app/dashboard/fahrzeugsteller/page.tsx` | NEU – Schnellaktionen Fahrzeugsteller |
+| `frontend/app/dashboard/validierungsstelle/page.tsx` | NEU – Schnellaktionen Validierungsstelle |
+| `frontend/middleware.ts` | Landing Page als öffentlicher Pfad, Dashboard geschützt |
+
+---
+
+*Erstellt mit Claude (Anthropic) | v0.9 – 6. April 2026*

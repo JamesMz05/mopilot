@@ -1,11 +1,11 @@
 # MoPilot – Projektkontext für Claude
 
-> Zuletzt aktualisiert: 2026-04-05 (v0.8.1)
+> Zuletzt aktualisiert: 2026-04-06 (v0.9)
 
 ## Projektbeschreibung
 
 **MoPilot** ist ein KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum.
-Prototyp v0.8 – 5 Plattformen auf einem Server mit rollenbasiertem Demo-Cockpit, KI-Chat und Self-Service-Funktionen.
+Prototyp v0.9 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboards, integriertem KI-Chat und DB-Authentifizierung.
 
 - **Betreiber:** ZEO Carsharing (Region Bruchsal, BW) + Car&RideSharing Community eG (Overath, NRW)
 - **Zweck:** Intelligenter Assistent, der Tonalität, Wissen und Funktionen an die jeweilige Nutzerrolle anpasst
@@ -117,10 +117,13 @@ Prototyp v0.8 – 5 Plattformen auf einem Server mit rollenbasiertem Demo-Cockpi
 
 **KRITISCH:** ANTHROPIC_API_KEY darf NIE in `environment:` stehen (überschreibt env_file).
 
-## Dashboard-Features (NEU v0.8)
+## Dashboard-Features (NEU v0.9)
 
-- **Vianova Fahrzeugverwaltung Beispiel:** Screenshot + Link zu ccfuhrpark.vianova.website
-- Bild: `/opt/mopilot/frontend/public/images/260405_BeispielCCfuhrpark_dashboard.jpg`
+- **Rollenspezifische Dashboards:** 10 individuelle Seiten unter `/dashboard/{rolle}` mit Schnellaktionen
+- **Gemeinsames Dashboard-Layout:** Header, KI-Chat (SSE-Streaming), Sidebar mit rollenspezifischen Inhalten
+- **Landing Page (`/`):** Öffentlich, zeigt 10 Rollenkarten in 3 Zonen (Kundennah/Betrieb/Strategie)
+- **Kein Demo-Login mehr:** Nur DB-Authentifizierung per E-Mail/Passwort
+- **Vianova Fahrzeugverwaltung:** Link im Flottenmanagement-Dashboard zu ccfuhrpark.vianova.website
 
 ## Backup & Monitoring
 
@@ -139,8 +142,9 @@ Prototyp v0.8 – 5 Plattformen auf einem Server mit rollenbasiertem Demo-Cockpi
 | v0.72 | — | CC Kundenassistent, API-Key Management |
 | v0.73 | — | UI/UX-Redesign, Shared Design System |
 | v0.74 | 01.04.2026 | CC-Kunden Monorepo, MOPILOT_TEAM Bugfix, Backup-System |
-| **v0.8** | **05.04.2026** | **User-Sync Fix, Login Self-Service, Dashboard Vianova** |
-| **v0.8.1** | **05.04.2026** | **ZEO Login DB-Auth, Passwort-Link Fix, Sentinel Sync** |
+| v0.8 | 05.04.2026 | User-Sync Fix, Login Self-Service, Dashboard Vianova |
+| v0.8.1 | 05.04.2026 | ZEO Login DB-Auth, Passwort-Link Fix, Sentinel Sync |
+| **v0.9** | **06.04.2026** | **Rollenspezifische Dashboards, Landing Page, DB-Auth only** |
 
 ## Wichtige Hinweise
 
@@ -149,6 +153,7 @@ Prototyp v0.8 – 5 Plattformen auf einem Server mit rollenbasiertem Demo-Cockpi
 - **docker compose restart lädt .env NICHT** – immer `down && up -d`
 - **HOSTNAME=0.0.0.0** in Next.js Docker-Container erforderlich
 - **127.0.0.1 statt localhost** in Docker-Healthchecks (IPv6-Trap)
+- **Hauptsystem Login** seit v0.9 nur noch DB-Auth (Demo-Login entfernt), Login → Landing Page → Dashboard
 - **ZEO Login-Route** war bis v0.8.1 nur Demo-Login – seit v0.8.1 DB-Auth Proxy
 - **Ideenplattform Passwort-Seiten:** `/passwort-vergessen` (Anforderung) ≠ `/passwort-zuruecksetzen` (Token-Reset)
 - **Git-Tags:** v0.74, v0.8 auf origin/master (GitHub: JamesMz05/mopilot)
