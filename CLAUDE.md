@@ -1,11 +1,11 @@
 # MoPilot – Projektkontext für Claude
 
-> Zuletzt aktualisiert: 2026-04-06 (v0.9)
+> Zuletzt aktualisiert: 2026-04-06 (v1.0)
 
 ## Projektbeschreibung
 
 **MoPilot** ist ein KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum.
-Prototyp v0.9 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboards, integriertem KI-Chat und DB-Authentifizierung.
+Prototyp v1.0 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboards, integriertem KI-Chat, DB-Authentifizierung und vereinheitlichter Infrastruktur.
 
 - **Betreiber:** ZEO Carsharing (Region Bruchsal, BW) + Car&RideSharing Community eG (Overath, NRW)
 - **Zweck:** Intelligenter Assistent, der Tonalität, Wissen und Funktionen an die jeweilige Nutzerrolle anpasst
@@ -137,7 +137,7 @@ postgres, redis, main-backend, main-frontend, ideen-backend, ideen-frontend, zeo
 | v0.8 | 05.04.2026 | User-Sync Fix, Login Self-Service, Dashboard Vianova |
 | v0.8.1 | 05.04.2026 | ZEO Login DB-Auth, Passwort-Link Fix, Sentinel Sync |
 | **v0.9** | **06.04.2026** | **Rollenspezifische Dashboards, Landing Page, DB-Auth only** |
-| v0.9.1 | 06.04.2026 | Infrastruktur-Vereinheitlichung: 1 Compose, 1 .env, kein rsync/sync-shared-ui |
+| **v1.0** | **06.04.2026** | **Infrastruktur-Vereinheitlichung: 1 Compose, 1 .env, kein rsync/sync-shared-ui** |
 
 ## Wichtige Hinweise
 

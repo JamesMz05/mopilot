@@ -1,6 +1,6 @@
 # MoPilot
 **KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum**
-**Prototyp v0.9**   Datum: 6. April 2026
+**Prototyp v1.0**   Datum: 6. April 2026
 
 MoPilot Projektlaufzeit
 01.01.2026 – 31.07.2027
@@ -128,7 +128,7 @@ Carsharing Projekte: ZEO Carsharing (Region Bruchsal) | Car&RideSharing Communit
 
 ## 1. Zusammenfassung
 
-MoPilot ist ein KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum. Der Prototyp v0.9 erweitert v0.8.1 um **rollenspezifische Dashboard-Seiten** mit individuellen Schnellaktionen für alle 10 Rollen, ein **gemeinsames Dashboard-Layout** mit integriertem KI-Chat und Sidebar, eine **öffentliche Landing Page** mit klickbaren Rollenkarten, sowie die **Umstellung auf reine DB-Authentifizierung** (kein Demo-Login mehr).
+MoPilot ist ein KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum. Der Prototyp v1.0 erweitert v0.9 um eine **vereinheitlichte Infrastruktur**: ein zentrales `docker-compose.yml` für alle 10 Services, eine zentrale `.env`-Datei, shared-ui via Docker Build-Stage (kein Sync-Script mehr), vereinfachte CI/CD-Pipeline ohne rsync, und Coolify auf Traefik-Proxy-Rolle reduziert. Alle v0.9-Features bleiben erhalten: rollenspezifische Dashboards, KI-Chat, Landing Page, DB-Authentifizierung.
 
 ### Projektkontext
 
@@ -2347,4 +2347,4 @@ Die Middleware wurde erweitert, um die Landing Page (`/`) und Dashboard-Unterrou
 
 ---
 
-*Erstellt mit Claude (Anthropic) | v0.9 – 6. April 2026*
+*Erstellt mit Claude (Anthropic) | v1.0 – 6. April 2026*
