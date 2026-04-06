@@ -77,10 +77,9 @@ postgres, redis, main-backend, main-frontend, ideen-backend, ideen-frontend, zeo
 - **Passwort-Reset (Ideenplattform):**
   - `/passwort-vergessen` → User gibt E-Mail ein → erhält Reset-Link per Mail
   - `/passwort-zuruecksetzen?token=...` → User setzt neues Passwort
-- **Login-Seiten (ZEO/CC):** Enthalten Links "Passwort vergessen?" und "Noch kein Konto?" (NEU v0.8)
+- **Login-Seiten (ZEO/CC):** Enthalten Links "Passwort vergessen?" und "Noch kein Konto?"
 - **JWT-Token:** Hauptsystem 8h, Ideenplattform 24h
 - **Cookie:** `demo_auth = mopilot_demo_authenticated` (httpOnly, secure, 8h)
-- **Demo:** mopilot/mopilot2027 (nur mopilot.website)
 
 ## Rollen-System (10 Rollen + MOPILOT_TEAM)
 
@@ -109,7 +108,7 @@ postgres, redis, main-backend, main-frontend, ideen-backend, ideen-frontend, zeo
 
 **KRITISCH:** ANTHROPIC_API_KEY darf NIE in `environment:` stehen (überschreibt env_file).
 
-## Dashboard-Features (NEU v0.9)
+## Dashboard-Features (seit v0.9)
 
 - **Rollenspezifische Dashboards:** 10 individuelle Seiten unter `/dashboard/{rolle}` mit Schnellaktionen
 - **Gemeinsames Dashboard-Layout:** Header, KI-Chat (SSE-Streaming), Sidebar mit rollenspezifischen Inhalten
@@ -149,4 +148,4 @@ postgres, redis, main-backend, main-frontend, ideen-backend, ideen-frontend, zeo
 - **Hauptsystem Login** seit v0.9 nur noch DB-Auth (Demo-Login entfernt), Login → Landing Page → Dashboard
 - **ZEO Login-Route** war bis v0.8.1 nur Demo-Login – seit v0.8.1 DB-Auth Proxy
 - **Ideenplattform Passwort-Seiten:** `/passwort-vergessen` (Anforderung) ≠ `/passwort-zuruecksetzen` (Token-Reset)
-- **Git-Tags:** v0.74, v0.8 auf origin/master (GitHub: JamesMz05/mopilot)
+- **Git-Tags:** v0.74, v0.8, v0.9, v1.0 auf origin/master (GitHub: JamesMz05/mopilot)

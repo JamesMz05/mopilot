@@ -84,9 +84,15 @@ HETZNER CX33 | 142.132.232.211 | Ubuntu + Docker CE
   mopilot.   ideen.     zeo-kunden  cc-kunden  ccfuhrpark.
   website    mopilot.   .mopilot.   .mopilot.  vianova.
              website    website     website    website
-  (Coolify)  (manuell)  (CI/CD)    (manuell)  (sep. Repo)
        │          │          │          │          │
-┌──────┴──────────┴──────────┴──────────┴──────────┴───────────┐
+       └──────────┴──────────┴──────────┴──────────┘
+                          │
+          Alle 10 Services in EINER docker-compose.yml
+          (postgres, redis, main-backend, main-frontend,
+           ideen-backend, ideen-frontend, zeo-backend,
+           zeo-frontend, cc-backend, cc-frontend)
+                          │
+┌─────────────────────────┴─────────────────────────────────────┐
 │                Docker Network: coolify                         │
 ├───────────────────────────────────────────────────────────────┤
 │  PostgreSQL 16 (4 DBs)  │  Redis 7 (256 MB)  │  Uptime Kuma │
@@ -97,11 +103,11 @@ HETZNER CX33 | 142.132.232.211 | Ubuntu + Docker CE
 
 | Plattform | Frontend | Backend | Deployment | Datenbank |
 |-----------|----------|---------|------------|-----------|
-| **Hauptsystem** | Next.js :3000 | FastAPI :8000 | Coolify API | mopilot |
-| **Ideenplattform** | Next.js :3000 | FastAPI :8000 | Manuell | mopilot_ideen |
-| **ZEO-Kunden** | Next.js :3000 | FastAPI :8000 | CI/CD (rsync) | mopilot |
-| **CC-Kunden** | Next.js :3000 | FastAPI :8000 | Manuell (rsync) | mopilot |
-| **CC Fuhrpark** | Next.js :3000 | FastAPI :8000 | Separates Repo | cc_fuhrpark |
+| **Hauptsystem** | Next.js :3000 | FastAPI :8000 | docker-compose.yml | mopilot |
+| **Ideenplattform** | Next.js :3000 | FastAPI :8000 | docker-compose.yml | mopilot_ideen |
+| **ZEO-Kunden** | Next.js :3000 | FastAPI :8000 | docker-compose.yml | mopilot |
+| **CC-Kunden** | Next.js :3000 | FastAPI :8000 | docker-compose.yml | mopilot |
+| **CC Fuhrpark** | Next.js :3000 | FastAPI :8000 | docker-compose.yml | cc_fuhrpark |
 
 ### 2.3 Tech-Stack
 
@@ -112,8 +118,8 @@ HETZNER CX33 | 142.132.232.211 | Ubuntu + Docker CE
 | **Backend (Ideen)** | FastAPI, Python 3.11, Sync SQLAlchemy 2.0, psycopg2, Alembic |
 | **KI-Engine** | Claude Sonnet 4 (claude-sonnet-4-6), Anthropic API, SSE-Streaming |
 | **Datenbank** | PostgreSQL 16 (4 Datenbanken), Redis 7 (Cache, 256 MB LRU) |
-| **Infrastruktur** | Docker CE, Docker Compose, Coolify 4.0, Traefik v3.1, Let's Encrypt |
-| **CI/CD** | GitHub Actions, SSH Deploy, rsync, Coolify API Webhook |
+| **Infrastruktur** | Docker CE, Docker Compose, Traefik v3.1 (Coolify-managed), Let's Encrypt |
+| **CI/CD** | GitHub Actions → SSH + docker compose build |
 | **E-Mail** | IONOS SMTP (smtp.ionos.de:587, STARTTLS), Verifizierung + Passwort-Reset |
 | **Monitoring** | Uptime Kuma (11 Checks), Health-Check Script, Hetzner Snapshots |
 
@@ -153,12 +159,16 @@ Trigger nach Registrierung + E-Mail-Verifizierung. Methode: psycopg2, INSERT ON 
 ├── globals.css           → Globale Styles, Animationen
 └── components/           → Button, Card, Header, Footer
 
-    sync-shared-ui.sh  (rsync → 4 Frontends)
-         │
-    ┌────┼──────────┬──────────────┬──────────────┐
-    │    │          │              │              │
-    frontend/   ideen/frontend/  ZEO/frontend/  cc-kunden/frontend/
-    shared-ui/  shared-ui/       shared-ui/     shared-ui/
+    Docker Build-Stage (kein manueller Sync nötig)
+    Jedes Frontend-Dockerfile nutzt context: . (Repo-Root)
+    und kopiert shared-ui/ direkt im Build:
+
+    COPY shared-ui/ ./shared-ui/
+
+    ┌──────────────┬──────────────┬──────────────┬──────────────┐
+    │              │              │              │              │
+    frontend/     ideen/frontend/ ZEO/frontend/  cc-kunden/frontend/
+    (Dockerfile)  (Dockerfile)   (Dockerfile)   (Dockerfile)
 ```
 
 Jedes Frontend referenziert: `presets: [require('./shared-ui/tailwind.preset.js')]`
@@ -170,21 +180,17 @@ Entwickler → git push master → GitHub Actions (deploy.yml)
                                      │
                                      ▼ SSH
                               Hetzner Server
-                              1. git fetch + merge
-                              2. sync-shared-ui.sh
-                              3. rsync ZEO → /opt/zeo-kunden/
-                              4. docker compose up -d --build
-                              5. Coolify API → Hauptsystem rebuild
-                              6. Health-Check (HTTP 200?)
+                              1. git pull origin master
+                              2. docker compose build
+                              3. docker compose up -d --remove-orphans
+                              4. Health-Check (HTTP 200?)
 ```
 
-| Plattform | Deployment-Methode |
-|-----------|-------------------|
-| **Hauptsystem** | git push → GitHub Actions → Coolify API → Auto-Rebuild |
-| **ZEO-Kunden** | git push → GitHub Actions → rsync → docker compose up --build |
-| **CC-Kunden** | rsync → /opt/cc-kunden/ → docker compose down && up --build |
-| **Ideenplattform** | cd /opt/mopilot/ideen → docker compose down && up -d --build |
-| **CC Fuhrpark** | Separates Git-Repo, eigener Coolify-Service |
+Alle Plattformen werden einheitlich über eine zentrale `docker-compose.yml` deployed:
+
+```bash
+git push origin master → GitHub Actions → SSH → git pull → docker compose build → docker compose up -d --remove-orphans → health-check
+```
 
 ### 2.7 KI-Chat Datenfluss
 
@@ -242,11 +248,13 @@ Browser (React)     Next.js Frontend     FastAPI Backend      Anthropic API
 │   │   └── models.py                 ← 8 Models
 │   └── frontend/src/app/             ← Register, Login, Ideen-CRUD
 │
-├── MoPilot_ZEO_Kunden/               ← ZEO-Kunden Git-Source
-├── cc-kunden/                         ← CC-Kunden Git-Source
+├── MoPilot_ZEO_Kunden/               ← ZEO-Kunden Source
+├── cc-kunden/                         ← CC-Kunden Source
+├── docker-compose.yml                ← Alle 10 Services zentral
+├── .env                              ← Alle Secrets an einem Ort
+├── .env.example                      ← Template für .env
 ├── .github/workflows/deploy.yml      ← CI/CD Pipeline
-├── scripts/health-check-all.sh       ← Monitoring Script
-└── sync-shared-ui.sh                 ← Design System Sync
+└── scripts/health-check-all.sh       ← Monitoring Script
 ```
 
 ---
@@ -278,8 +286,8 @@ cd /opt/mopilot
 # 3. Aktuellen Stand holen
 git pull origin master
 
-# 4. Shared UI synchronisieren (IMMER vor Änderungen!)
-bash sync-shared-ui.sh
+# 4. Docker-Images bauen (shared-ui wird automatisch kopiert)
+docker compose build
 
 # 5. Aktuellen Zustand prüfen
 bash scripts/health-check-all.sh
@@ -345,11 +353,7 @@ bash /opt/mopilot/scripts/health-check-all.sh
 
 | Plattform | Deployment-Methode |
 |-----------|-------------------|
-| **Hauptsystem** | `git push origin master` → GitHub Actions → Coolify API → Auto-Rebuild |
-| **ZEO-Kunden** | `git push` → GitHub Actions → rsync → `docker compose up --build` |
-| **CC-Kunden** | `rsync` → `/opt/cc-kunden/` → `docker compose down && up -d --build` |
-| **Ideenplattform** | `cd /opt/mopilot/ideen` → `docker compose down && up -d --build` |
-| **CC Fuhrpark** | Separates Git-Repo, eigener Coolify-Service |
+| **Alle Plattformen** | `git push origin master` → GitHub Actions → SSH → `git pull` → `docker compose build` → `docker compose up -d --remove-orphans` |
 
 ### 3.7 Schritt 6: Verifizierung nach Deployment
 
@@ -375,15 +379,13 @@ docker logs <container-name> --tail=20
 | # | Regel | Begründung |
 |---|-------|-----------|
 | 1 | `.env` NIE in docker-compose `environment:` setzen | ANTHROPIC_API_KEY wird überschrieben! Immer `env_file: .env` |
-| 2 | `docker compose restart` lädt `.env` NICHT | Immer: `docker compose down && docker compose up -d` |
-| 3 | `sync-shared-ui.sh` VOR jedem Frontend-Build | Sonst veraltetes Design System |
-| 4 | `HOSTNAME=0.0.0.0` in Next.js Container | Ohne: 502 Bad Gateway (bindet nur auf 127.0.0.1) |
-| 5 | `127.0.0.1` statt `localhost` in Healthchecks | IPv6-Trap: localhost → ::1, Container antwortet nicht |
-| 6 | Coolify überschreibt ENV-Variablen | Hauptsystem-ENV nur über Coolify UI ändern |
-| 7 | DB-Backup VOR Schema-Migrationen | `pg_dump -h localhost -U mopilot mopilot > backup.sql` |
-| 8 | Ideen = Sync SQLAlchemy, Haupt = Async | Nicht verwechseln! Unterschiedliches Session-Handling |
-| 9 | User-Sync nur in eine Richtung | Ideen DB → Haupt DB (nie umgekehrt) |
-| 10 | Zwei Container mit gleichem Port = Chaos | Immer prüfen: `docker ps \| grep <port>` |
+| 2 | Zentrale `.env` in `/opt/mopilot/.env` | Alle Secrets an einem Ort, `docker compose restart` lädt `.env` NICHT neu – immer `down && up -d` |
+| 3 | `HOSTNAME=0.0.0.0` in Next.js Container | Ohne: 502 Bad Gateway (bindet nur auf 127.0.0.1) |
+| 4 | `127.0.0.1` statt `localhost` in Healthchecks | IPv6-Trap: localhost → ::1, Container antwortet nicht |
+| 5 | DB-Backup VOR Schema-Migrationen | `pg_dump -h localhost -U mopilot mopilot > backup.sql` |
+| 6 | Ideen = Sync SQLAlchemy, Haupt = Async | Nicht verwechseln! Unterschiedliches Session-Handling |
+| 7 | User-Sync nur in eine Richtung | Ideen DB → Haupt DB (nie umgekehrt) |
+| 8 | Zwei Container mit gleichem Port = Chaos | Immer prüfen: `docker ps \| grep <port>` |
 
 ### 3.9 Beispiel: Neue Rolle hinzufügen
 

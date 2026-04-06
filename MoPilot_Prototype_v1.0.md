@@ -123,6 +123,14 @@ Carsharing Projekte: ZEO Carsharing (Region Bruchsal) | Car&RideSharing Communit
     - 18.5 10 rollenspezifische Dashboard-Seiten
     - 18.6 Middleware: Landing Page öffentlich
     - 18.7 Geänderte Dateien
+19. Infrastruktur-Vereinheitlichung – NEU in v1.0
+    - 19.1 Motivation
+    - 19.2 Lösung: Einheitliches Docker Compose Monorepo
+    - 19.3 Neue Architektur
+    - 19.4 CI/CD Pipeline (vereinfacht)
+    - 19.5 Migration
+    - 19.6 Entfernte Dateien
+    - 19.7 Geänderte Dateien
 
 ---
 
@@ -155,7 +163,7 @@ Alle Plattformen sind durch Login geschützt. Es gibt zwei Zugangsarten:
 | Methode | Beschreibung | Gilt für |
 |---------|-------------|----------|
 | **E-Mail/Passwort** | Echte Authentifizierung gegen mopilot-Backend | Alle 4 Plattformen |
-| **Demo-Login** | Benutzername `mopilot` / Passwort `mopilot2027` | Nur mopilot.website (Fallback) |
+| ~~Demo-Login~~ | ~~Benutzername `mopilot` / Passwort `mopilot2027`~~ | ~~Nur mopilot.website~~ – **Entfernt in v0.9** |
 
 Neue Benutzer registrieren sich auf **ideen.mopilot.website/register** und können sich nach Verifizierung mit denselben Zugangsdaten auf allen Plattformen anmelden (User-Sync, kein SSO — separater Login pro Plattform erforderlich).
 
@@ -176,7 +184,15 @@ Der Prototyp implementiert 10 verschiedene Nutzerrollen in 3 Kategorien. Jede Ro
 | | Fahrzeugsteller | fahrzeugsteller | steller@mopilot.website | Fahrzeugintegration, Verträge |
 | | Validierungsstelle | validierungsstelle | validierung@mopilot.website | Führerscheinprüfung, Dokumente |
 
-### Funktionsumfang v0.9
+### Funktionsumfang v0.9 / v1.0
+
+**Neu in v1.0 (Infrastruktur-Vereinheitlichung)**
+- Zentrales `docker-compose.yml` für alle 10 Services (statt 4 separate Compose-Dateien)
+- Zentrale `.env`-Datei mit klaren Prefixen (MAIN_, IDEEN_, ZEO_, CC_)
+- Shared-UI via Docker Build-Stage (kein `sync-shared-ui.sh` mehr)
+- Vereinfachte CI/CD-Pipeline: `git pull && docker compose build && docker compose up -d`
+- Coolify auf Traefik-Proxy-Rolle reduziert (kein Service-Management mehr)
+- Runtime-Verzeichnisse `/opt/zeo-kunden/` und `/opt/cc-kunden/` entfallen
 
 **Neu in v0.9 (Rollenspezifische Dashboards & Landing Page)**
 - Öffentliche Landing Page mit Rollenkarten (klickbar → Dashboard) und Logout-Button
@@ -2344,6 +2360,101 @@ Die Middleware wurde erweitert, um die Landing Page (`/`) und Dashboard-Unterrou
 | `frontend/app/dashboard/fahrzeugsteller/page.tsx` | NEU – Schnellaktionen Fahrzeugsteller |
 | `frontend/app/dashboard/validierungsstelle/page.tsx` | NEU – Schnellaktionen Validierungsstelle |
 | `frontend/middleware.ts` | Landing Page als öffentlicher Pfad, Dashboard geschützt |
+
+---
+
+## Kapitel 19: Infrastruktur-Vereinheitlichung – NEU in v1.0
+
+### 19.1 Motivation
+
+In v0.9 bestand die Infrastruktur aus drei verschiedenen Deployment-Methoden (Coolify, CI/CD mit rsync, manuell), 5+ verstreuten `.env`-Dateien und einem manuellen Design-System-Sync (`sync-shared-ui.sh`). Diese Fragmentierung verursachte:
+
+- **ENV-Chaos:** Doppelte API-Keys, Fallback auf Platzhalter-Werte, Coolify überschrieb ENV-Variablen
+- **Sync-Risiko:** Vergessenes `sync-shared-ui.sh` führte zu veralteten Design-System-Kopien
+- **Deployment-Inkonsistenz:** `rsync --delete` löschte Dateien, CC-Kunden hatte kein CI/CD
+
+### 19.2 Lösung: Einheitliches Docker Compose Monorepo
+
+| Aspekt | v0.9 (vorher) | v1.0 (nachher) |
+|--------|---------------|----------------|
+| Docker Compose | 4 separate Dateien | 1 zentrale `docker-compose.yml` |
+| ENV-Dateien | 5+ verstreut | 1 zentrale `.env` |
+| Deployment | Coolify + rsync + manuell | `docker compose up -d` |
+| Design-System | `sync-shared-ui.sh` (manuell) | Docker Build-Stage (automatisch) |
+| CI/CD | rsync + Coolify API | `git pull && docker compose build` |
+| Coolify-Rolle | Service-Management + Traefik | Nur noch Traefik-Proxy |
+| Runtime-Verzeichnisse | `/opt/zeo-kunden/`, `/opt/cc-kunden/` | Entfallen (alles in `/opt/mopilot/`) |
+
+### 19.3 Neue Architektur
+
+**10 Services in einem Compose:**
+```
+docker-compose.yml
+├── postgres (externes Volume, shared)
+├── redis
+├── main-backend + main-frontend (mopilot.website)
+├── ideen-backend + ideen-frontend (ideen.mopilot.website)
+├── zeo-backend + zeo-frontend (zeo-kunden.mopilot.website)
+└── cc-backend + cc-frontend (cc-kunden.mopilot.website)
+```
+
+**Shared-UI via Docker Build-Stage:**
+Statt manueller Dateikopie nutzt jedes Frontend `context: .` (Repo-Root) im Build. Das Dockerfile kopiert `shared-ui/` direkt:
+```dockerfile
+COPY shared-ui/ ./shared-ui/
+COPY frontend/ .
+```
+
+**Zentrale `.env`-Datei:**
+Alle Secrets an einem Ort mit klaren Prefixen (MAIN_, IDEEN_, ZEO_, CC_). Keine Fallback-Werte – fehlt ein Wert, startet der Container nicht (fail fast).
+
+### 19.4 CI/CD Pipeline (vereinfacht)
+
+```
+GitHub Push → SSH → git pull → docker compose build → docker compose up -d
+```
+
+Was entfällt:
+- `sync-shared-ui.sh` (Docker Build macht das)
+- `rsync -a --delete` (keine Runtime-Verzeichnisse mehr)
+- Separater Coolify-Frontend-Rebuild
+- Zwei verschiedene Deploy-Pfade
+
+### 19.5 Migration
+
+Die Migration erfolgte als Single Cutover mit ~30 Sekunden Downtime:
+1. Alle neuen Images vorgebaut (kein Downtime)
+2. Alle alten Container gestoppt (ZEO, CC, Ideen, dann Coolify-Hauptsystem)
+3. Neue Container gestartet (`docker compose up -d`)
+4. Postgres-Volume beibehalten (kein Datenverlust)
+
+### 19.6 Entfernte Dateien
+
+- `sync-shared-ui.sh` – ersetzt durch Docker Build-Stage
+- `deploy-zeo.sh` – veraltet
+- `ideen/docker-compose.yml` – ersetzt durch zentrale Compose
+- `MoPilot_ZEO_Kunden/docker-compose.yml` – ersetzt durch zentrale Compose
+- `MoPilot_CC_Kunden/docker-compose.yml` – ersetzt durch zentrale Compose
+- `/opt/zeo-kunden/` – Runtime-Kopie gelöscht
+- `/opt/cc-kunden/` – Runtime-Kopie gelöscht
+
+### 19.7 Geänderte Dateien
+
+| Datei | Änderung |
+|-------|----------|
+| `docker-compose.yml` | NEU – zentrale Compose für alle 10 Services |
+| `.env` / `.env.example` | NEU – zentrale Secrets-Verwaltung |
+| `postgres/init.sql` | NEU – Multi-DB Setup |
+| `frontend/Dockerfile` | Root-Context + shared-ui COPY |
+| `ideen/frontend/Dockerfile` | Root-Context + shared-ui COPY |
+| `MoPilot_ZEO_Kunden/frontend/Dockerfile` | Root-Context + shared-ui COPY |
+| `MoPilot_CC_Kunden/frontend/Dockerfile` | Root-Context + shared-ui COPY + BACKEND_INTERNAL_URL |
+| `MoPilot_ZEO_Kunden/frontend/tsconfig.json` | `@shared/*` Path-Alias hinzugefügt |
+| `MoPilot_ZEO_Kunden/frontend/tailwind.config.js` | Shared Preset integriert |
+| `MoPilot_CC_Kunden/frontend/tsconfig.json` | `@shared/*` Path-Alias hinzugefügt |
+| `MoPilot_CC_Kunden/frontend/tailwind.config.js` | Shared Preset integriert |
+| `.github/workflows/deploy.yml` | Vereinfacht (kein rsync, kein sync) |
+| `scripts/health-check-all.sh` | Container-Name `mopilot-postgres` |
 
 ---
 
