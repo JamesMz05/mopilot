@@ -25,6 +25,7 @@ services:
     restart: unless-stopped
     networks:
       - internal
+      - coolify
 
   redis:
     image: redis:7-alpine
