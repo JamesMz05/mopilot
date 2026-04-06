@@ -1,8 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  presets: [require('./shared-ui/tailwind.preset.js')],
   content: [
     './src/app/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
+    './shared-ui/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
@@ -19,9 +21,6 @@ module.exports = {
           800: '#006b33',
           900: '#14532d',
         },
-      },
-      fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
     },
   },
