@@ -53,10 +53,8 @@ Prototyp v0.9 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboar
 
 ## Docker Services
 
-**Hauptsystem (Coolify-managed):** frontend, backend, postgres, redis
-**Ideenplattform (manuell):** ideen-backend, ideen-frontend
-**ZEO-Kunden (CI/CD via rsync):** zeo-frontend, zeo-backend
-**CC-Kunden (manuell via rsync):** cc-kunden-frontend, cc-kunden-backend
+**Alle Services (ein docker-compose.yml in /opt/mopilot/):**
+postgres, redis, main-backend, main-frontend, ideen-backend, ideen-frontend, zeo-backend, zeo-frontend, cc-backend, cc-frontend
 
 ## Serverpfade
 
@@ -64,12 +62,9 @@ Prototyp v0.9 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboar
 |--------|------|
 | Hauptsystem | `/opt/mopilot/` (Git-Repo) |
 | Shared Design System | `/opt/mopilot/shared-ui/` |
-| Sync-Script | `/opt/mopilot/sync-shared-ui.sh` |
 | Ideenplattform | `/opt/mopilot/ideen/` |
 | ZEO-Kunden (Git) | `/opt/mopilot/MoPilot_ZEO_Kunden/` |
-| ZEO-Kunden (laufend) | `/opt/zeo-kunden/` |
 | CC-Kunden (Git) | `/opt/mopilot/cc-kunden/` |
-| CC-Kunden (laufend) | `/opt/cc-kunden/` |
 | Coolify Hauptsystem | `/data/coolify/services/ns8wok04s4sgkcggwg48okcg/` |
 | Backups | `/opt/backups/db/` |
 | Health-Check | `/opt/mopilot/scripts/health-check-all.sh` |
@@ -110,10 +105,7 @@ Prototyp v0.9 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboar
 
 | Projekt | `.env`-Pfad | Pattern |
 |---------|-------------|---------|
-| ZEO-Kunden | `/opt/zeo-kunden/.env` | env_file: .env |
-| CC-Kunden | `/opt/cc-kunden/.env` | env_file: .env |
-| Hauptsystem | Coolify-managed | Coolify UI |
-| Ideenplattform | `/opt/mopilot/ideen/.env` | Kein Anthropic-Key |
+| Alle Systeme | `/opt/mopilot/.env` | Zentrale .env für alle Services |
 
 **KRITISCH:** ANTHROPIC_API_KEY darf NIE in `environment:` stehen (überschreibt env_file).
 
@@ -145,11 +137,12 @@ Prototyp v0.9 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboar
 | v0.8 | 05.04.2026 | User-Sync Fix, Login Self-Service, Dashboard Vianova |
 | v0.8.1 | 05.04.2026 | ZEO Login DB-Auth, Passwort-Link Fix, Sentinel Sync |
 | **v0.9** | **06.04.2026** | **Rollenspezifische Dashboards, Landing Page, DB-Auth only** |
+| v0.9.1 | 06.04.2026 | Infrastruktur-Vereinheitlichung: 1 Compose, 1 .env, kein rsync/sync-shared-ui |
 
 ## Wichtige Hinweise
 
-- **Coolify überschreibt ENV-Variablen** – Änderungen in Coolify UI, nicht in docker-compose.yml
-- **sync-shared-ui.sh vor jedem Build** ausführen
+- **Ein einziges docker-compose.yml** für alle 10 Services in /opt/mopilot/ – kein Coolify Service-Management mehr, nur noch Traefik
+- **Zentrale .env** in /opt/mopilot/.env enthält ALLE Secrets – keine verstreuten .env-Dateien mehr
 - **docker compose restart lädt .env NICHT** – immer `down && up -d`
 - **HOSTNAME=0.0.0.0** in Next.js Docker-Container erforderlich
 - **127.0.0.1 statt localhost** in Docker-Healthchecks (IPv6-Trap)
