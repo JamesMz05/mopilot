@@ -26,9 +26,7 @@ export default function LoginPage() {
     setError('')
     setLoading(true)
 
-    const payload = loginId.includes('@')
-      ? { email: loginId, password }
-      : { username: loginId, password }
+    const payload = { email: loginId, password }
 
     try {
       const res = await fetch('/api/auth/login', {
@@ -45,7 +43,7 @@ export default function LoginPage() {
         if (data.user) {
           localStorage.setItem('user', JSON.stringify(data.user))
         }
-        router.push('/')
+        router.push('/dashboard')
         router.refresh()
       } else {
         setError(data.error || 'Ungültige E-Mail oder Passwort.')
@@ -154,18 +152,18 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label htmlFor="loginId" className="block text-sm font-medium text-surface-700 mb-1.5 font-body">
-                E-Mail oder Benutzername
+                E-Mail-Adresse
               </label>
               <input
                 id="loginId"
-                type="text"
-                autoComplete="username"
+                type="email"
+                autoComplete="email"
                 required
                 autoFocus
                 value={loginId}
                 onChange={e => setLoginId(e.target.value)}
                 className="w-full px-4 py-3 border-2 border-surface-200 rounded-xl text-sm font-body bg-white text-surface-800 placeholder:text-surface-400 focus:outline-none focus:border-primary-500 focus:ring-4 focus:ring-primary-500/20 transition-all duration-200"
-                placeholder="ihre@email.de oder Benutzername"
+                placeholder="ihre@email.de"
               />
             </div>
 
