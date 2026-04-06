@@ -28,7 +28,7 @@ Prototyp v1.0 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboar
 |------------|---------|
 | Server | Hetzner CX33 – IP: `142.132.232.211` |
 | OS | Ubuntu + Docker CE |
-| Deployment | **Coolify 4.0** mit Docker Compose + Traefik v3.1 |
+| Deployment | Docker Compose + Traefik v3.1 (Coolify nur noch als Traefik-Proxy) |
 | Coolify-Dashboard | `http://localhost:8000` (via SSH-Tunnel) |
 | Monitoring | Uptime Kuma (11 Monitore, Port 3001 via SSH-Tunnel) |
 | SSH-Zugang | `ssh root@142.132.232.211` |
@@ -49,7 +49,7 @@ Prototyp v1.0 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboar
 | Cache | Redis 7 Alpine, 256 MB, LRU |
 | Reverse Proxy | Traefik v3.1 (via Coolify), SSL via Let's Encrypt |
 | E-Mail | IONOS SMTP (smtp.ionos.de:587, STARTTLS) |
-| CI/CD | GitHub Actions → SSH + rsync + Coolify API |
+| CI/CD | GitHub Actions → SSH + docker compose build |
 
 ## Docker Services
 
