@@ -38,10 +38,25 @@ const ROLE_TO_SLUG: Record<string, string> = {
   mopilot_team: 'flottenmanagement',
 }
 
+// --- URL slug to page name mapping ---
+const SLUG_TO_PAGE_NAME: Record<string, string> = {
+  endkunde: 'Endkunde',
+  stationspate: 'Stationspate',
+  hotline: 'Hotline',
+  betreiber: 'Betreiber',
+  flottenmanagement: 'Flottenmanagement',
+  fahrzeugbetreuer: 'Fahrzeugbetreuer',
+  'plattform-support': 'Plattform-Support',
+  projekttraeger: 'Projektträger',
+  fahrzeugsteller: 'Fahrzeugsteller',
+  validierungsstelle: 'Validierungsstelle',
+}
+
 // --- Dashboard Context ---
 interface DashboardContextType {
   user: UserInfo
   meta: { icon: string; label: string; color: string; bgColor: string }
+  pageName: string
   setInput: (value: string) => void
 }
 
@@ -67,16 +82,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   useEffect(() => {
     const stored = localStorage.getItem('user')
     if (!stored) { router.push('/login'); return }
-    const parsed: UserInfo = JSON.parse(stored)
-    setUser(parsed)
-
-    // Redirect to correct role page if on wrong one
-    const expectedSlug = ROLE_TO_SLUG[parsed.role] || 'endkunde'
-    const expectedPath = `/dashboard/${expectedSlug}`
-    if (pathname !== expectedPath && pathname !== '/dashboard') {
-      router.replace(expectedPath)
-    }
-  }, [router, pathname])
+    setUser(JSON.parse(stored))
+  }, [router])
 
   useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
 
@@ -116,9 +123,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (!user) return null
   const meta = ROLE_META[user.role] || ROLE_META.endkunde
   const initials = user.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
+  const slug = pathname.split('/').pop() || ''
+  const pageName = SLUG_TO_PAGE_NAME[slug] || meta.label
 
   return (
-    <DashboardContext.Provider value={{ user, meta, setInput }}>
+    <DashboardContext.Provider value={{ user, meta, pageName, setInput }}>
       <div className="h-screen flex flex-col bg-surface-50">
         {/* Header */}
         <header className="bg-white/80 backdrop-blur-md border-b border-surface-200/50 shadow-warm-sm px-4 sm:px-6 h-14 flex items-center justify-between shrink-0 z-50">
@@ -220,7 +229,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                       <circle cx="24" cy="16" r="4" fill="#F59E0B" />
                     </svg>
                   </div>
-                  <h2 className="text-xl font-display font-bold text-surface-800 mt-4">Willkommen bei MoPilot, {user.name}!</h2>
+                  <h2 className="text-xl font-display font-bold text-surface-800 mt-4">Willkommen bei MoPilot {pageName}, {user.name}!</h2>
                   <p className="text-surface-500 font-body mt-2">Ich bin Ihr KI-Assistent als <strong className="text-primary-700">{meta.label}</strong>.</p>
                   <p className="text-surface-400 text-sm font-body mt-1">Stellen Sie mir eine Frage oder nutzen Sie die Schnellaktionen links.</p>
                 </div>

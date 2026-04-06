@@ -6,16 +6,16 @@ import DokuSection from "@/components/DokuSection";
 interface UserInfo { name: string; role: string; email?: string }
 
 const ROLES = [
-  { id: 'endkunde', icon: '👤', label: 'Endkunde', desc: 'Buchung, FAQs, Standorte', zone: 'Kundennah' },
-  { id: 'stationspate', icon: '🏘️', label: 'Stationspate', desc: 'Standortbetreuung, Meldungen', zone: 'Kundennah' },
-  { id: 'hotline', icon: '📞', label: 'Hotline', desc: 'Gesprächsleitfaden, Kundenhilfe', zone: 'Kundennah' },
-  { id: 'betreiber', icon: '🏢', label: 'Betreiber', desc: 'Dashboard, Kennzahlen, Strategie', zone: 'Betrieb' },
-  { id: 'flotte', icon: '🔧', label: 'Flottenmanagement', desc: 'Fahrzeuge, Wartung, Zuweisung', zone: 'Betrieb' },
-  { id: 'fahrzeug', icon: '🔌', label: 'Fahrzeugbetreuer', desc: 'Zustandsprüfung, Laden', zone: 'Betrieb' },
-  { id: 'support', icon: '🖥️', label: 'Plattform-Support', desc: 'Technik, Tickets, Systeme', zone: 'Betrieb' },
-  { id: 'traeger', icon: '📊', label: 'Projektträger', desc: 'KPIs, Förderung, Strategie', zone: 'Strategie' },
-  { id: 'steller', icon: '🚗', label: 'Fahrzeugsteller', desc: 'Fahrzeugintegration, Verträge', zone: 'Strategie' },
-  { id: 'validierung', icon: '✅', label: 'Validierungsstelle', desc: 'Führerscheinprüfung, Dokumente', zone: 'Strategie' },
+  { id: 'endkunde', slug: 'endkunde', icon: '👤', label: 'Endkunde', desc: 'Buchung, FAQs, Standorte', zone: 'Kundennah' },
+  { id: 'stationspate', slug: 'stationspate', icon: '🏘️', label: 'Stationspate', desc: 'Standortbetreuung, Meldungen', zone: 'Kundennah' },
+  { id: 'hotline', slug: 'hotline', icon: '📞', label: 'Hotline', desc: 'Gesprächsleitfaden, Kundenhilfe', zone: 'Kundennah' },
+  { id: 'betreiber', slug: 'betreiber', icon: '🏢', label: 'Betreiber', desc: 'Dashboard, Kennzahlen, Strategie', zone: 'Betrieb' },
+  { id: 'flotte', slug: 'flottenmanagement', icon: '🔧', label: 'Flottenmanagement', desc: 'Fahrzeuge, Wartung, Zuweisung', zone: 'Betrieb' },
+  { id: 'fahrzeug', slug: 'fahrzeugbetreuer', icon: '🔌', label: 'Fahrzeugbetreuer', desc: 'Zustandsprüfung, Laden', zone: 'Betrieb' },
+  { id: 'support', slug: 'plattform-support', icon: '🖥️', label: 'Plattform-Support', desc: 'Technik, Tickets, Systeme', zone: 'Betrieb' },
+  { id: 'traeger', slug: 'projekttraeger', icon: '📊', label: 'Projektträger', desc: 'KPIs, Förderung, Strategie', zone: 'Strategie' },
+  { id: 'steller', slug: 'fahrzeugsteller', icon: '🚗', label: 'Fahrzeugsteller', desc: 'Fahrzeugintegration, Verträge', zone: 'Strategie' },
+  { id: 'validierung', slug: 'validierungsstelle', icon: '✅', label: 'Validierungsstelle', desc: 'Führerscheinprüfung, Dokumente', zone: 'Strategie' },
 ]
 
 const ZONE_STYLES: Record<string, { dot: string; card: string; text: string }> = {
@@ -130,7 +130,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Role info cards (not clickable) */}
+      {/* Role cards */}
       <div className="max-w-6xl mx-auto py-8 px-6">
         <p className="text-sm text-surface-500 font-body mb-6">MoPilot passt Inhalte, Tonalität und Funktionen an die jeweilige Nutzerrolle an:</p>
         {zones.map(zone => {
@@ -142,8 +142,8 @@ export default function HomePage() {
                 <h2 className={`text-sm font-bold font-body uppercase tracking-wider ${style.text}`}>{zone}</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {ROLES.filter(r => r.zone === zone).map(role => (
-                  <div key={role.id} className={`${style.card} border rounded-xl p-4`}>
+                {ROLES.filter(r => r.zone === zone).map(role => {
+                  const cardContent = (
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-white/80 flex items-center justify-center text-xl shadow-warm-sm flex-shrink-0">
                         {role.icon}
@@ -153,8 +153,17 @@ export default function HomePage() {
                         <div className="text-xs font-body text-surface-500">{role.desc}</div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                  return loggedUser ? (
+                    <a key={role.id} href={`/dashboard/${role.slug}`} className={`${style.card} border rounded-xl p-4 transition-all duration-200 hover:shadow-warm-md hover:scale-[1.02] active:scale-[0.98] block`}>
+                      {cardContent}
+                    </a>
+                  ) : (
+                    <div key={role.id} className={`${style.card} border rounded-xl p-4`}>
+                      {cardContent}
+                    </div>
+                  )
+                })}
               </div>
             </div>
           )

@@ -43,7 +43,7 @@ export default function LoginPage() {
         if (data.user) {
           localStorage.setItem('user', JSON.stringify(data.user))
         }
-        router.push('/dashboard')
+        router.push('/')
         router.refresh()
       } else {
         setError(data.error || 'Ungültige E-Mail oder Passwort.')
