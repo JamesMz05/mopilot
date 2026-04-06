@@ -59,7 +59,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.main-api.rule=Host(`api.${DOMAIN}`)"
-      - "traefik.http.routers.main-api.entrypoints=https"
+
       - "traefik.http.routers.main-api.tls=true"
       - "traefik.http.routers.main-api.tls.certresolver=letsencrypt"
       - "traefik.http.services.main-api.loadbalancer.server.port=8000"
@@ -80,7 +80,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.main-web.rule=Host(`${DOMAIN}`)"
-      - "traefik.http.routers.main-web.entrypoints=https"
+
       - "traefik.http.routers.main-web.tls=true"
       - "traefik.http.routers.main-web.tls.certresolver=letsencrypt"
       - "traefik.http.services.main-web.loadbalancer.server.port=3000"
@@ -111,7 +111,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ideen-api.rule=Host(`ideen.${DOMAIN}`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.ideen-api.entrypoints=https"
+
       - "traefik.http.routers.ideen-api.tls=true"
       - "traefik.http.routers.ideen-api.tls.certresolver=letsencrypt"
       - "traefik.http.routers.ideen-api.priority=20"
@@ -133,7 +133,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ideen-web.rule=Host(`ideen.${DOMAIN}`)"
-      - "traefik.http.routers.ideen-web.entrypoints=https"
+
       - "traefik.http.routers.ideen-web.tls=true"
       - "traefik.http.routers.ideen-web.tls.certresolver=letsencrypt"
       - "traefik.http.routers.ideen-web.priority=10"
@@ -156,7 +156,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.zeo-api.rule=Host(`api.zeo-kunden.${DOMAIN}`)"
-      - "traefik.http.routers.zeo-api.entrypoints=https"
+
       - "traefik.http.routers.zeo-api.tls=true"
       - "traefik.http.routers.zeo-api.tls.certresolver=letsencrypt"
       - "traefik.http.services.zeo-api.loadbalancer.server.port=8000"
@@ -176,7 +176,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.zeo-web.rule=Host(`zeo-kunden.${DOMAIN}`)"
-      - "traefik.http.routers.zeo-web.entrypoints=https"
+
       - "traefik.http.routers.zeo-web.tls=true"
       - "traefik.http.routers.zeo-web.tls.certresolver=letsencrypt"
       - "traefik.http.services.zeo-web.loadbalancer.server.port=3000"
@@ -198,7 +198,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.cc-api.rule=Host(`api.cc-kunden.${DOMAIN}`)"
-      - "traefik.http.routers.cc-api.entrypoints=https"
+
       - "traefik.http.routers.cc-api.tls=true"
       - "traefik.http.routers.cc-api.tls.certresolver=letsencrypt"
       - "traefik.http.services.cc-api.loadbalancer.server.port=8000"
@@ -213,6 +213,7 @@ services:
       args:
         NEXT_PUBLIC_BACKEND_URL: "https://api.cc-kunden.${DOMAIN}"
         NEXT_PUBLIC_AUTH_API_URL: "https://api.${DOMAIN}"
+        BACKEND_INTERNAL_URL: "http://mopilot-cc-backend:8000"
     container_name: mopilot-cc-frontend
     depends_on:
       - cc-backend
@@ -220,7 +221,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.cc-web.rule=Host(`cc-kunden.${DOMAIN}`)"
-      - "traefik.http.routers.cc-web.entrypoints=https"
+
       - "traefik.http.routers.cc-web.tls=true"
       - "traefik.http.routers.cc-web.tls.certresolver=letsencrypt"
       - "traefik.http.services.cc-web.loadbalancer.server.port=3000"
