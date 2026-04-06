@@ -1,4 +1,4 @@
-name: Deploy to Coolify
+name: Deploy MoPilot
 
 on:
   push:
@@ -8,39 +8,24 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Pull code + deploy ZEO-Kunden
+      - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
           host: 142.132.232.211
           username: root
           password: ${{ secrets.SERVER_SSH_PASSWORD }}
           script: |
+            set -e
             cd /opt/mopilot
+
+            # Code aktualisieren
             git fetch https://${{ secrets.GH_PAT }}@github.com/JamesMz05/mopilot.git master
-            git merge --ff-only FETCH_HEAD || { echo "ERROR: Merge-Konflikt — manuelles Eingreifen nötig"; exit 1; }
-            echo "Hauptsystem: $(git rev-parse --short HEAD)"
+            git merge --ff-only FETCH_HEAD
 
-            # Shared Design System synchronisieren
-            bash /opt/mopilot/sync-shared-ui.sh
+            # Alle Services bauen und starten
+            docker compose build
+            docker compose up -d --remove-orphans
 
-            # ZEO-Kunden synchronisieren und deployen
-            rsync -a --delete /opt/mopilot/MoPilot_ZEO_Kunden/frontend/ /opt/zeo-kunden/frontend/
-            rsync -a --delete /opt/mopilot/MoPilot_ZEO_Kunden/backend/ /opt/zeo-kunden/backend/
-            echo "ZEO-Kunden Code synchronisiert"
-            cd /opt/zeo-kunden
-            docker compose up -d --build
-            echo "ZEO-Kunden deployed"
-
-            # Hauptsystem Frontend neu bauen
-            cd /data/coolify/services/ns8wok04s4sgkcggwg48okcg
-            docker compose build frontend
-            docker compose up -d frontend
-            echo "Hauptsystem Frontend deployed"
-
-            # Health-Check (30s warten, dann prüfen)
-            sleep 10
-            if docker exec frontend-ns8wok04s4sgkcggwg48okcg node -e "fetch('http://localhost:3000').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))" 2>/dev/null; then
-              echo "Health-Check OK"
-            else
-              echo "WARNING: Health-Check fehlgeschlagen — Container prüfen!"
-            fi
+            # Health-Check
+            sleep 20
+            bash scripts/health-check-all.sh
