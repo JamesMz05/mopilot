@@ -37,7 +37,7 @@ done
 echo ""
 
 # Check PostgreSQL
-if docker exec postgres-ns8wok04s4sgkcggwg48okcg pg_isready -U mopilot -q 2>/dev/null; then
+if docker exec mopilot-postgres pg_isready -U mopilot -q 2>/dev/null; then
   echo "  ✅ PostgreSQL               → accepting connections"
 else
   echo "  ❌ PostgreSQL               → NOT responding"
