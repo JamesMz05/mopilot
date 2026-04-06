@@ -2,27 +2,26 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import DokuSection from "@/components/DokuSection";
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 
 interface UserInfo { name: string; role: string; email?: string }
 
 const ROLES = [
-  { id: 'endkunde', email: 'endkunde@mopilot.website', icon: '👤', label: 'Endkunde', desc: 'Buchung, FAQs, Standorte', zone: 'Kundennah', externalLinks: [{ label: 'ZEO Kundenportal', href: 'https://zeo-kunden.mopilot.website/' }, { label: 'CC Kundenportal', href: 'https://cc-kunden.mopilot.website/' }] },
-  { id: 'stationspate', email: 'stationspate@mopilot.website', icon: '🏘️', label: 'Stationspate', desc: 'Standortbetreuung, Meldungen', zone: 'Kundennah' },
-  { id: 'hotline', email: 'hotline@mopilot.website', icon: '📞', label: 'Hotline', desc: 'Gesprächsleitfaden, Kundenhilfe', zone: 'Kundennah' },
-  { id: 'betreiber', email: 'betreiber@mopilot.website', icon: '🏢', label: 'Betreiber', desc: 'Dashboard, Kennzahlen, Strategie', zone: 'Betrieb' },
-  { id: 'flotte', email: 'flotte@mopilot.website', icon: '🔧', label: 'Flottenmanagement', desc: 'Fahrzeuge, Wartung, Zuweisung', zone: 'Betrieb' },
-  { id: 'fahrzeug', email: 'fahrzeug@mopilot.website', icon: '🔌', label: 'Fahrzeugbetreuer', desc: 'Zustandsprüfung, Laden', zone: 'Betrieb' },
-  { id: 'support', email: 'support@mopilot.website', icon: '🖥️', label: 'Plattform-Support', desc: 'Technik, Tickets, Systeme', zone: 'Betrieb' },
-  { id: 'traeger', email: 'traeger@mopilot.website', icon: '📊', label: 'Projektträger', desc: 'KPIs, Förderung, Strategie', zone: 'Strategie' },
-  { id: 'steller', email: 'steller@mopilot.website', icon: '🚗', label: 'Fahrzeugsteller', desc: 'Fahrzeugintegration, Verträge', zone: 'Strategie' },
-  { id: 'validierung', email: 'validierung@mopilot.website', icon: '✅', label: 'Validierungsstelle', desc: 'Führerscheinprüfung, Dokumente', zone: 'Strategie' },
+  { id: 'endkunde', icon: '👤', label: 'Endkunde', desc: 'Buchung, FAQs, Standorte', zone: 'Kundennah' },
+  { id: 'stationspate', icon: '🏘️', label: 'Stationspate', desc: 'Standortbetreuung, Meldungen', zone: 'Kundennah' },
+  { id: 'hotline', icon: '📞', label: 'Hotline', desc: 'Gesprächsleitfaden, Kundenhilfe', zone: 'Kundennah' },
+  { id: 'betreiber', icon: '🏢', label: 'Betreiber', desc: 'Dashboard, Kennzahlen, Strategie', zone: 'Betrieb' },
+  { id: 'flotte', icon: '🔧', label: 'Flottenmanagement', desc: 'Fahrzeuge, Wartung, Zuweisung', zone: 'Betrieb' },
+  { id: 'fahrzeug', icon: '🔌', label: 'Fahrzeugbetreuer', desc: 'Zustandsprüfung, Laden', zone: 'Betrieb' },
+  { id: 'support', icon: '🖥️', label: 'Plattform-Support', desc: 'Technik, Tickets, Systeme', zone: 'Betrieb' },
+  { id: 'traeger', icon: '📊', label: 'Projektträger', desc: 'KPIs, Förderung, Strategie', zone: 'Strategie' },
+  { id: 'steller', icon: '🚗', label: 'Fahrzeugsteller', desc: 'Fahrzeugintegration, Verträge', zone: 'Strategie' },
+  { id: 'validierung', icon: '✅', label: 'Validierungsstelle', desc: 'Führerscheinprüfung, Dokumente', zone: 'Strategie' },
 ]
 
-const ZONE_STYLES: Record<string, { dot: string; card: string; text: string; link: string }> = {
-  Kundennah: { dot: 'bg-emerald-500', card: 'bg-emerald-50/80 border-emerald-200 hover:bg-emerald-50 hover:border-emerald-300', text: 'text-emerald-700', link: 'text-emerald-600 hover:text-emerald-800' },
-  Betrieb: { dot: 'bg-blue-500', card: 'bg-blue-50/80 border-blue-200 hover:bg-blue-50 hover:border-blue-300', text: 'text-blue-700', link: 'text-blue-600 hover:text-blue-800' },
-  Strategie: { dot: 'bg-amber-500', card: 'bg-amber-50/80 border-amber-200 hover:bg-amber-50 hover:border-amber-300', text: 'text-amber-700', link: 'text-amber-600 hover:text-amber-800' },
+const ZONE_STYLES: Record<string, { dot: string; card: string; text: string }> = {
+  Kundennah: { dot: 'bg-emerald-500', card: 'bg-emerald-50/80 border-emerald-200', text: 'text-emerald-700' },
+  Betrieb: { dot: 'bg-blue-500', card: 'bg-blue-50/80 border-blue-200', text: 'text-blue-700' },
+  Strategie: { dot: 'bg-amber-500', card: 'bg-amber-50/80 border-amber-200', text: 'text-amber-700' },
 }
 
 const ROLE_LABELS: Record<string, string> = {
@@ -34,9 +33,7 @@ const ROLE_LABELS: Record<string, string> = {
   mopilot_team: 'MoPilot-Team',
 }
 
-export default function LoginPage() {
-  const [loading, setLoading] = useState<string | null>(null)
-  const [error, setError] = useState('')
+export default function HomePage() {
   const [loggedUser, setLoggedUser] = useState<UserInfo | null>(null)
   const router = useRouter()
 
@@ -55,33 +52,11 @@ export default function LoginPage() {
     router.refresh()
   }
 
-  async function loginAs(email: string, roleId: string) {
-    setLoading(roleId)
-    setError('')
-    try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password: 'mopilot2026' }),
-      })
-      const data = await res.json()
-      if (!data.success) throw new Error('Login fehlgeschlagen')
-      if (data.access_token) localStorage.setItem('token', data.access_token)
-      if (data.user) localStorage.setItem('user', JSON.stringify(data.user))
-      setLoggedUser(data.user || null)
-      router.push('/dashboard')
-    } catch (e: any) {
-      setError('Verbindung zum Server fehlgeschlagen. Läuft die API?')
-    } finally {
-      setLoading(null)
-    }
-  }
-
   const zones = ['Kundennah', 'Betrieb', 'Strategie']
 
   return (
     <div id="main-content" className="min-h-screen bg-surface-50">
-      {/* Glassmorphism Header */}
+      {/* Header */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-surface-200/50 shadow-warm-sm">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <a href="/" className="flex items-center gap-2.5 group">
@@ -93,16 +68,11 @@ export default function LoginPage() {
               <circle cx="36" cy="24" r="3" fill="#0F766E" />
             </svg>
             <span className="font-display font-bold text-primary-800 text-lg">MoPilot</span>
-            <span className="hidden sm:inline-flex px-2 py-0.5 text-xs font-medium font-body rounded-full bg-primary-100 text-primary-700">Demo</span>
           </a>
 
           <nav className="hidden md:flex items-center gap-1">
-            <a href="/" className="relative px-3 py-2 text-sm font-medium font-body text-surface-600 hover:text-primary-700 transition-colors group">
-              Dashboard
-              <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-primary-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full" />
-            </a>
             <a href="/dashboard" className="relative px-3 py-2 text-sm font-medium font-body text-surface-600 hover:text-primary-700 transition-colors group">
-              Chat
+              Dashboard
               <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-primary-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full" />
             </a>
             <a href="https://ideen.mopilot.website" target="_blank" rel="noopener noreferrer" className="relative px-3 py-2 text-sm font-medium font-body text-surface-600 hover:text-primary-700 transition-colors group">
@@ -126,7 +96,7 @@ export default function LoginPage() {
                     <p className="text-sm font-medium text-surface-800 font-body">{loggedUser.name}</p>
                     <p className="text-xs text-surface-500 font-body">{ROLE_LABELS[loggedUser.role] || loggedUser.role}</p>
                   </div>
-                  <a href="/admin" className="block px-3 py-2 text-sm text-surface-600 hover:bg-surface-50 transition-colors font-body">Benutzerverwaltung</a>
+                  <a href="/dashboard" className="block px-3 py-2 text-sm text-surface-600 hover:bg-surface-50 transition-colors font-body">Zum Dashboard</a>
                   <button onClick={logout} className="w-full text-left px-3 py-2 text-sm text-surface-600 hover:bg-surface-50 hover:text-red-600 transition-colors font-body flex items-center gap-2">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                     Abmelden
@@ -149,20 +119,20 @@ export default function LoginPage() {
         </div>
         <div className="max-w-6xl mx-auto relative z-10">
           <h1 className="text-3xl font-display font-bold mb-2">KI-gestützter Mobilitätsassistent</h1>
-          <p className="text-white/80 font-body text-lg">Rollenbasiertes Demo-Cockpit für nachhaltiges E-Carsharing</p>
+          <p className="text-white/80 font-body text-lg">Rollenbasiertes Cockpit für nachhaltiges E-Carsharing</p>
           {loggedUser && <p className="text-white/60 font-body text-sm mt-2">Angemeldet als {loggedUser.name} ({ROLE_LABELS[loggedUser.role] || loggedUser.role})</p>}
+          {!loggedUser && (
+            <a href="/login" className="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-xl text-white font-semibold font-body text-sm transition-all duration-200 border border-white/20">
+              Jetzt anmelden
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+            </a>
+          )}
         </div>
       </div>
 
-      {/* Error */}
-      {error && (
-        <div className="max-w-6xl mx-auto mt-4 px-6">
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">{error}</div>
-        </div>
-      )}
-
-      {/* Role cards grouped by zone */}
+      {/* Role info cards (not clickable) */}
       <div className="max-w-6xl mx-auto py-8 px-6">
+        <p className="text-sm text-surface-500 font-body mb-6">MoPilot passt Inhalte, Tonalität und Funktionen an die jeweilige Nutzerrolle an:</p>
         {zones.map(zone => {
           const style = ZONE_STYLES[zone]
           return (
@@ -172,9 +142,8 @@ export default function LoginPage() {
                 <h2 className={`text-sm font-bold font-body uppercase tracking-wider ${style.text}`}>{zone}</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {ROLES.filter(r => r.zone === zone).map(role => {
-                  const cardClass = `${style.card} border rounded-xl p-4 text-left transition-all duration-200 hover:shadow-warm-md hover:scale-[1.02] active:scale-[0.98] block w-full`
-                  const inner = (
+                {ROLES.filter(r => r.zone === zone).map(role => (
+                  <div key={role.id} className={`${style.card} border rounded-xl p-4`}>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-white/80 flex items-center justify-center text-xl shadow-warm-sm flex-shrink-0">
                         {role.icon}
@@ -184,56 +153,22 @@ export default function LoginPage() {
                         <div className="text-xs font-body text-surface-500">{role.desc}</div>
                       </div>
                     </div>
-                  )
-                  if ((role as any).externalLinks) {
-                    return (
-                      <div key={role.id} className={cardClass}>
-                        {inner}
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {(role as any).externalLinks.map((link: { label: string; href: string }) => (
-                            <a
-                              key={link.href}
-                              href={link.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={`text-xs font-body ${style.link} hover:underline flex items-center gap-1`}
-                            >
-                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                              {link.label}
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    )
-                  }
-                  return (
-                    <button
-                      key={role.id}
-                      onClick={() => loginAs(role.email, role.id)}
-                      disabled={loading !== null}
-                      className={`${cardClass} disabled:opacity-50`}
-                    >
-                      {inner}
-                      {loading === role.id && (
-                        <div className={`mt-2 text-xs font-body ${style.text} animate-pulse`}>Anmeldung läuft...</div>
-                      )}
-                    </button>
-                  )
-                })}
+                  </div>
+                ))}
               </div>
             </div>
           )
         })}
+
         {/* Projekt Doku */}
         <DokuSection />
+
         {/* Info footer */}
         <div className="mt-8 bg-white border border-surface-200 rounded-xl p-6 text-sm font-body text-surface-500 shadow-warm-sm">
-          <p className="font-semibold text-surface-700 mb-2">ℹ️ Demo-Hinweis</p>
-          <p>Noch keine Account- und Rollenverwaltung. PW bei <strong>Vianova eG</strong> erfragen. Server: Hetzner CX33 · Domain: mopilot.website. Deployment über Coolify für das Hauptsystem und direkt via Docker Compose.</p>
+          <p className="font-semibold text-surface-700 mb-2">Zugang</p>
+          <p>Account- und Rollenverwaltung über <a href="https://ideen.mopilot.website/admin" className="text-primary-600 hover:text-primary-800 underline">ideen.mopilot.website/admin</a>. Registrierung über <a href="https://ideen.mopilot.website/register" className="text-primary-600 hover:text-primary-800 underline">ideen.mopilot.website/register</a>.</p>
           <p className="mt-2">
-            <a href="https://status.mopilot.website/status/mopilot" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:text-primary-800 underline">📊 System-Monitoring (Status-Seite)</a>
-            <span className="mx-2 text-surface-300">|</span>
-            <a href="/admin" className="text-primary-600 hover:text-primary-800 underline">👥 Benutzerverwaltung</a>
+            <a href="https://status.mopilot.website/status/mopilot" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:text-primary-800 underline">System-Monitoring (Status-Seite)</a>
           </p>
         </div>
       </div>
