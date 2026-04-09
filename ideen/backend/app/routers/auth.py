@@ -112,7 +112,7 @@ def register(data: UserCreate, db: Session = Depends(get_db)):
 def login(data: LoginRequest, db: Session = Depends(get_db)):
     """Login and receive a JWT token."""
     user = db.query(User).filter(User.email == data.email).first()
-    if not user or user.password_hash == _INVITE_PLACEHOLDER or not verify_password(data.password, user.password_hash):
+    if not user or not user.password_hash or user.password_hash == _INVITE_PLACEHOLDER or not verify_password(data.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Ungültige E-Mail oder Passwort.",
