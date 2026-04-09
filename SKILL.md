@@ -26,7 +26,7 @@ Consult this skill whenever you need to:
 | Hauptsystem | https://mopilot.website | Role-based demo cockpit with KI-Chat |
 | Ideenplattform | https://ideen.mopilot.website | Ideas, ratings, comments, admin |
 | ZEO Kundenassistent | https://zeo-kunden.mopilot.website | KI-Chat for ZEO end customers |
-| CC Kundenassistent | https://cc-kunden.mopilot.website | KI-Chat for CC end customers |
+| CC Kundenassistent | https://cc-kunden.mopilot.website | KI-Chat for CC end customers, öffentliche Embed-Seiten (`/embed/tarife`) |
 | Hotline (planned) | https://hotline.mopilot.website | Internal hotline tool |
 | Monitoring | http://localhost:3001 (via SSH tunnel) | Uptime Kuma (11 monitors) |
 | Coolify | http://localhost:8000 (via SSH tunnel) | Traefik proxy only |
@@ -65,7 +65,7 @@ Consult this skill whenever you need to:
 | Shared Design System | `/opt/mopilot/shared-ui/` (Tailwind Preset, globals.css, TSX components) |
 | Backend (Hauptsystem) | FastAPI, Python 3.11, async SQLAlchemy 2.0, Uvicorn |
 | Backend (Ideenplattform) | FastAPI, Python 3.11, sync SQLAlchemy 2.0, Uvicorn |
-| Backend (ZEO/CC-Kunden) | FastAPI, Python 3.11, SSE-Streaming |
+| Backend (ZEO/CC-Kunden) | FastAPI, Python 3.11, SSE-Streaming, `/api/tariffs` (CC) |
 | KI Model | Claude Sonnet (`claude-sonnet-4-6`) via Anthropic API |
 | Database | PostgreSQL 16 – DBs: `mopilot` + `mopilot_ideen` + `cc_fuhrpark` + `vianova_verwaltung` |
 | Cache | Redis 7 Alpine, 256 MB, LRU |

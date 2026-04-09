@@ -1170,7 +1170,7 @@ Alle Kundenassistenten-Frontends (zeo-kunden, cc-kunden) verwenden dasselbe Midd
 
 **Wichtig:** Die Middleware prüft NICHT den JWT-Token. Sie ist ein einfacher Boolean-Gate. Die eigentliche Autorisierung (JWT-Prüfung) findet auf Backend-Ebene statt.
 
-**Hinweis CC-Kunden:** Die Middleware erlaubt zusätzlich `/api/chat/*` und `/api/health` durch, da diese Pfade über Next.js Rewrites an den Backend-Container proxied werden (siehe 11.4).
+**Hinweis CC-Kunden:** Die Middleware erlaubt zusätzlich `/api/chat/*`, `/api/health`, `/api/tariffs` und `/embed/*` durch. `/api/chat/*` und `/api/health` werden über Next.js Rewrites an den Backend-Container proxied (siehe 11.4). `/api/tariffs` liefert Tarifdaten für die Embed-Seite. `/embed/*` sind öffentliche Seiten (ohne Login), die per iframe eingebettet werden können (z.B. `/embed/tarife` für die Tarifübersicht).
 
 Die Ideenplattform (ideen.mopilot.website) hat ihre eigene Auth-Logik im Frontend (`useAuth` Hook), die direkt JWT-basiert arbeitet, ohne Cookie-Middleware.
 
@@ -1580,6 +1580,7 @@ SSE-Stream zurück an Browser
 | Reichweiten-Guide | `RangeGuide.tsx` | Ziele ab Overath: Köln (28km), Bonn (35km), Siegburg (18km) etc. |
 | Fahrzeugkatalog | `VehicleCards.tsx` | "CC-Fahrzeuge" |
 | Onboarding | `OnboardingGuide.tsx` | 6 Schritte: Quiz → evemo.app → Führerschein → Station → Öffnen → Rückgabe |
+| Tarifübersicht | `TariffOverview.tsx` | Detaillierte Tarifvergleichstabelle (CC eco vs. CC go), Fahrzeugklassen, km-Staffelpreise, basierend auf `tariffs-detailed.json` |
 | FAQ | `faq.json` | 3 Kategorien CC-spezifischer FAQs |
 | Footer | `Footer.tsx` | CC-Links: carsharing2go.net, sharing-community.de, cc.evemo.app, goflux.de |
 | Header | `Header.tsx` | "CC Kundenassistent", Registrierung via cc.evemo.app/admin/signup |
@@ -1679,13 +1680,17 @@ networks:
 | Datei | Funktion |
 |-------|----------|
 | `frontend/next.config.js` | API-Proxy-Rewrites, NEXT_PUBLIC_BACKEND_URL |
-| `frontend/src/middleware.ts` | Auth-Middleware mit `/api/chat` und `/api/health` Ausnahmen |
+| `frontend/src/middleware.ts` | Auth-Middleware mit `/api/chat`, `/api/health`, `/api/tariffs` und `/embed` Ausnahmen |
 | `frontend/src/components/HeroChat.tsx` | KI-Chat mit SSE-Streaming |
 | `frontend/src/components/CostCalculator.tsx` | Kostenrechner CC eco / CC go |
 | `frontend/src/components/MapInner.tsx` | Leaflet-Karte, Zentrum Overath |
 | `frontend/src/components/OnboardingGuide.tsx` | 6-Schritt-Registrierung |
 | `frontend/src/components/Footer.tsx` | CC-Links und Kontakt |
 | `frontend/src/data/faq.json` | CC-FAQs (3 Kategorien) |
+| `frontend/src/data/tariffs-detailed.json` | Detaillierte Tarifdaten (Fahrzeugklassen, km-Staffelpreise) für TariffOverview |
+| `frontend/src/components/TariffOverview.tsx` | Tarifvergleichs-Komponente (CC eco vs. CC go, Fahrzeugklassen) |
+| `frontend/src/app/embed/tarife/page.tsx` | Öffentliche Embed-Seite für Tarifübersicht (ohne Login) |
+| `frontend/src/app/embed/tarife/layout.tsx` | Minimales Layout für Embed-Seite (ohne Header/Footer) |
 | `frontend/Dockerfile` | Multi-Stage Build, NEXT_PUBLIC_BACKEND_URL= (leer) |
 
 ### 8.8 Unterschiede zu ZEO Kundenassistent

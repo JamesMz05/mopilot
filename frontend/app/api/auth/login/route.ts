@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const AUTH_COOKIE = 'demo_auth'
 const AUTH_TOKEN = 'mopilot_demo_authenticated'
-const BACKEND_URL = process.env.BACKEND_URL || 'http://backend-ns8wok04s4sgkcggwg48okcg:8000'
+const BACKEND_URL = process.env.BACKEND_URL || 'http://mopilot-main-backend:8000'
 
 function setAuthCookie(response: NextResponse) {
   response.cookies.set(AUTH_COOKIE, AUTH_TOKEN, {

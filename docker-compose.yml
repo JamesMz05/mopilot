@@ -64,6 +64,7 @@ services:
       - "traefik.http.routers.main-api.tls=true"
       - "traefik.http.routers.main-api.tls.certresolver=letsencrypt"
       - "traefik.http.services.main-api.loadbalancer.server.port=8000"
+      - "traefik.docker.network=coolify"
     restart: unless-stopped
     networks:
       - internal
@@ -78,6 +79,8 @@ services:
     container_name: mopilot-main-frontend
     depends_on:
       - main-backend
+    environment:
+      BACKEND_URL: "http://mopilot-main-backend:8000"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.main-web.rule=Host(`${DOMAIN}`)"
@@ -85,8 +88,10 @@ services:
       - "traefik.http.routers.main-web.tls=true"
       - "traefik.http.routers.main-web.tls.certresolver=letsencrypt"
       - "traefik.http.services.main-web.loadbalancer.server.port=3000"
+      - "traefik.docker.network=coolify"
     restart: unless-stopped
     networks:
+      - internal
       - coolify
 
   # =================================================================
@@ -117,6 +122,7 @@ services:
       - "traefik.http.routers.ideen-api.tls.certresolver=letsencrypt"
       - "traefik.http.routers.ideen-api.priority=20"
       - "traefik.http.services.ideen-api.loadbalancer.server.port=8000"
+      - "traefik.docker.network=coolify"
     restart: unless-stopped
     networks:
       - internal
@@ -174,6 +180,9 @@ services:
     container_name: mopilot-zeo-frontend
     depends_on:
       - zeo-backend
+      - main-backend
+    environment:
+      AUTH_API_URL: "http://mopilot-main-backend:8000"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.zeo-web.rule=Host(`zeo-kunden.${DOMAIN}`)"
@@ -219,6 +228,8 @@ services:
     depends_on:
       - cc-backend
       - main-backend
+    environment:
+      AUTH_API_URL: "http://mopilot-main-backend:8000"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.cc-web.rule=Host(`cc-kunden.${DOMAIN}`)"

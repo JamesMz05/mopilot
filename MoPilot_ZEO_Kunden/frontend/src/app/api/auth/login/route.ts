@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const AUTH_COOKIE = 'demo_auth'
 const AUTH_TOKEN = 'mopilot_demo_authenticated'
-const AUTH_API_URL = process.env.AUTH_API_URL || 'http://backend-ns8wok04s4sgkcggwg48okcg:8000'
+const AUTH_API_URL = process.env.AUTH_API_URL || 'http://mopilot-main-backend:8000'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()

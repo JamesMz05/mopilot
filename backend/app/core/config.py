@@ -2,7 +2,7 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    DATABASE_URL: str = "postgresql+asyncpg://mopilot:mopilot_secret_2026@postgres-ns8wok04s4sgkcggwg48okcg:5432/mopilot"
+    DATABASE_URL: str = "postgresql+asyncpg://mopilot:mopilot_secret_2026@mopilot-postgres:5432/mopilot"
     REDIS_URL: str = "redis://redis:6379/0"
     ANTHROPIC_API_KEY: str = "sk-placeholder"
     SECRET_KEY: str = "mopilot-jwt-secret-change-in-production"
