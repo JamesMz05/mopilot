@@ -5,12 +5,14 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from ..auth import get_current_user, hash_password
+from ..auth import create_invite_token, get_current_user, hash_password
 from ..database import get_db
+from ..email import send_invitation_email
 from ..models import Comment, Idea, Rating, Role, User, UserType
 from ..schemas import (
     AdminPasswordResetRequest,
     AdminRoleChangeRequest,
+    AdminUserCreate,
     MessageResponse,
     UserOut,
 )
@@ -26,6 +28,90 @@ def _require_admin(current_user: User) -> None:
         raise HTTPException(status_code=403, detail="Nur Admins können Nutzer verwalten.")
 
 
+INVITE_PLACEHOLDER_HASH = "!invited"
+
+
+@router.post("/create", response_model=MessageResponse, status_code=201)
+def admin_create_user(
+    data: AdminUserCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Admin creates a new user and sends an invitation email."""
+    _require_admin(current_user)
+
+    existing = db.query(User).filter(User.email == data.email).first()
+    if existing:
+        raise HTTPException(
+            status_code=409,
+            detail="Diese E-Mail-Adresse ist bereits registriert.",
+        )
+
+    role = db.query(Role).filter(Role.id == data.role_id).first()
+    if not role:
+        raise HTTPException(status_code=400, detail="Ungültige Rolle.")
+
+    user = User(
+        email=data.email,
+        name=data.name,
+        role_id=data.role_id,
+        user_type=data.user_type,
+        password_hash=INVITE_PLACEHOLDER_HASH,
+        email_verified=True,
+        approved=True,
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    logger.info(
+        "Admin %s created invited user %s (role=%s)",
+        current_user.email, user.email, role.name,
+    )
+
+    sync_user_to_mopilot(
+        user.email, user.name, INVITE_PLACEHOLDER_HASH, role.slug,
+    )
+
+    token = create_invite_token(user.id)
+    send_invitation_email(user.email, user.name, role.name, token)
+
+    return MessageResponse(
+        message=f"{user.name} wurde erstellt und eine Einladung an {user.email} gesendet.",
+    )
+
+
+@router.post("/{user_id}/reinvite", response_model=MessageResponse)
+def resend_invitation(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Resend invitation email to a user who hasn't set their password yet."""
+    _require_admin(current_user)
+
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Benutzer nicht gefunden.")
+    if user.password_hash != INVITE_PLACEHOLDER_HASH:
+        raise HTTPException(
+            status_code=400,
+            detail="Dieser Benutzer hat bereits ein Passwort gesetzt.",
+        )
+
+    role = db.query(Role).filter(Role.id == user.role_id).first()
+    role_name = role.name if role else "Stakeholder"
+
+    token = create_invite_token(user.id)
+    send_invitation_email(user.email, user.name, role_name, token)
+    logger.info(
+        "Admin %s resent invitation to %s", current_user.email, user.email,
+    )
+
+    return MessageResponse(
+        message=f"Einladung erneut an {user.email} gesendet.",
+    )
+
+
 @router.get("", response_model=list[UserOut])
 def list_users(
     db: Session = Depends(get_db),
@@ -38,7 +124,12 @@ def list_users(
         .order_by(User.approved.asc(), User.created_at.desc())
         .all()
     )
-    return [UserOut.model_validate(u) for u in users]
+    result = []
+    for u in users:
+        out = UserOut.model_validate(u)
+        out.has_password = u.password_hash != INVITE_PLACEHOLDER_HASH
+        result.append(out)
+    return result
 
 
 @router.get("/pending-count")
