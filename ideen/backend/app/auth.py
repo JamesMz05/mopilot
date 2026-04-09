@@ -51,6 +51,13 @@ def create_reset_token(user_id: int) -> str:
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
 
+def create_invite_token(user_id: int) -> str:
+    """Create a JWT token for user invitation (48h validity)."""
+    expire = datetime.now(timezone.utc) + timedelta(hours=48)
+    payload = {"sub": str(user_id), "purpose": "invite", "exp": expire}
+    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+
+
 def decode_purpose_token(token: str, expected_purpose: str) -> int:
     """Decode a purpose-bound JWT token. Returns user_id."""
     payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])

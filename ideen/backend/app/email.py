@@ -249,3 +249,37 @@ def send_admin_new_registration_email(
     </div>
     """
     return send_email(ADMIN_EMAIL, subject, html)
+
+
+def send_invitation_email(to: str, name: str, role_name: str, token: str) -> bool:
+    """Send invitation email to a user created by admin."""
+    subject = "Willkommen bei MoPilot – Konto einrichten"
+    invite_url = f"{BASE_URL}/einladung?token={token}"
+    html = f"""
+    <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: #2D6A4F; color: white; padding: 20px; border-radius: 8px 8px 0 0;">
+            <h2 style="margin: 0;">MoPilot Ideenplattform</h2>
+        </div>
+        <div style="padding: 20px; background: #f9fafb; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+            <p>Hallo {name},</p>
+            <p>Sie wurden als <strong>{role_name}</strong> zur MoPilot Ideenplattform eingeladen.
+               Um Ihr Konto zu aktivieren, legen Sie bitte ein Passwort fest:</p>
+            <p style="text-align: center; margin: 24px 0;">
+                <a href="{invite_url}"
+                   style="display: inline-block; background: #2D6A4F; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">
+                    Passwort festlegen
+                </a>
+            </p>
+            <p style="color: #666; font-size: 14px;">
+                Falls der Button nicht funktioniert, kopieren Sie diesen Link in Ihren Browser:<br/>
+                <a href="{invite_url}" style="color: #2D6A4F; word-break: break-all;">{invite_url}</a>
+            </p>
+            <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
+            <p style="color: #999; font-size: 12px;">
+                Dieser Link ist 48 Stunden gültig. Falls Sie diese Einladung nicht erwartet haben,
+                können Sie diese E-Mail ignorieren.
+            </p>
+        </div>
+    </div>
+    """
+    return send_email(to, subject, html)

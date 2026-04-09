@@ -43,6 +43,7 @@ class UserOut(BaseModel):
     email_verified: bool = False
     approved: bool = False
     created_at: datetime
+    has_password: bool = True
 
     model_config = {"from_attributes": True}
 
@@ -169,6 +170,18 @@ class AdminApproveRequest(BaseModel):
 
 class AdminRoleChangeRequest(BaseModel):
     role_id: int
+
+
+class AdminUserCreate(BaseModel):
+    email: EmailStr
+    name: str = Field(..., min_length=1, max_length=255)
+    role_id: int
+    user_type: UserType = UserType.stakeholder
+
+
+class AcceptInviteRequest(BaseModel):
+    token: str
+    new_password: str = Field(..., min_length=6)
 
 
 class AdminPasswordResetRequest(BaseModel):
