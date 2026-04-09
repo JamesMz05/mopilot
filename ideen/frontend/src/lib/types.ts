@@ -57,6 +57,7 @@ export interface UserInfo {
   email_verified: boolean;
   approved: boolean;
   created_at: string;
+  has_password: boolean;
 }
 
 export const CATEGORY_LABELS: Record<string, string> = {

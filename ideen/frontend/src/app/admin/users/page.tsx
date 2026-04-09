@@ -18,6 +18,11 @@ export default function AdminUsersPage() {
   const [newPassword, setNewPassword] = useState("");
   const [roleModal, setRoleModal] = useState<{ userId: number; name: string; currentRoleId: number | null } | null>(null);
   const [selectedRoleId, setSelectedRoleId] = useState<number | null>(null);
+  const [createModal, setCreateModal] = useState(false);
+  const [createName, setCreateName] = useState("");
+  const [createEmail, setCreateEmail] = useState("");
+  const [createRoleId, setCreateRoleId] = useState<number | null>(null);
+  const [createUserType, setCreateUserType] = useState<string>("stakeholder");
 
   useEffect(() => {
     if (!token) { router.push("/login"); return; }
@@ -94,6 +99,47 @@ export default function AdminUsersPage() {
     setActionLoading(null);
   }
 
+  async function handleCreate() {
+    if (!createName.trim() || !createEmail.trim() || !createRoleId) return;
+    setActionLoading(-1);
+    try {
+      await apiFetch<{ message: string }>("/users/create", {
+        method: "POST",
+        token,
+        body: {
+          name: createName.trim(),
+          email: createEmail.trim(),
+          role_id: createRoleId,
+          user_type: createUserType,
+        },
+      });
+      const updated = await apiFetch<UserInfo[]>("/users", { token });
+      setUsers(updated);
+      setCreateModal(false);
+      setCreateName("");
+      setCreateEmail("");
+      setCreateRoleId(null);
+      setCreateUserType("stakeholder");
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Fehler beim Erstellen");
+    }
+    setActionLoading(null);
+  }
+
+  async function handleReinvite(userId: number) {
+    setActionLoading(userId);
+    try {
+      await apiFetch<{ message: string }>(`/users/${userId}/reinvite`, {
+        method: "POST",
+        token,
+      });
+      alert("Einladung erneut gesendet.");
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Fehler beim erneuten Einladen");
+    }
+    setActionLoading(null);
+  }
+
   function getRoleName(roleId: number | null) {
     if (!roleId) return "\u2014";
     return roles.find((r) => r.id === roleId)?.name || "\u2014";
@@ -117,7 +163,16 @@ export default function AdminUsersPage() {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
         Zurück zum Admin-Dashboard
       </Link>
-      <h2 className="text-2xl font-display font-bold text-surface-900 mb-6">Benutzerverwaltung</h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-display font-bold text-surface-900">Benutzerverwaltung</h2>
+        <button
+          onClick={() => setCreateModal(true)}
+          className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-4 py-2 rounded-xl text-sm font-semibold font-body hover:from-primary-700 hover:to-primary-800 transition-all flex items-center gap-2"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Neuer Benutzer
+        </button>
+      </div>
 
       {/* Pending Users */}
       {pendingUsers.length > 0 && (
@@ -193,6 +248,9 @@ export default function AdminUsersPage() {
                     : u.user_type === "team" ? "bg-blue-100 text-blue-700"
                     : "bg-surface-100 text-surface-700"
                   }`}>{u.user_type}</span>
+                  {!u.has_password && (
+                    <span className="ml-1 text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Eingeladen</span>
+                  )}
                 </td>
                 <td className="px-4 py-3 text-surface-500">
                   <button
@@ -206,9 +264,15 @@ export default function AdminUsersPage() {
                 <td className="px-4 py-3 text-right">
                   {u.id !== user?.id && (
                     <div className="flex items-center justify-end gap-2">
-                      <button onClick={() => { setPasswordModal({ userId: u.id, name: u.name }); setNewPassword(""); }} className="text-xs text-primary-600 hover:text-primary-800 transition-colors">
-                        Passwort
-                      </button>
+                      {!u.has_password ? (
+                        <button onClick={() => handleReinvite(u.id)} disabled={actionLoading === u.id} className="text-xs text-primary-600 hover:text-primary-800 transition-colors disabled:opacity-50">
+                          Erneut einladen
+                        </button>
+                      ) : (
+                        <button onClick={() => { setPasswordModal({ userId: u.id, name: u.name }); setNewPassword(""); }} className="text-xs text-primary-600 hover:text-primary-800 transition-colors">
+                          Passwort
+                        </button>
+                      )}
                       <button onClick={() => handleAction(u.id, "suspend")} disabled={actionLoading === u.id} className="text-xs text-amber-600 hover:text-amber-800 transition-colors disabled:opacity-50">
                         Sperren
                       </button>
@@ -278,6 +342,63 @@ export default function AdminUsersPage() {
                 className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-4 py-2 rounded-xl text-sm font-semibold font-body hover:from-primary-700 hover:to-primary-800 transition-all disabled:opacity-50"
               >
                 Speichern
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create User Modal */}
+      {createModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setCreateModal(false)}>
+          <div className="bg-white rounded-2xl shadow-warm-xl p-6 w-full max-w-md mx-4" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-lg font-display font-semibold text-surface-900 mb-4">Neuer Benutzer</h3>
+            <div className="space-y-3">
+              <input
+                type="text"
+                value={createName}
+                onChange={(e) => setCreateName(e.target.value)}
+                placeholder="Name"
+                className="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm font-body focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+                autoFocus
+              />
+              <input
+                type="email"
+                value={createEmail}
+                onChange={(e) => setCreateEmail(e.target.value)}
+                placeholder="E-Mail-Adresse"
+                className="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm font-body focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+              />
+              <select
+                value={createRoleId || ""}
+                onChange={(e) => setCreateRoleId(Number(e.target.value))}
+                className="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm font-body focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+              >
+                <option value="">Rolle auswählen...</option>
+                {roles.map((r) => (
+                  <option key={r.id} value={r.id}>{r.name} ({r.category})</option>
+                ))}
+              </select>
+              <select
+                value={createUserType}
+                onChange={(e) => setCreateUserType(e.target.value)}
+                className="w-full border border-surface-300 rounded-xl px-3 py-2 text-sm font-body focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-transparent"
+              >
+                <option value="stakeholder">Stakeholder</option>
+                <option value="team">Team</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div className="flex justify-end gap-2 mt-4">
+              <button onClick={() => setCreateModal(false)} className="text-sm font-body text-surface-500 hover:text-surface-700 px-4 py-2">
+                Abbrechen
+              </button>
+              <button
+                onClick={handleCreate}
+                disabled={!createName.trim() || !createEmail.trim() || !createRoleId || actionLoading !== null}
+                className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-4 py-2 rounded-xl text-sm font-semibold font-body hover:from-primary-700 hover:to-primary-800 transition-all disabled:opacity-50"
+              >
+                Erstellen & Einladen
               </button>
             </div>
           </div>
