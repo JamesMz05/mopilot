@@ -25,6 +25,7 @@ from ..email import (
 from ..models import Role, User, UserType
 from ..user_sync import sync_user_to_mopilot, update_password_in_mopilot
 from ..schemas import (
+    AcceptInviteRequest,
     ForgotPasswordRequest,
     LoginRequest,
     MessageResponse,
@@ -34,6 +35,9 @@ from ..schemas import (
     UserCreate,
     UserOut,
 )
+
+# Placeholder hash used for invited users who haven't set a password yet
+_INVITE_PLACEHOLDER = "!invited"
 
 logger = logging.getLogger(__name__)
 
@@ -108,7 +112,7 @@ def register(data: UserCreate, db: Session = Depends(get_db)):
 def login(data: LoginRequest, db: Session = Depends(get_db)):
     """Login and receive a JWT token."""
     user = db.query(User).filter(User.email == data.email).first()
-    if not user or not verify_password(data.password, user.password_hash):
+    if not user or user.password_hash == _INVITE_PLACEHOLDER or not verify_password(data.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Ungültige E-Mail oder Passwort.",
@@ -222,3 +226,37 @@ def resend_verification(data: ResendVerificationRequest, db: Session = Depends(g
 def get_me(current_user: User = Depends(get_current_user)):
     """Get current user profile."""
     return UserOut.model_validate(current_user)
+
+
+@router.post("/accept-invite", response_model=MessageResponse)
+def accept_invitation(data: AcceptInviteRequest, db: Session = Depends(get_db)):
+    """Accept an invitation by setting a password using the invite token."""
+    try:
+        user_id = decode_purpose_token(data.token, "invite")
+    except (jwt.InvalidTokenError, KeyError, ValueError):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Ungültiger oder abgelaufener Einladungslink.",
+        )
+
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Benutzer nicht gefunden.")
+
+    if user.password_hash != _INVITE_PLACEHOLDER:
+        raise HTTPException(
+            status_code=400,
+            detail="Sie haben bereits ein Passwort gesetzt. Bitte melden Sie sich an.",
+        )
+
+    user.password_hash = hash_password(data.new_password)
+    db.commit()
+    logger.info("Invitation accepted: %s set their password", user.email)
+
+    role = db.query(Role).filter(Role.id == user.role_id).first() if user.role_id else None
+    sync_user_to_mopilot(
+        user.email, user.name, user.password_hash,
+        role.slug if role else None,
+    )
+
+    return MessageResponse(message="Passwort erfolgreich gesetzt. Sie können sich jetzt anmelden.")
