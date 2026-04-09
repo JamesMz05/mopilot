@@ -5,16 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { apiFetch } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
-import { Role, STATUS_LABELS } from "@/lib/types";
-
-interface UserInfo {
-  id: number;
-  email: string;
-  name: string;
-  role_id: number | null;
-  user_type: string;
-  created_at: string;
-}
+import { Role, STATUS_LABELS, UserInfo } from "@/lib/types";
 
 interface Tag {
   id: number;
@@ -39,6 +30,7 @@ export default function AdminPage() {
   const [tags, setTags] = useState<Tag[]>([]);
   const [newTag, setNewTag] = useState("");
   const [loading, setLoading] = useState(true);
+  const [pendingCount, setPendingCount] = useState(0);
 
   useEffect(() => {
     if (!token) { router.push("/login"); return; }
@@ -49,8 +41,9 @@ export default function AdminPage() {
       apiFetch<Record<string, Role[]>>("/roles"),
       apiFetch<Stats>("/export/stats", { token }),
       apiFetch<Tag[]>("/tags"),
+      apiFetch<{ count: number }>("/users/pending-count", { token }),
     ])
-      .then(([u, r, s, t]) => { setUsers(u); setRoles(r); setStats(s); setTags(t); })
+      .then(([u, r, s, t, p]) => { setUsers(u); setRoles(r); setStats(s); setTags(t); setPendingCount(p.count); })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [token, user, router]);
@@ -261,7 +254,18 @@ export default function AdminPage() {
       </div>
 
       {/* Users */}
-      <h3 className="text-lg font-display font-semibold text-surface-900 mb-3">Benutzer</h3>
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-lg font-display font-semibold text-surface-900">Benutzer</h3>
+        <Link
+          href="/admin/users"
+          className="inline-flex items-center gap-2 bg-gradient-to-r from-primary-600 to-primary-700 text-white px-4 py-2 rounded-xl text-sm font-semibold font-body hover:from-primary-700 hover:to-primary-800 hover:shadow-warm-md transition-all duration-200"
+        >
+          Benutzerverwaltung
+          {pendingCount > 0 && (
+            <span className="bg-amber-400 text-amber-900 text-xs font-bold px-2 py-0.5 rounded-full">{pendingCount}</span>
+          )}
+        </Link>
+      </div>
       <div className="bg-white rounded-xl shadow-warm-sm border border-surface-200 overflow-hidden">
         <table className="w-full text-sm font-body">
           <thead className="bg-surface-50">

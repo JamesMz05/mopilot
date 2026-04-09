@@ -50,6 +50,7 @@ class User(Base):
     user_type = Column(Enum(UserType), nullable=False, default=UserType.stakeholder)
     password_hash = Column(String(255), nullable=False)
     email_verified = Column(Boolean, default=False, server_default="false", nullable=False)
+    approved = Column(Boolean, default=False, server_default="false", nullable=False)
     created_at = Column(DateTime, server_default=func.now())
 
     role = relationship("Role", back_populates="users", lazy="joined")

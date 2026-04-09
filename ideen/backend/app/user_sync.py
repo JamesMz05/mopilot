@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 MOPILOT_DB_URL = (
     "postgresql://mopilot:mopilot_secret_2026"
-    "@postgres-ns8wok04s4sgkcggwg48okcg:5432/mopilot"
+    "@mopilot-postgres:5432/mopilot"
 )
 
 ADMIN_EMAIL = "admin@mopilot.website"
@@ -122,3 +122,22 @@ def update_password_in_mopilot(email: str, password_hash: str) -> None:
             conn.close()
     except Exception:
         logger.exception("[USER-SYNC] Failed to update password for %s in mopilot DB", email)
+
+
+def delete_user_from_mopilot(email: str) -> bool:
+    """Delete a user from the mopilot main database. Returns True on success."""
+    try:
+        conn = psycopg2.connect(MOPILOT_DB_URL, connect_timeout=10)
+        try:
+            with conn.cursor() as cur:
+                cur.execute("DELETE FROM users WHERE email = %s", (email,))
+                deleted = cur.rowcount
+            conn.commit()
+            if deleted:
+                logger.info("[USER-SYNC] Deleted %s from mopilot DB", email)
+            return deleted > 0
+        finally:
+            conn.close()
+    except Exception:
+        logger.exception("[USER-SYNC] Failed to delete %s from mopilot DB", email)
+        return False

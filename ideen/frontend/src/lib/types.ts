@@ -47,6 +47,18 @@ export interface RatingOverview {
   ratings: Rating[];
 }
 
+export interface UserInfo {
+  id: number;
+  email: string;
+  name: string;
+  role_id: number | null;
+  role_name: string | null;
+  user_type: string;
+  email_verified: boolean;
+  approved: boolean;
+  created_at: string;
+}
+
 export const CATEGORY_LABELS: Record<string, string> = {
   kundennah: "Kundennah",
   betrieb: "Betrieb",

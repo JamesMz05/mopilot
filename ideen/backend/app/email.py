@@ -210,3 +210,42 @@ def send_password_reset_email(to: str, name: str, token: str) -> bool:
     </div>
     """
     return send_email(to, subject, html)
+
+
+ADMIN_EMAIL = "admin@mopilot.website"
+
+
+def send_admin_new_registration_email(
+    user_email: str, user_name: str, role_name: str | None
+) -> bool:
+    """Notify admin about a new user registration pending approval."""
+    subject = f"Neue Registrierung wartet auf Freischaltung: {user_name}"
+    admin_url = f"{BASE_URL}/admin/users"
+    role_display = role_name or "Keine Rolle"
+    html = f"""
+    <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: #2D6A4F; color: white; padding: 20px; border-radius: 8px 8px 0 0;">
+            <h2 style="margin: 0;">MoPilot Ideenplattform</h2>
+        </div>
+        <div style="padding: 20px; background: #f9fafb; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+            <p>Hallo Admin,</p>
+            <p>ein neuer Benutzer hat sich registriert und wartet auf Freischaltung:</p>
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr><td style="padding: 8px; color: #666;"><strong>Name:</strong></td><td style="padding: 8px;">{user_name}</td></tr>
+                <tr><td style="padding: 8px; color: #666;"><strong>E-Mail:</strong></td><td style="padding: 8px;">{user_email}</td></tr>
+                <tr><td style="padding: 8px; color: #666;"><strong>Rolle:</strong></td><td style="padding: 8px;">{role_display}</td></tr>
+            </table>
+            <p style="text-align: center; margin: 24px 0;">
+                <a href="{admin_url}"
+                   style="display: inline-block; background: #2D6A4F; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600;">
+                    Benutzerverwaltung öffnen
+                </a>
+            </p>
+            <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
+            <p style="color: #999; font-size: 12px;">
+                Diese Nachricht wurde automatisch von der MoPilot Ideenplattform versendet.
+            </p>
+        </div>
+    </div>
+    """
+    return send_email(ADMIN_EMAIL, subject, html)

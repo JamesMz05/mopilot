@@ -16,7 +16,12 @@ from ..auth import (
     verify_password,
 )
 from ..database import get_db
-from ..email import is_email_configured, send_password_reset_email, send_verification_email
+from ..email import (
+    is_email_configured,
+    send_admin_new_registration_email,
+    send_password_reset_email,
+    send_verification_email,
+)
 from ..models import Role, User, UserType
 from ..user_sync import sync_user_to_mopilot, update_password_in_mopilot
 from ..schemas import (
@@ -83,15 +88,19 @@ def register(data: UserCreate, db: Session = Depends(get_db)):
             send_verification_email(user.email, user.name, token)
         except Exception as e:
             logger.warning("Verification email failed: %s", str(e))
+        # Notify admin about pending registration
+        role = db.query(Role).filter(Role.id == user.role_id).first() if user.role_id else None
+        try:
+            send_admin_new_registration_email(user.email, user.name, role.name if role else None)
+        except Exception as e:
+            logger.warning("Admin notification email failed: %s", str(e))
         return MessageResponse(
-            message="Registrierung erfolgreich! Bitte prüfen Sie Ihr Postfach und bestätigen Sie Ihre E-Mail-Adresse."
+            message="Registrierung erfolgreich! Bitte prüfen Sie Ihr Postfach und bestätigen Sie Ihre E-Mail-Adresse. Nach der Bestätigung wird Ihr Konto vom Administrator freigeschaltet."
         )
     else:
-        # No SMTP → auto-verified, sync to mopilot DB immediately
-        role = db.query(Role).filter(Role.id == user.role_id).first() if user.role_id else None
-        sync_user_to_mopilot(user.email, user.name, user.password_hash, role.slug if role else None)
+        # No SMTP → auto-verified but still needs admin approval
         return MessageResponse(
-            message="Registrierung erfolgreich! Sie können sich jetzt anmelden."
+            message="Registrierung erfolgreich! Ihr Konto muss noch vom Administrator freigeschaltet werden."
         )
 
 
@@ -109,6 +118,12 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="E-Mail-Adresse noch nicht bestätigt. Bitte prüfen Sie Ihr Postfach.",
+        )
+
+    if not user.approved:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Ihr Konto wurde noch nicht freigeschaltet. Bitte warten Sie auf die Bestätigung durch den Administrator.",
         )
 
     token = create_access_token(user.id)
@@ -138,9 +153,7 @@ def verify_email(token: str = Query(...), db: Session = Depends(get_db)):
     db.commit()
     logger.info("Email verified: %s", user.email)
 
-    # Sync verified user to mopilot DB
-    role = db.query(Role).filter(Role.id == user.role_id).first() if user.role_id else None
-    sync_user_to_mopilot(user.email, user.name, user.password_hash, role.slug if role else None)
+    logger.info("Email verified for %s. Awaiting admin approval.", user.email)
 
     return MessageResponse(message="E-Mail-Adresse erfolgreich bestätigt! Sie können sich jetzt anmelden.")
 

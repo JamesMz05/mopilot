@@ -41,6 +41,7 @@ class UserOut(BaseModel):
     role_name: str | None = None
     user_type: UserType
     email_verified: bool = False
+    approved: bool = False
     created_at: datetime
 
     model_config = {"from_attributes": True}
@@ -159,6 +160,19 @@ class ResendVerificationRequest(BaseModel):
 
 class MessageResponse(BaseModel):
     message: str
+
+
+class AdminApproveRequest(BaseModel):
+    """Used for approve/reject actions."""
+    pass
+
+
+class AdminRoleChangeRequest(BaseModel):
+    role_id: int
+
+
+class AdminPasswordResetRequest(BaseModel):
+    new_password: str = Field(..., min_length=6)
 
 
 # --- Health ---

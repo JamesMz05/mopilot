@@ -3,11 +3,21 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth";
+import { apiFetch } from "@/lib/api";
 
 export default function Header() {
-  const { user, logout } = useAuth();
+  const { user, token, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [pendingCount, setPendingCount] = useState(0);
+
+  useEffect(() => {
+    if (user?.user_type === "admin" && token) {
+      apiFetch<{ count: number }>("/users/pending-count", { token })
+        .then((p) => setPendingCount(p.count))
+        .catch(() => {});
+    }
+  }, [user, token]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -60,8 +70,11 @@ export default function Header() {
               </Link>
             )}
             {user?.user_type === "admin" && (
-              <Link href="/admin" className="relative px-3 py-2 text-sm font-medium font-body text-surface-600 hover:text-primary-700 transition-colors group">
+              <Link href="/admin" className="relative px-3 py-2 text-sm font-medium font-body text-surface-600 hover:text-primary-700 transition-colors group inline-flex items-center">
                 Admin
+                {pendingCount > 0 && (
+                  <span className="ml-1 bg-amber-400 text-amber-900 text-xs font-bold px-1.5 py-0.5 rounded-full">{pendingCount}</span>
+                )}
                 <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-primary-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full" />
               </Link>
             )}
@@ -132,8 +145,11 @@ export default function Header() {
                 Ideen
               </Link>
               {user?.user_type === "admin" && (
-                <Link href="/admin" onClick={() => setMobileOpen(false)} className="block px-4 py-3 text-sm font-medium font-body text-surface-700 hover:bg-primary-50 hover:text-primary-700 rounded-xl transition-colors">
+                <Link href="/admin" onClick={() => setMobileOpen(false)} className="flex items-center px-4 py-3 text-sm font-medium font-body text-surface-700 hover:bg-primary-50 hover:text-primary-700 rounded-xl transition-colors">
                   Admin
+                  {pendingCount > 0 && (
+                    <span className="ml-1 bg-amber-400 text-amber-900 text-xs font-bold px-1.5 py-0.5 rounded-full">{pendingCount}</span>
+                  )}
                 </Link>
               )}
               {user ? (
