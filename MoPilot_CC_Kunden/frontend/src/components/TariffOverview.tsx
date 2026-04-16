@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { Check, ChevronDown, Star, Zap, ExternalLink } from 'lucide-react'
-import tariffsData from '@/data/tariffs.json'
+import tariffsData from '@/data/tariffs-detailed.json'
 
 /** Calculate km cost for CC eco (tiered: 1-100km / 101+km) */
 function kmCostEco(km: number, vc: typeof tariffsData.vehicle_classes[number]) {
