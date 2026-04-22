@@ -1,6 +1,6 @@
 # MoPilot
 **KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum**
-**Prototyp v1.0**   Datum: 6. April 2026
+**Prototyp v1.1**   Datum: 9. April 2026
 
 MoPilot Projektlaufzeit
 01.01.2026 – 31.07.2027
@@ -131,12 +131,22 @@ Carsharing Projekte: ZEO Carsharing (Region Bruchsal) | Car&RideSharing Communit
     - 19.5 Migration
     - 19.6 Entfernte Dateien
     - 19.7 Geänderte Dateien
+20. Admin-Benutzerverwaltung & Einladungssystem – NEU in v1.1
+    - 20.1 Übersicht
+    - 20.2 Admin-Einladungsflow
+    - 20.3 Freischaltungssystem (Self-Service)
+    - 20.4 Login-Guard
+    - 20.5 JWT-Token-Typen (vollständig)
+    - 20.6 Frontend: Admin-Benutzerverwaltung
+    - 20.7 Pydantic-Schemas (neu/geändert)
+    - 20.8 Geänderte Dateien
+    - 20.9 Commits
 
 ---
 
 ## 1. Zusammenfassung
 
-MoPilot ist ein KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum. Der Prototyp v1.0 erweitert v0.9 um eine **vereinheitlichte Infrastruktur**: ein zentrales `docker-compose.yml` für alle 10 Services, eine zentrale `.env`-Datei, shared-ui via Docker Build-Stage (kein Sync-Script mehr), vereinfachte CI/CD-Pipeline ohne rsync, und Coolify auf Traefik-Proxy-Rolle reduziert. Alle v0.9-Features bleiben erhalten: rollenspezifische Dashboards, KI-Chat, Landing Page, DB-Authentifizierung.
+MoPilot ist ein KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum. Der Prototyp v1.1 erweitert v1.0 um eine **erweiterte Admin-Benutzerverwaltung und Einladungssystem**: Admin kann Benutzer direkt anlegen und per E-Mail einladen, zweistufiges Freischaltungssystem (E-Mail-Verifizierung + Admin-Approval), Login-Guard gegen Platzhalter-Passwörter, "Eingeladen"-Badge, Erneut-einladen-Funktion, und Defense-in-depth-Sicherheitsprüfungen. Alle v1.0-Features bleiben erhalten: vereinheitlichte Infrastruktur, rollenspezifische Dashboards, KI-Chat, Landing Page, DB-Authentifizierung.
 
 ### Projektkontext
 
@@ -764,7 +774,7 @@ Die MoPilot Ideenplattform (ideen.mopilot.website) ist eine Webanwendung, in der
 
 | Tabelle | Felder | Beziehungen |
 |---------|--------|-------------|
-| **users** | id, email (unique), name, role_id (FK→roles), user_type, password_hash, email_verified, created_at | → Role, → Ideas, → Ratings, → Comments |
+| **users** | id, email (unique), name, role_id (FK→roles), user_type, password_hash, email_verified, **approved**, created_at | → Role, → Ideas, → Ratings, → Comments |
 | **roles** | id, name (unique), slug (unique), category, description, email_alias, tagline | → Users, → Ideas |
 | **ideas** | id, title, description, author_id (FK→users), role_id (FK→roles), status, created_at, updated_at | → Author, → Role, → Ratings, → Comments, → Attachments |
 | **ratings** | id, idea_id (FK→ideas, cascade), user_id (FK→users), score (1-5), created_at | UniqueConstraint(idea_id, user_id) |
@@ -786,6 +796,7 @@ Die MoPilot Ideenplattform (ideen.mopilot.website) ist eine Webanwendung, in der
 | POST | /api/auth/reset-password | Nein | Passwort zurücksetzen |
 | POST | /api/auth/resend-verification | Nein | Verify-Mail erneut senden |
 | GET | /api/auth/me | JWT | Eigenes Profil |
+| POST | /api/auth/accept-invite | Nein | Einladung annehmen (Passwort setzen) |
 
 **Ideas (/api/ideas)**
 
@@ -817,7 +828,15 @@ Die MoPilot Ideenplattform (ideen.mopilot.website) ist eine Webanwendung, in der
 | GET | /api/tags | Nein | Alle Tags |
 | POST | /api/tags | JWT (Team/Admin) | Tag erstellen |
 | DELETE | /api/tags/{id} | JWT (Admin) | Tag löschen |
-| GET | /api/users | JWT (Admin) | Alle Benutzer |
+| GET | /api/users | JWT (Admin) | Alle Benutzer (inkl. has_password-Feld) |
+| POST | /api/users/create | JWT (Admin) | Benutzer anlegen + Einladungs-E-Mail senden |
+| POST | /api/users/{id}/reinvite | JWT (Admin) | Einladungs-E-Mail erneut senden |
+| POST | /api/users/{id}/approve | JWT (Admin) | Benutzer freischalten + Sync → mopilot DB |
+| POST | /api/users/{id}/reject | JWT (Admin) | Benutzer ablehnen + löschen (Cascade) |
+| POST | /api/users/{id}/suspend | JWT (Admin) | Benutzer sperren (approved=false, aus mopilot DB entfernen) |
+| PATCH | /api/users/{id}/role | JWT (Admin) | Rolle ändern + Sync wenn approved |
+| POST | /api/users/{id}/reset-password | JWT (Admin) | Admin setzt neues Passwort |
+| GET | /api/users/pending-count | JWT (Admin) | Anzahl wartender Freischaltungen |
 | DELETE | /api/users/{id} | JWT (Admin) | Benutzer löschen (Cascade) |
 | DELETE | /api/comments/{id} | JWT (Autor/Admin) | Kommentar löschen |
 | GET | /api/export/ideas | JWT (Admin) | CSV-Export |
@@ -876,6 +895,8 @@ Stakeholder sehen Ideen aus ihrer eigenen Rollenkategorie plus alle darunterlieg
 |-----|---------|---------|
 | Verifizierung | "E-Mail-Adresse bestätigen – MoPilot Ideenplattform" | Registrierung |
 | Passwort-Reset | "Passwort zurücksetzen – MoPilot Ideenplattform" | Forgot-Password |
+| Einladung | "Willkommen bei MoPilot – Konto einrichten" | Admin erstellt Benutzer |
+| Admin-Benachrichtigung | "Neue Registrierung wartet auf Freischaltung: {Name}" | Self-Service-Registrierung |
 | Kommentar-Benachrichtigung | "Neuer Kommentar zu Ihrer Idee: {Titel}" | Neuer Kommentar |
 
 Alle E-Mails verwenden MoPilot-gebrandete HTML-Templates mit grünem Header (#2D6A4F).
@@ -952,7 +973,9 @@ volumes:
 - `/login` – Login
 - `/register` – Registrierung mit Rollenauswahl
 - `/verify` – E-Mail-Verifizierung
-- `/passwort-zuruecksetzen` – Passwort-Reset
+- `/passwort-vergessen` – Passwort-vergessen-Formular
+- `/passwort-zuruecksetzen` – Passwort-Reset (mit Token)
+- `/einladung` – Einladung annehmen (Passwort festlegen, mit Token)
 - `/admin` – Admin-Bereich (Benutzer, Statistiken, Export)
 
 ### 4.9 Serverpfade und Dateien
@@ -1015,14 +1038,30 @@ In v0.7 wurde ein plattformübergreifendes Authentifizierungssystem implementier
 
 **Wichtig:** Dies ist **kein Single Sign-On (SSO)**. Benutzer müssen sich auf jeder Plattform separat anmelden, verwenden aber überall dieselben Zugangsdaten.
 
-### 5.2 Registrierung (zentral über Ideenplattform)
+### 5.2 Benutzeranlage (zwei Wege)
 
-Neue Benutzer registrieren sich ausschließlich auf `ideen.mopilot.website/register`:
+Es gibt zwei Wege, neue Benutzer anzulegen:
+
+**Weg 1: Self-Service-Registrierung** (`ideen.mopilot.website/register`)
 
 1. Formular: E-Mail, Name, Passwort, Rolle (Dropdown mit allen 10 Rollen)
-2. User wird in `mopilot_ideen.users` angelegt mit `email_verified=false`
+2. User wird in `mopilot_ideen.users` angelegt mit `email_verified=false`, `approved=false`
 3. Verifizierungs-E-Mail wird gesendet (Link gültig 24 Stunden)
-4. Nach Klick auf Verify-Link: `email_verified=true` + User-Sync in mopilot-DB
+4. Admin erhält Benachrichtigungs-E-Mail über neue Registrierung
+5. Nach Klick auf Verify-Link: `email_verified=true` (Login noch nicht möglich)
+6. Admin schaltet Benutzer frei (`approved=true`) → User-Sync in mopilot-DB
+
+**Weg 2: Admin-Einladung** (`POST /api/users/create`)
+
+1. Admin erstellt Benutzer über Modal in `/admin/users` (Name, E-Mail, Rolle, Typ)
+2. User wird angelegt mit `password_hash="!invited"`, `email_verified=true`, `approved=true`
+3. Einladungs-E-Mail wird gesendet (Link gültig 48 Stunden)
+4. Benutzer klickt Link → `/einladung?token=...` → setzt eigenes Passwort
+5. Nach Passwort-Setzen: User-Sync mit echtem Hash in mopilot-DB
+
+**Login-Guard (seit v1.1):** Benutzer können sich nur anmelden, wenn:
+- `email_verified=true` UND `approved=true`
+- `password_hash` ist NICHT null und NICHT der Platzhalter `"!invited"`
 
 Auf den Login-Seiten von mopilot.website, zeo-kunden.mopilot.website und cc-kunden.mopilot.website gibt es jeweils einen Link:
 > "Noch kein Konto? Auf der Ideenplattform registrieren" → https://ideen.mopilot.website/register
@@ -1082,7 +1121,21 @@ postgresql://mopilot:mopilot_secret_2026@postgres-ns8wok04s4sgkcggwg48okcg:5432/
 
 | Funktion | Trigger | SQL-Operation |
 |----------|---------|---------------|
-| `sync_user_to_mopilot(email, name, hash, role_slug, operator)` | Registrierung, E-Mail-Verifizierung, Passwort-Reset | INSERT ... ON CONFLICT(email) DO UPDATE |
+| `sync_user_to_mopilot(email, name, hash, role_slug, operator)` | Siehe Trigger-Liste unten | INSERT ... ON CONFLICT(email) DO UPDATE |
+| `delete_user_from_mopilot(email)` | Benutzer ablehnen/sperren/löschen | DELETE FROM users WHERE email=... |
+
+**Sync-Trigger (vollständig seit v1.1):**
+
+| Trigger | Funktion | Anmerkung |
+|---------|----------|-----------|
+| Admin schaltet User frei (approve) | `sync_user_to_mopilot` | Sync mit echtem Passwort-Hash |
+| Admin erstellt User (invite) | `sync_user_to_mopilot` | Sync mit Platzhalter `"!invited"` |
+| Benutzer akzeptiert Einladung | `sync_user_to_mopilot` | Sync mit neuem echtem Hash |
+| Passwort-Reset | `sync_user_to_mopilot` | Sync mit neuem Hash (UPSERT) |
+| Admin ändert Rolle | `sync_user_to_mopilot` | Nur wenn approved=true |
+| Admin lehnt User ab (reject) | `delete_user_from_mopilot` | Entfernt aus mopilot DB |
+| Admin sperrt User (suspend) | `delete_user_from_mopilot` | Entfernt aus mopilot DB |
+| Admin löscht User (delete) | `delete_user_from_mopilot` | Entfernt aus mopilot DB |
 
 **Regeln:**
 - `admin@mopilot.website` wird automatisch als `MOPILOT_TEAM` synchronisiert (Sonderbehandlung seit v0.71)
@@ -1249,12 +1302,37 @@ Beide Systeme verwenden `passlib[bcrypt]` mit bcrypt-Hashing. Die Hashes sind **
 ### 5.11 Zusammenfassung: Auth-Architektur-Diagramm
 
 ```
-+--[ Registrierung ]--------------------------------------+
++--[ Self-Service-Registrierung ]-------------------------+
 |                                                          |
 |  ideen.mopilot.website/register                          |
-|  → User in mopilot_ideen DB (email_verified=false)       |
+|  → User in mopilot_ideen DB                              |
+|    (email_verified=false, approved=false)                 |
 |  → Verify-Mail (IONOS SMTP)                              |
-|  → Nach Verify: Sync → mopilot DB                        |
+|  → Admin-Benachrichtigung per E-Mail                     |
+|  → Nach Verify: email_verified=true                      |
+|  → Nach Admin-Freischaltung: approved=true               |
+|    → Sync → mopilot DB                                   |
+|                                                          |
++--[ Admin-Einladung (NEU v1.1) ]-------------------------+
+|                                                          |
+|  Admin erstellt User über /admin/users Modal             |
+|  → User in mopilot_ideen DB                              |
+|    (email_verified=true, approved=true,                   |
+|     password_hash="!invited")                             |
+|  → Einladungs-E-Mail (Link gültig 48h)                  |
+|  → Sync mit Platzhalter → mopilot DB                    |
+|  → User klickt Link → /einladung?token=...               |
+|  → Setzt eigenes Passwort                                |
+|  → Sync mit echtem Hash → mopilot DB                    |
+|                                                          |
++--[ Login-Guard (NEU v1.1) ]-----------------------------+
+|                                                          |
+|  Prüfung bei /api/auth/login:                            |
+|  ✗ password_hash ist NULL → Blockiert                    |
+|  ✗ password_hash == "!invited" → Blockiert               |
+|  ✗ email_verified == false → 403                         |
+|  ✗ approved == false → 403                               |
+|  ✓ Alle Prüfungen bestanden → JWT ausstellen             |
 |                                                          |
 +--[ Passwort-Reset ]--------------------------------------+
 |                                                          |
@@ -1288,13 +1366,13 @@ Beide Systeme verwenden `passlib[bcrypt]` mit bcrypt-Hashing. Die Hashes sind **
 |                                                          |
 |  mopilot_ideen:                                          |
 |    users (email, name, password_hash, role_id,           |
-|           email_verified, user_type)                     |
+|           email_verified, approved, user_type)           |
 |                                                          |
 |  mopilot:                                                |
 |    users (email, name, hashed_password, role [ENUM],     |
 |           operator, is_active)                           |
 |    → Seeded: 12 Demo-Accounts (PW: mopilot2026)         |
-|    → Synced: Alle verifizierten Ideen-User               |
+|    → Synced: Alle freigeschalteten Ideen-User            |
 |                                                          |
 +----------------------------------------------------------+
 ```
@@ -2461,6 +2539,164 @@ Die Migration erfolgte als Single Cutover mit ~30 Sekunden Downtime:
 | `.github/workflows/deploy.yml` | Vereinfacht (kein rsync, kein sync) |
 | `scripts/health-check-all.sh` | Container-Name `mopilot-postgres` |
 
+## 20. Admin-Benutzerverwaltung & Einladungssystem – NEU in v1.1
+
+### 20.1 Übersicht
+
+In v1.1 wurde die Benutzerverwaltung der Ideenplattform (ideen.mopilot.website) umfassend erweitert. Admins können nun Benutzer direkt anlegen und per E-Mail einladen, anstatt auf Self-Service-Registrierung zu warten. Zusätzlich wurde ein zweistufiges Freischaltungssystem (E-Mail-Verifizierung + Admin-Approval) für Self-Service-Registrierungen eingeführt.
+
+| # | Feature | Typ |
+|---|---------|-----|
+| 1 | Admin kann Benutzer erstellen + Einladungs-E-Mail | Feature |
+| 2 | Einladungs-Akzeptanz-Seite `/einladung` | Feature |
+| 3 | Login-Guard: Platzhalter-Passwort blockiert | Sicherheit |
+| 4 | "Eingeladen"-Badge + "Erneut einladen"-Aktion | UX |
+| 5 | Admin-Freischaltung (approved-Feld) | Feature |
+| 6 | Admin-Benachrichtigung bei Self-Service-Registrierung | Feature |
+| 7 | Benutzer sperren/ablehnen mit DB-Sync | Feature |
+| 8 | Defense-in-depth: null-Passwort-Check im Login | Sicherheit |
+
+### 20.2 Admin-Einladungsflow
+
+**Ablauf:**
+
+```
+Admin → /admin/users → "Neuer Benutzer" Button
+  |
+  v
+Modal: Name, E-Mail, Rolle, Typ (stakeholder/team/admin)
+  |
+  v
+POST /api/users/create
+  |
+  ├── User in mopilot_ideen DB:
+  |     password_hash = "!invited"
+  |     email_verified = true
+  |     approved = true
+  |
+  ├── Sync → mopilot DB (mit Platzhalter-Hash)
+  |
+  └── Einladungs-E-Mail:
+        Betreff: "Willkommen bei MoPilot – Konto einrichten"
+        Link: /einladung?token=<JWT, 48h gültig>
+        Button: "Passwort festlegen"
+```
+
+**Einladung annehmen:**
+
+```
+Benutzer klickt Link → /einladung?token=...
+  |
+  v
+Formular: Passwort + Passwort bestätigen (min. 6 Zeichen)
+  |
+  v
+POST /api/auth/accept-invite { token, new_password }
+  |
+  ├── Token validieren (purpose="invite", nicht abgelaufen)
+  ├── Prüfen: password_hash == "!invited" (sonst Fehler)
+  ├── Passwort hashen (bcrypt) → password_hash aktualisieren
+  └── Sync → mopilot DB (mit echtem Hash)
+```
+
+**Erneut einladen:**
+
+Für Benutzer, die ihre Einladung noch nicht angenommen haben (password_hash == "!invited"), kann der Admin über den Button "Erneut einladen" eine neue Einladungs-E-Mail mit neuem 48h-Token senden.
+
+### 20.3 Freischaltungssystem (Self-Service)
+
+Seit v1.1 durchlaufen Self-Service-Registrierungen zwei Freischaltungsstufen:
+
+| Stufe | Feld | Wer setzt | Wann |
+|-------|------|-----------|------|
+| 1. E-Mail-Verifizierung | `email_verified` | Benutzer (Klick auf Verify-Link) | Innerhalb 24h nach Registrierung |
+| 2. Admin-Freischaltung | `approved` | Admin (Button in /admin/users) | Nach Prüfung des Benutzers |
+
+Erst wenn **beide** Felder `true` sind, kann sich der Benutzer anmelden.
+
+**Admin-Aktionen für registrierte Benutzer:**
+
+| Aktion | Endpoint | Effekt |
+|--------|----------|--------|
+| Freischalten | `POST /api/users/{id}/approve` | `approved=true`, Sync → mopilot DB |
+| Ablehnen | `POST /api/users/{id}/reject` | User löschen (Cascade), Delete aus mopilot DB |
+| Sperren | `POST /api/users/{id}/suspend` | `approved=false`, Delete aus mopilot DB |
+
+### 20.4 Login-Guard
+
+Der Login-Endpunkt (`POST /api/auth/login`) prüft seit v1.1 folgende Bedingungen:
+
+```python
+# Defense-in-depth: Alle Bedingungen müssen erfüllt sein
+if not user:                                    → 401 (User existiert nicht)
+if not user.password_hash:                      → 401 (null-Check)
+if user.password_hash == "!invited":            → 401 (Einladung noch nicht angenommen)
+if not verify_password(password, hash):         → 401 (Falsches Passwort)
+if not user.email_verified:                     → 403 (E-Mail nicht verifiziert)
+if not user.approved:                           → 403 (Nicht freigeschaltet)
+```
+
+### 20.5 JWT-Token-Typen (vollständig)
+
+| Funktion | Zweck | Gültigkeit | JWT-Payload |
+|----------|-------|------------|-------------|
+| `create_access_token(user_id)` | Login-Session | 24 Stunden | `{sub, exp}` |
+| `create_verification_token(user_id)` | E-Mail-Verifizierung | 24 Stunden | `{sub, purpose:"verify", exp}` |
+| `create_reset_token(user_id)` | Passwort-Reset | 1 Stunde | `{sub, purpose:"reset", exp}` |
+| `create_invite_token(user_id)` | Einladung annehmen | 48 Stunden | `{sub, purpose:"invite", exp}` |
+
+### 20.6 Frontend: Admin-Benutzerverwaltung
+
+**Seite:** `/admin/users` (nur für user_type=admin)
+
+**Zwei Bereiche:**
+
+1. **"Warten auf Freischaltung"** – Benutzer mit `email_verified=true, approved=false`
+   - Buttons: Freischalten, Ablehnen
+
+2. **"Aktive Benutzer"** – Benutzer mit `approved=true`
+   - "Eingeladen"-Badge (amber) wenn `has_password=false`
+   - Buttons: Erneut einladen / Passwort ändern, Rolle ändern, Sperren, Löschen
+
+**"Neuer Benutzer"-Modal:**
+- Felder: Name, E-Mail, Rolle (Dropdown mit Kategorie), Typ (Stakeholder/Team/Admin)
+- Button: "Erstellen & Einladen"
+
+### 20.7 Pydantic-Schemas (neu/geändert)
+
+| Schema | Felder | Verwendung |
+|--------|--------|------------|
+| `AdminUserCreate` | email, name, role_id, user_type? | Admin erstellt Benutzer |
+| `AcceptInviteRequest` | token, new_password (min 6) | Einladung annehmen |
+| `AdminRoleChangeRequest` | role_id | Admin ändert Rolle |
+| `AdminPasswordResetRequest` | new_password | Admin setzt Passwort |
+| `UserOut` | ...+ **approved**, **has_password** | Benutzer-Antwort (has_password = password_hash ≠ "!invited") |
+
+### 20.8 Geänderte Dateien
+
+| Datei | Änderung |
+|-------|----------|
+| `ideen/backend/app/models.py` | `approved`-Feld zu User-Modell hinzugefügt |
+| `ideen/backend/app/schemas.py` | `AdminUserCreate`, `AcceptInviteRequest`, `UserOut.has_password`, `UserOut.approved` |
+| `ideen/backend/app/auth.py` | `create_invite_token()`, `decode_purpose_token()` |
+| `ideen/backend/app/email.py` | `send_invitation_email()`, `send_admin_new_registration_email()` |
+| `ideen/backend/app/routers/auth.py` | `accept-invite` Endpoint, Login-Guard (Platzhalter + null + approved) |
+| `ideen/backend/app/routers/users.py` | `create`, `reinvite`, `approve`, `reject`, `suspend`, `role`, `reset-password`, `pending-count` |
+| `ideen/backend/app/user_sync.py` | `delete_user_from_mopilot()` Funktion |
+| `ideen/frontend/src/app/einladung/page.tsx` | **NEU** – Einladungs-Akzeptanz-Seite |
+| `ideen/frontend/src/app/admin/users/page.tsx` | "Neuer Benutzer"-Modal, "Eingeladen"-Badge, "Erneut einladen"-Button |
+
+### 20.9 Commits
+
+| Hash | Beschreibung |
+|------|-------------|
+| `b56f688` | Schemas, Invite-Token, E-Mail-Template |
+| `b68e6b5` | Admin create user + reinvite Endpoints |
+| `8fc55ab` | Accept-invite Endpoint + Login-Guard |
+| `3a01d0f` | Einladungs-Akzeptanz-Seite `/einladung` |
+| `52a7e11` | Create-User-Modal, Eingeladen-Badge, Reinvite-Aktion |
+| `8178934` | Defense-in-depth: null-password_hash Check im Login |
+
 ---
 
-*Erstellt mit Claude (Anthropic) | v1.0 – 6. April 2026*
+*Erstellt mit Claude (Anthropic) | v1.1 – 9. April 2026*
