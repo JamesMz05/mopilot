@@ -1,11 +1,11 @@
 # MoPilot – Projektkontext für Claude
 
-> Zuletzt aktualisiert: 2026-04-07 (v1.0)
+> Zuletzt aktualisiert: 2026-04-09 (v1.1)
 
 ## Projektbeschreibung
 
 **MoPilot** ist ein KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum.
-Prototyp v1.0 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboards, integriertem KI-Chat, DB-Authentifizierung und vereinheitlichter Infrastruktur.
+Prototyp v1.1 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboards, integriertem KI-Chat, DB-Authentifizierung, vereinheitlichter Infrastruktur und Admin-Einladungssystem.
 
 - **Betreiber:** ZEO Carsharing (Region Bruchsal, BW) + Car&RideSharing Community eG (Overath, NRW)
 - **Zweck:** Intelligenter Assistent, der Tonalität, Wissen und Funktionen an die jeweilige Nutzerrolle anpasst
@@ -110,7 +110,7 @@ Alle Services: `restart: unless-stopped` + Healthchecks.
 `/api/health`, `/api/auth` (login, /me), `/api/chat` (SSE-Streaming), `/api/knowledge`, `/api/stations`, `/api/vehicles`, `/api/tariffs`, `/api/users`, `/api/admin`
 
 **Ideenplattform (`/api/`):**
-`/api/health`, `/api/auth` (login, register, passwort-reset), `/api/users`, `/api/roles`, `/api/ideas`, `/api/ratings`, `/api/comments`, `/api/tags`, `/api/attachments`, `/api/export`
+`/api/health`, `/api/auth` (login, register, passwort-reset, accept-invite, verify, resend-verification), `/api/users` (CRUD, create, reinvite, approve, reject, suspend, role, reset-password, pending-count), `/api/roles`, `/api/ideas`, `/api/ratings`, `/api/comments`, `/api/tags`, `/api/attachments`, `/api/export`
 
 **ZEO/CC-Kunden (`/api/`):**
 `/api/health`, `/api/chat`, `/api/chat/stream`, `/api/tariffs` (nur CC)
@@ -143,12 +143,15 @@ Badge, Button, Card, ChatBubble, Footer, Header, Input, LoadingSpinner, MoPilotL
 
 ## Authentifizierung
 
-- **Registrierung:** Zentral auf ideen.mopilot.website/register
-- **User-Sync:** Ideen-DB → mopilot-DB via psycopg2 (INSERT ON CONFLICT)
+- **Zwei Wege zur Benutzeranlage (seit v1.1):**
+  - **Self-Service:** Registrierung auf ideen.mopilot.website/register → E-Mail-Verifizierung → Admin-Freischaltung (`approved=true`)
+  - **Admin-Einladung:** Admin erstellt User über `/admin/users` → Einladungs-E-Mail → User setzt Passwort auf `/einladung?token=...`
+- **Login-Guard:** Prüft `email_verified`, `approved`, und dass `password_hash` nicht null/"!invited" ist
+- **User-Sync:** Ideen-DB → mopilot-DB via psycopg2 (INSERT ON CONFLICT) bei Approve, Invite-Accept, Passwort-Reset, Rollenänderung
 - **Gleiche Credentials** auf allen Plattformen (separater Login, kein SSO)
 - **Passwort-Reset:** `/passwort-vergessen` (Anforderung) → `/passwort-zuruecksetzen?token=...` (Reset)
 - **Login-Seiten (ZEO/CC):** Links "Passwort vergessen?" und "Noch kein Konto?"
-- **JWT-Token:** Hauptsystem 8h, Ideenplattform 24h
+- **JWT-Token:** Hauptsystem 8h, Ideenplattform 24h, Invite-Token 48h, Reset-Token 1h
 - **Passwort-Hashing:** bcrypt via passlib
 - **Seit v0.9:** Nur DB-Auth (Demo-Login entfernt)
 
@@ -213,7 +216,8 @@ Badge, Button, Card, ChatBubble, Footer, Header, Input, LoadingSpinner, MoPilotL
 | v0.8 | 05.04.2026 | User-Sync Fix, Login Self-Service, Dashboard Vianova |
 | v0.8.1 | 05.04.2026 | ZEO Login DB-Auth, Passwort-Link Fix, Sentinel Sync |
 | v0.9 | 06.04.2026 | Rollenspezifische Dashboards, Landing Page, DB-Auth only |
-| **v1.0** | **06.04.2026** | **Infrastruktur-Vereinheitlichung: 1 Compose, 1 .env, shared-ui via Docker Build** |
+| v1.0 | 06.04.2026 | Infrastruktur-Vereinheitlichung: 1 Compose, 1 .env, shared-ui via Docker Build |
+| **v1.1** | **09.04.2026** | **Admin-Benutzerverwaltung: Einladungssystem, Freischaltung, Login-Guard** |
 
 **Git-Tags:** v0.73, v0.74-pre-v0.8, v0.8, v0.9
 
@@ -227,4 +231,4 @@ Badge, Button, Card, ChatBubble, Footer, Header, Input, LoadingSpinner, MoPilotL
 - **Shared-UI via Docker Build-Stage** – kein sync-shared-ui.sh mehr
 - **Config prüfen:** `docker compose config | grep KEY_NAME` zeigt aufgelöste Werte
 - **Kein `rsync --delete`** verwenden
-- **Vollständige Doku:** `/opt/mopilot/MoPilot_Prototype_v1.0.md`
+- **Vollständige Doku:** `/opt/mopilot/MoPilot_Prototype_v1.1.md` (aktuell v1.1)
