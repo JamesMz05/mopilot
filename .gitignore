@@ -61,3 +61,6 @@ docker-compose.yml.bak
 # Marketing-Materialien (2026-04-16: Git-Hygiene)
 # Nicht das gesamte *.pdf blockieren — viele PDFs sind produktrelevant (FAQ, Tarif-Flyer)
 MoPilot_CC_Kunden/So günstig ist ein Fahrzeug von Zeo Carsharing.pdf
+
+# Interne Planungsdokumente (nicht im Repo tracken)
+docs/superpowers/
