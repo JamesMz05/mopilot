@@ -24,6 +24,14 @@ export default function BetreiberPage() {
           </button>
         ))}
       </div>
+
+      <p className="text-xs font-semibold font-body text-surface-500 uppercase tracking-wider mb-3 mt-6">Tools</p>
+      <a
+        href="/admin/quiz-stats"
+        className="block w-full text-left text-sm font-body bg-surface-50 hover:bg-primary-50 hover:text-primary-700 border border-surface-200 rounded-xl px-3 py-2 transition-colors"
+      >
+        CC Carsharing Quiz mit Gutschein
+      </a>
     </>
   )
 }
