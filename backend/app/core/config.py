@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://redis:6379/0"
     ANTHROPIC_API_KEY: str = "sk-placeholder"
     SECRET_KEY: str = "mopilot-jwt-secret-change-in-production"
-    CORS_ORIGINS: str = "https://mopilot.website,http://localhost:3000"
+    CORS_ORIGINS: str = "https://mopilot.website,https://cc-kunden.mopilot.website,http://localhost:3000"
     ENVIRONMENT: str = "production"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 480  # 8 hours for demo
     CLAUDE_MODEL: str = "claude-sonnet-4-20250514"

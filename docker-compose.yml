@@ -55,7 +55,12 @@ services:
       CLAUDE_MODEL: ${CLAUDE_MODEL}
       SECRET_KEY: ${MAIN_SECRET_KEY}
       REDIS_URL: "redis://mopilot-redis:6379"
-      CORS_ORIGINS: "https://${DOMAIN},https://ideen.${DOMAIN}"
+      CORS_ORIGINS: "https://${DOMAIN},https://ideen.${DOMAIN},https://cc-kunden.${DOMAIN}"
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_FROM: ${SMTP_FROM}
       ENVIRONMENT: production
     labels:
       - "traefik.enable=true"
