@@ -4,16 +4,23 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.core.config import settings
 from app.core.database import engine, Base
-from app.api import auth, chat, knowledge, stations, vehicles, tariffs, users
+from app.api import auth, chat, knowledge, stations, vehicles, tariffs, users, quiz, quiz_stats
+import app.models.quiz  # noqa: F401 — ensure quiz tables are registered with Base
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: create tables
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    # Startup: create tables (ignore race condition with multiple workers)
+    try:
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+    except Exception:
+        pass  # table already created by another worker
     # Seed demo data
     from app.core.seed import seed_demo_data
     await seed_demo_data()
+    # Seed quiz data
+    from scripts.seed_cc_quiz import seed_quiz_data
+    await seed_quiz_data()
     yield
     # Shutdown
     await engine.dispose()
@@ -42,6 +49,8 @@ app.include_router(stations.router, prefix="/api/stations", tags=["Standorte"])
 app.include_router(vehicles.router, prefix="/api/vehicles", tags=["Fahrzeuge"])
 app.include_router(tariffs.router, prefix="/api/tariffs", tags=["Tarife"])
 app.include_router(users.router, prefix="/api/users", tags=["Benutzer"])
+app.include_router(quiz.router, prefix="/api/quiz", tags=["Quiz"])
+app.include_router(quiz_stats.router, prefix="/api/quiz/stats", tags=["Quiz-Statistik"])
 
 @app.get("/api/health")
 async def health_check():

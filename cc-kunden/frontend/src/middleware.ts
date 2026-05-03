@@ -8,7 +8,7 @@ export function middleware(request: NextRequest) {
 
   // Allow login page, auth API routes, and backend-proxied API routes
   // Allow login, API routes, and embed pages through without auth
-  if (pathname.startsWith('/login') || pathname.startsWith('/api/auth') || pathname.startsWith('/api/chat') || pathname.startsWith('/api/health') || pathname.startsWith('/api/tariffs') || pathname.startsWith('/embed')) {
+  if (pathname.startsWith('/login') || pathname.startsWith('/api/auth') || pathname.startsWith('/api/chat') || pathname.startsWith('/api/health') || pathname.startsWith('/api/tariffs') || pathname.startsWith('/embed') || pathname.startsWith('/quiz')) {
     return NextResponse.next()
   }
 
