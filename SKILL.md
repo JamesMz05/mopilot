@@ -3,9 +3,9 @@ name: mopilot-project-knowledge
 description: "Complete technical reference for the MoPilot project – a KI-gestützter Mobilitätsassistent for E-Carsharing in rural areas. Use this skill whenever working on ANY MoPilot task: deploying, debugging, configuring, extending, or developing features for mopilot.website, ideen.mopilot.website, zeo-kunden.mopilot.website, cc-kunden.mopilot.website, or hotline.mopilot.website. Also trigger when the user mentions MoPilot infrastructure (Hetzner, Coolify, Traefik, Docker Compose), MoPilot roles (Endkunde, Stationspate, Hotline, Betreiber, Flottenmanagement, Fahrzeugbetreuer, Plattform-Support, Projektträger, Fahrzeugsteller, Validierungsstelle), MoPilot databases (mopilot, mopilot_ideen), ZEO Carsharing, or any of the MoPilot subdomains. Use this skill BEFORE making assumptions about server paths, Docker services, database schemas, API endpoints, or deployment procedures."
 ---
 
-# MoPilot Project Knowledge (Prototype v1.0)
+# MoPilot Project Knowledge (Prototype v1.2)
 
-> Updated: April 2026
+> Updated: May 2026
 
 ## When to Use
 
@@ -27,6 +27,9 @@ Consult this skill whenever you need to:
 | Ideenplattform | https://ideen.mopilot.website | Ideas, ratings, comments, admin |
 | ZEO Kundenassistent | https://zeo-kunden.mopilot.website | KI-Chat for ZEO end customers |
 | CC Kundenassistent | https://cc-kunden.mopilot.website | KI-Chat for CC end customers, öffentliche Embed-Seiten (`/embed/tarife`) |
+| CC Quiz (Mobilitats-Check) | https://cc-kunden.mopilot.website/quiz | 14-Fragen-Quiz mit Gutscheincode (öffentlich) |
+| CC Quiz Embed | https://cc-kunden.mopilot.website/embed/quiz | iframe-Variante für sharing-community.de |
+| Quiz Stats Dashboard | https://mopilot.website/admin/quiz-stats | KPIs, Trichter, Heatmap, CSV-Export (Plattform-Support+) |
 | Hotline (planned) | https://hotline.mopilot.website | Internal hotline tool |
 | Monitoring | http://localhost:3001 (via SSH tunnel) | Uptime Kuma (11 monitors) |
 | Coolify | http://localhost:8000 (via SSH tunnel) | Traefik proxy only |
@@ -55,6 +58,9 @@ Consult this skill whenever you need to:
 | Ideenplattform Frontend | `/opt/mopilot/ideen/frontend/` |
 | ZEO-Kunden (Git source) | `/opt/mopilot/MoPilot_ZEO_Kunden/` |
 | CC-Kunden (Git source) | `/opt/mopilot/cc-kunden/` |
+| Quiz-Module Backend | `/opt/mopilot/backend/app/api/quiz.py`, `quiz_stats.py`, `app/models/quiz.py`, `app/services/quiz_mail.py` |
+| Quiz-Komponenten CC-Frontend | `/opt/mopilot/cc-kunden/frontend/src/components/quiz/` (Entwicklung) + `/opt/mopilot/MoPilot_CC_Kunden/frontend/src/components/quiz/` (Docker-Build) |
+| Quiz Stats Frontend | `/opt/mopilot/frontend/app/admin/quiz-stats/page.tsx` |
 | Backups | `/opt/backups/db/` |
 
 ### Tech Stack
@@ -87,7 +93,7 @@ All with `unless-stopped` + health checks. No Coolify service management – Coo
 
 | Database | Purpose | Accessed by |
 |----------|---------|-------------|
-| `mopilot` | Users, Stations, Vehicles, Tariffs, FAQs, ChatMessages | Hauptsystem (async), Ideen-Backend (sync, User-Sync) |
+| `mopilot` | Users, Stations, Vehicles, Tariffs, FAQs, ChatMessages, **Quiz (quiz_definitions, quiz_sessions, quiz_events)** | Hauptsystem (async), Ideen-Backend (sync, User-Sync) |
 | `mopilot_ideen` | Users, Roles, Ideas, Ratings, Comments, Tags, Attachments | Ideen-Backend |
 
 ### 10 Roles (3 Categories)
@@ -152,24 +158,52 @@ Push to master → GitHub Actions → SSH to server → git pull → docker comp
 | v0.74 | 01.04.2026 | CC-Kunden Monorepo, MOPILOT_TEAM Bugfix, Backup-System |
 | v0.8 | 05.04.2026 | User-Sync Fix, Login Self-Service, Dashboard Vianova |
 | v0.8.1 | 05.04.2026 | ZEO Login DB-Auth, Passwort-Link Fix, Sentinel Sync |
-| **v0.9** | **06.04.2026** | **Rollenspezifische Dashboards, Landing Page, DB-Auth only** |
-| **v1.0** | **06.04.2026** | **Infrastruktur-Vereinheitlichung: 1 Compose, 1 .env, kein rsync/sync-shared-ui** |
+| v0.9 | 06.04.2026 | Rollenspezifische Dashboards, Landing Page, DB-Auth only |
+| v1.0 | 06.04.2026 | Infrastruktur-Vereinheitlichung: 1 Compose, 1 .env, kein rsync/sync-shared-ui |
+| v1.1 | 09.04.2026 | Admin-Benutzerverwaltung: Einladungssystem, Freischaltung, Login-Guard |
+| **v1.2** | **03.05.2026** | **CC Quiz Migration & Analytics — 14-Fragen-Mobilitats-Check, anonymes Tracking, Admin-Dashboard mit Trichter und Heatmap, E-Mail-Notification an register@sharing-community.de, Embed-Variante für sharing-community.de** |
+
+## Quiz-Architektur (CC Mobilitats-Check)
+
+**Ziel:** Spielerischer Wissens-Check mit Gutschein-Ausgabe + anonymes Tracking.
+
+### Wichtige Eckpunkte
+
+- Quiz-Logik läuft im **main-backend** (das hat die mopilot-DB-Anbindung).
+  Das cc-backend bleibt stateless (nur KI-Chat-Proxy).
+- Quiz-Frontend (cc-frontend) ruft das main-backend per CORS auf:
+  Origin `https://cc-kunden.mopilot.website` ist whitelisted, `allow_credentials=True`.
+- Cookie-Domain `.mopilot.website` ermöglicht subdomain-übergreifenden 30-Tage-Soft-Lock.
+
+### Fundstellen für häufige Aufgaben
+
+| Aufgabe | Datei |
+|---------|-------|
+| Quiz-Endpoints anpassen | backend/app/api/quiz.py |
+| Stats-Endpoints anpassen | backend/app/api/quiz_stats.py |
+| Quiz-Inhalt (14 Fragen) ändern | DB: quiz_definitions.questions_json WHERE slug='cc-mobilitaets-check' |
+| Player-UI ändern | cc-kunden/frontend/src/components/quiz/ + MoPilot_CC_Kunden/... (BEIDES!) |
+| Dashboard-UI ändern | frontend/app/admin/quiz-stats/page.tsx |
+| Cookie-Verhalten | backend/app/api/quiz.py (set_cookie-Aufrufe) |
+| E-Mail-Inhalt | backend/app/services/quiz_mail.py |
+
+### Lessons Learned
+
+- **Zwei CC-Frontend-Verzeichnisse synchron halten** — gilt auch für Quiz-Komponenten.
+- **Build-Arg `NEXT_PUBLIC_QUIZ_API_BASE`** muss im Dockerfile durchgereicht werden (Default `https://api.mopilot.website`).
+- **Middleware-Ausnahme** für `/quiz` zusätzlich zu `/embed/*` nötig — sonst Login-Redirect.
+- **CSP frame-ancestors** im next.config.js erlaubt sharing-community.de.
+- **Statischer Code ECOBONUS26** in Phase 1; individuelle Codes als Folge-Phase abgegrenzt.
+- **Notification-Empfänger** in `quiz_definitions.notification_email` konfigurierbar — keine Code-Änderung für Empfängerwechsel nötig.
 
 ## Full Documentation
 
 For complete details (database schemas, all API endpoints, Docker Compose configs, deployment diagrams, email setup, DNS records, hotline.mopilot.website specification), read:
 
-→ **`references/MoPilot_Prototype_v1.0.md`**
+→ **`MoPilot_Prototype_v1.2.md`** (aktuell)
+→ `HANDBUCH_QUIZ_ANWENDER.md` (Quiz-Anwenderhandbuch fur Vorstand/Marketing)
+→ `HANDBUCH_QUIZ_IT.md` (Quiz-IT-Handbuch fur Entwickler)
+→ `references/MoPilot_Prototype_v1.0.md` (historisch)
 
-This reference contains:
-- Chapter 2: Full IT environment, server infrastructure, Docker services, architecture diagrams
-- Chapter 3: CI/CD pipeline with GitHub Actions workflow
-- Chapter 4-5: Infrastructure stabilization and bugfix history
-- Chapter 6: Uptime Kuma monitoring setup
-- Chapter 7: Ideenplattform – complete architecture, DB models, all API endpoints, Traefik routing
-- Chapter 8: Authentication system – user sync, JWT, middleware, cookie-based access
-- Chapter 9: ZEO Kundenassistent development and deployment
-- Chapter 10: v0.71 changes – admin page, user sync fixes, email/DNS hardening
-- Chapter 11: Next steps and roadmap
-- Chapter 12: hotline.mopilot.website specification with deployment checklist
-- Chapter 19: v1.0 Infrastructure unification – single Compose, central .env, no rsync
+The v1.2 reference contains all previous chapters plus:
+- Chapter 21: Quiz-Feature — Architektur, Datenmodell (3 Tabellen), API-Referenz (10 Endpoints), Frontend-Komponenten, Cookie & Tracking, E-Mail-Notification, Admin-Dashboard, 14 Quiz-Fragen, operative Hinweise
