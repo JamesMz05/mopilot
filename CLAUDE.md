@@ -1,11 +1,11 @@
 # MoPilot – Projektkontext für Claude
 
-> Zuletzt aktualisiert: 2026-04-09 (v1.1)
+> Zuletzt aktualisiert: 2026-05-03 (v1.2)
 
 ## Projektbeschreibung
 
 **MoPilot** ist ein KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum.
-Prototyp v1.1 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboards, integriertem KI-Chat, DB-Authentifizierung, vereinheitlichter Infrastruktur und Admin-Einladungssystem.
+Prototyp v1.2 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboards, integriertem KI-Chat, DB-Authentifizierung, vereinheitlichter Infrastruktur, Admin-Einladungssystem und CC Quiz-Feature (Mobilitats-Check).
 
 - **Betreiber:** ZEO Carsharing (Region Bruchsal, BW) + Car&RideSharing Community eG (Overath, NRW)
 - **Zweck:** Intelligenter Assistent, der Tonalität, Wissen und Funktionen an die jeweilige Nutzerrolle anpasst
@@ -31,6 +31,9 @@ Prototyp v1.1 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboar
 | Ideenplattform | https://ideen.mopilot.website | Ideen, Bewertungen, Kommentare, Admin |
 | ZEO Kundenassistent | https://zeo-kunden.mopilot.website | KI-Chat für ZEO-Endkunden |
 | CC Kundenassistent | https://cc-kunden.mopilot.website | KI-Chat für CC-Endkunden |
+| CC Quiz (Mobilitats-Check) | https://cc-kunden.mopilot.website/quiz | 14-Fragen-Quiz mit Gutscheincode (öffentlich) |
+| CC Quiz Embed | https://cc-kunden.mopilot.website/embed/quiz | iframe-Variante für sharing-community.de |
+| Quiz Stats Dashboard | https://mopilot.website/admin/quiz-stats | KPIs, Trichter, Heatmap, CSV-Export (Plattform-Support+) |
 | CC Fuhrpark | https://ccfuhrpark.vianova.website | Digitale Fuhrparkverwaltung (separates Repo) |
 | VIANOVA Verwaltung | https://verwaltung.vianova.website | Genossenschaftsverwaltung (separates Repo) |
 | Hotline (geplant) | https://hotline.mopilot.website | Internes Hotline-Tool |
@@ -99,6 +102,9 @@ Alle Services: `restart: unless-stopped` + Healthchecks.
 | CC-Kunden Backend | `/opt/mopilot/MoPilot_CC_Kunden/backend/` |
 | CC-Kunden Frontend | `/opt/mopilot/cc-kunden/frontend/` (Entwicklung) / `MoPilot_CC_Kunden/frontend/` (Docker-Build) |
 | CC-Kunden Embed-Seiten | `MoPilot_CC_Kunden/frontend/src/app/embed/` (öffentlich, ohne Login) |
+| Quiz-Module Backend | `backend/app/api/quiz.py`, `quiz_stats.py`, `app/models/quiz.py`, `app/schemas/quiz.py`, `app/services/quiz_mail.py` |
+| Quiz-Komponenten CC-Frontend | `cc-kunden/frontend/src/components/quiz/` (Entwicklung) + `MoPilot_CC_Kunden/frontend/src/components/quiz/` (Docker-Build) |
+| Quiz Stats Frontend | `frontend/app/admin/quiz-stats/page.tsx` |
 | PostgreSQL Init | `/opt/mopilot/postgres/init.sql` |
 | Scripts | `/opt/mopilot/scripts/` |
 | Backups | `/opt/backups/db/` |
@@ -107,7 +113,7 @@ Alle Services: `restart: unless-stopped` + Healthchecks.
 ## Backend API-Routen
 
 **Hauptsystem (`/api/`):**
-`/api/health`, `/api/auth` (login, /me), `/api/chat` (SSE-Streaming), `/api/knowledge`, `/api/stations`, `/api/vehicles`, `/api/tariffs`, `/api/users`, `/api/admin`
+`/api/health`, `/api/auth` (login, /me), `/api/chat` (SSE-Streaming), `/api/knowledge`, `/api/stations`, `/api/vehicles`, `/api/tariffs`, `/api/users`, `/api/admin`, `/api/quiz` (Quiz-Endpoints), `/api/quiz/stats` (Dashboard-Stats, Plattform-Support+)
 
 **Ideenplattform (`/api/`):**
 `/api/health`, `/api/auth` (login, register, passwort-reset, accept-invite, verify, resend-verification), `/api/users` (CRUD, create, reinvite, approve, reject, suspend, role, reset-password, pending-count), `/api/roles`, `/api/ideas`, `/api/ratings`, `/api/comments`, `/api/tags`, `/api/attachments`, `/api/export`
@@ -117,6 +123,10 @@ Alle Services: `restart: unless-stopped` + Healthchecks.
 
 **CC-Kunden Embed-Seiten (öffentlich, ohne Login):**
 `/embed/tarife` – Tarifübersicht (TariffOverview-Komponente), einbettbar per iframe
+`/embed/quiz` – Quiz-Player (iframe-Variante), einbettbar per iframe
+
+**CC-Kunden Quiz (öffentlich, ohne Login):**
+`/quiz` – Quiz-Player, Cross-Origin-Aufruf zum main-backend
 
 ## Frontend-Struktur (Hauptsystem)
 
@@ -125,7 +135,7 @@ frontend/app/
 ├── page.tsx          # Landing Page (10 Rollenkarten in 3 Zonen)
 ├── login/            # DB-Auth Login
 ├── dashboard/        # Rollenspezifische Dashboards (/dashboard/{rolle})
-├── admin/            # User-Verwaltung
+├── admin/            # User-Verwaltung + Quiz-Stats (/admin/quiz-stats)
 ├── stationen/        # Stationsinformationen
 ├── doku/             # Dokumentation
 ├── datenschutz/      # Datenschutz
@@ -217,7 +227,8 @@ Badge, Button, Card, ChatBubble, Footer, Header, Input, LoadingSpinner, MoPilotL
 | v0.8.1 | 05.04.2026 | ZEO Login DB-Auth, Passwort-Link Fix, Sentinel Sync |
 | v0.9 | 06.04.2026 | Rollenspezifische Dashboards, Landing Page, DB-Auth only |
 | v1.0 | 06.04.2026 | Infrastruktur-Vereinheitlichung: 1 Compose, 1 .env, shared-ui via Docker Build |
-| **v1.1** | **09.04.2026** | **Admin-Benutzerverwaltung: Einladungssystem, Freischaltung, Login-Guard** |
+| v1.1 | 09.04.2026 | Admin-Benutzerverwaltung: Einladungssystem, Freischaltung, Login-Guard |
+| **v1.2** | **03.05.2026** | **CC Quiz Migration & Analytics: 14-Fragen-Mobilitats-Check, anonymes Tracking, Admin-Dashboard, E-Mail-Notification** |
 
 **Git-Tags:** v0.73, v0.74-pre-v0.8, v0.8, v0.9
 
@@ -231,4 +242,9 @@ Badge, Button, Card, ChatBubble, Footer, Header, Input, LoadingSpinner, MoPilotL
 - **Shared-UI via Docker Build-Stage** – kein sync-shared-ui.sh mehr
 - **Config prüfen:** `docker compose config | grep KEY_NAME` zeigt aufgelöste Werte
 - **Kein `rsync --delete`** verwenden
-- **Vollständige Doku:** `/opt/mopilot/MoPilot_Prototype_v1.1.md` (aktuell v1.1)
+- **Quiz-Logik im main-backend**, nicht im cc-backend (cc-backend bleibt stateless)
+- **CC-Frontend-Änderungen IMMER in beiden Verzeichnissen pflegen:** `cc-kunden/frontend/` + `MoPilot_CC_Kunden/frontend/`
+- **Cookie-Domain `.mopilot.website`** für subdomain-übergreifenden 30-Tage-Soft-Lock (Quiz)
+- **CORS:** `allow_credentials=True` und Origin `https://cc-kunden.mopilot.website` für Quiz-API
+- **Admin-Dashboard `/admin/quiz-stats`** ist rollengeschützt (Plattform-Support+)
+- **Vollständige Doku:** `/opt/mopilot/MoPilot_Prototype_v1.2.md` (aktuell v1.2)
