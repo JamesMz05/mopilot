@@ -1,11 +1,11 @@
 # MoPilot – Projektkontext für Claude
 
-> Zuletzt aktualisiert: 2026-05-03 (v1.2)
+> Zuletzt aktualisiert: 2026-06-11 (v1.3)
 
 ## Projektbeschreibung
 
 **MoPilot** ist ein KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum.
-Prototyp v1.2 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboards, integriertem KI-Chat, DB-Authentifizierung, vereinheitlichter Infrastruktur, Admin-Einladungssystem und CC Quiz-Feature (Mobilitats-Check).
+Prototyp v1.3 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboards, integriertem KI-Chat, DB-Authentifizierung, vereinheitlichter Infrastruktur, Admin-Einladungssystem, CC Quiz-Feature (Mobilitats-Check) und Workshops-Dokumentation.
 
 - **Betreiber:** ZEO Carsharing (Region Bruchsal, BW) + Car&RideSharing Community eG (Overath, NRW)
 - **Zweck:** Intelligenter Assistent, der Tonalität, Wissen und Funktionen an die jeweilige Nutzerrolle anpasst
@@ -105,6 +105,8 @@ Alle Services: `restart: unless-stopped` + Healthchecks.
 | Quiz-Module Backend | `backend/app/api/quiz.py`, `quiz_stats.py`, `app/models/quiz.py`, `app/schemas/quiz.py`, `app/services/quiz_mail.py` |
 | Quiz-Komponenten CC-Frontend | `cc-kunden/frontend/src/components/quiz/` (Entwicklung) + `MoPilot_CC_Kunden/frontend/src/components/quiz/` (Docker-Build) |
 | Quiz Stats Frontend | `frontend/app/admin/quiz-stats/page.tsx` |
+| Workshops Doku | `frontend/app/doku/workshops/` (Übersicht + Detailseiten) |
+| Workshop-Bilder | `frontend/public/doku/workshops/a-to-b/` (10 JPGs) |
 | PostgreSQL Init | `/opt/mopilot/postgres/init.sql` |
 | Scripts | `/opt/mopilot/scripts/` |
 | Backups | `/opt/backups/db/` |
@@ -137,7 +139,8 @@ frontend/app/
 ├── dashboard/        # Rollenspezifische Dashboards (/dashboard/{rolle})
 ├── admin/            # User-Verwaltung + Quiz-Stats (/admin/quiz-stats)
 ├── stationen/        # Stationsinformationen
-├── doku/             # Dokumentation
+├── doku/             # Dokumentation (Rollen, Datenquellen, Prototyp, Workshops)
+│   └── workshops/    # Workshops & Projekte (/doku/workshops, /doku/workshops/a-to-b)
 ├── datenschutz/      # Datenschutz
 └── impressum/        # Impressum
 ```
@@ -228,9 +231,10 @@ Badge, Button, Card, ChatBubble, Footer, Header, Input, LoadingSpinner, MoPilotL
 | v0.9 | 06.04.2026 | Rollenspezifische Dashboards, Landing Page, DB-Auth only |
 | v1.0 | 06.04.2026 | Infrastruktur-Vereinheitlichung: 1 Compose, 1 .env, shared-ui via Docker Build |
 | v1.1 | 09.04.2026 | Admin-Benutzerverwaltung: Einladungssystem, Freischaltung, Login-Guard |
-| **v1.2** | **03.05.2026** | **CC Quiz Migration & Analytics: 14-Fragen-Mobilitats-Check, anonymes Tracking, Admin-Dashboard, E-Mail-Notification** |
+| v1.2 | 03.05.2026 | CC Quiz Migration & Analytics: 14-Fragen-Mobilitats-Check, anonymes Tracking, Admin-Dashboard, E-Mail-Notification |
+| **v1.3** | **11.06.2026** | **Workshops & Projekte Doku-Bereich: Übersichtsseite, A-to-B Projektseite (New:Mobility Award 2026)** |
 
-**Git-Tags:** v0.73, v0.74-pre-v0.8, v0.8, v0.9
+**Git-Tags:** v0.73, v0.74-pre-v0.8, v0.8, v0.9, v1.3
 
 ## Kritische Hinweise
 
@@ -247,4 +251,6 @@ Badge, Button, Card, ChatBubble, Footer, Header, Input, LoadingSpinner, MoPilotL
 - **Cookie-Domain `.mopilot.website`** für subdomain-übergreifenden 30-Tage-Soft-Lock (Quiz)
 - **CORS:** `allow_credentials=True` und Origin `https://cc-kunden.mopilot.website` für Quiz-API
 - **Admin-Dashboard `/admin/quiz-stats`** ist rollengeschützt (Plattform-Support+)
-- **Vollständige Doku:** `/opt/mopilot/MoPilot_Prototype_v1.2.md` (aktuell v1.2)
+- **Workshop-Bilder** liegen unter `frontend/public/doku/workshops/a-to-b/` (10 JPGs)
+- **Workshops-Übersicht** ist datengetrieben (`projects`-Array) — neue Projekte nur Array-Eintrag + Detailseite
+- **Vollständige Doku:** `/opt/mopilot/MoPilot_Prototype_v1.2.md` (aktuell v1.3)

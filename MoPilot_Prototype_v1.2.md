@@ -154,6 +154,13 @@ Carsharing Projekte: ZEO Carsharing (Region Bruchsal) | Car&RideSharing Communit
     - 21.10 Operative Hinweise
     - 21.11 Ergänzende Dokumentation
     - 21.12 Bekannte Einschränkungen / Folge-Phasen
+22. Workshops & Projekte (Doku-Bereich) – NEU in v1.3
+    - 22.1 Übersicht
+    - 22.2 Architektur
+    - 22.3 Inhalt der A-to-B-Detailseite
+    - 22.4 Erweiterung für künftige Projekte
+    - 22.5 Geänderte / neue Dateien
+    - 22.6 Commits
 
 ---
 
@@ -3054,4 +3061,69 @@ Quelle: `quiz_definitions.questions_json` für Slug `cc-mobilitaets-check`. Bei 
 
 ---
 
-*Erstellt mit Claude (Anthropic) | v1.2 – 3. Mai 2026*
+## 22. Workshops & Projekte (Doku-Bereich) – NEU in v1.3
+
+### 22.1 Übersicht
+
+Neuer Dokumentationsbereich auf dem Hauptsystem (mopilot.website) unter `/doku/workshops`. Der Bereich dient als Showcase für Schulprojekte, Praxisworkshops und Kooperationen rund um nachhaltige Mobilität im ländlichen Raum — über den reinen Prototyp hinaus.
+
+**Routen:**
+
+| Route | Funktion |
+|-------|----------|
+| `/doku/workshops` | Übersichtsseite mit Projekt-Karten (datengetrieben) |
+| `/doku/workshops/a-to-b` | Detailseite: A-to-B Mobilitäts-App (New:Mobility Award 2026) |
+
+**Einstieg:** Neuer Link „Workshops & Projekte" in der DokuSection-Komponente auf der Startseite, gleichwertig neben „Rollen", „Datenquellen" und „Prototyp Doku".
+
+### 22.2 Architektur
+
+- **Server Components (SSR):** Beide Seiten sind statische Server Components ohne Client-Interaktivität.
+- **Datengetriebene Übersicht:** Die Workshops-Übersicht nutzt ein TypeScript-Array `projects: Project[]` mit Interface `{ slug, title, subtitle, badge, image, date, href }`. Neue Projekte erfordern nur einen neuen Array-Eintrag.
+- **Bilder:** 10 JPG-Dateien unter `frontend/public/doku/workshops/a-to-b/`, eingebunden über `next/image` mit `fill` + `sizes` (responsive).
+- **Externe Links:** Alle mit `target="_blank" rel="noopener noreferrer"`.
+
+### 22.3 Inhalt der A-to-B-Detailseite
+
+Das Schulprojekt der Klasse 10a der Pestalozzi-Gemeinschaftsschule Graben-Neudorf gewann den 1. Platz beim New:Mobility Award 2026 (WFG Bruchsal & EfeuCampus Bruchsal). Die Seite dokumentiert:
+
+1. **Hero** mit Badge, Titel, zwei CTA-Buttons (Live-Demo + Projekt-Website)
+2. **Der New:Mobility Award** — Wettbewerbskontext, Eckdaten-Box
+3. **Das Projekt** — Vision der Schüler (Mindmaps), Gesamtkonzept (4 Säulen), Begleitung durch VIANOVA eG
+4. **Warum eine PWA?** — Technologie-Vergleich (Website vs. PWA vs. Native App)
+5. **Die Funktionen** — MVP Phase 1 (live) + Phase 2 (Ausblick), Feature-Triage
+6. **Sicherheit** — Simulierte Eltern-Freigabe für Minderjährige
+7. **Live-Demo** — 3 Link-Cards (FahrtWerk-App, Eltern-Freigabe, Projekt-Website)
+8. **Beteiligte & Dank**
+
+**Externe Links:**
+- https://fahrtwerk.vianova.website/app (FahrtWerk PWA)
+- https://fahrtwerk.vianova.website/app/eltern (Eltern-Freigabe)
+- https://fahrtwerk.vianova.website/ (Projekt-Website)
+- https://wfg-bruchsal.de/newmobility-award/ (Wettbewerb)
+
+### 22.4 Erweiterung für künftige Projekte
+
+1. Bilder in `frontend/public/doku/workshops/{slug}/` ablegen
+2. Detailseite in `frontend/app/doku/workshops/{slug}/page.tsx` erstellen
+3. Eintrag im `projects`-Array in `frontend/app/doku/workshops/page.tsx` ergänzen
+4. `docker compose build main-frontend && docker compose up -d main-frontend`
+
+### 22.5 Geänderte / neue Dateien
+
+| Datei | Aktion | Funktion |
+|-------|--------|----------|
+| `frontend/components/DokuSection.tsx` | geändert | Neuer Link „Workshops & Projekte" |
+| `frontend/app/doku/workshops/page.tsx` | neu | Übersichtsseite mit Projekt-Karten |
+| `frontend/app/doku/workshops/a-to-b/page.tsx` | neu | Detailseite A-to-B Projekt |
+| `frontend/public/doku/workshops/a-to-b/*.jpg` | neu | 10 Projektbilder |
+
+### 22.6 Commits
+
+| Hash | Beschreibung |
+|------|-------------|
+| `19cf88b` | feat(doku): Workshops & Projekte Bereich + A-to-B Mobility-Award-Seite |
+
+---
+
+*Erstellt mit Claude (Anthropic) | v1.3 – 11. Juni 2026*
