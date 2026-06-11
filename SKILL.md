@@ -3,9 +3,9 @@ name: mopilot-project-knowledge
 description: "Complete technical reference for the MoPilot project – a KI-gestützter Mobilitätsassistent for E-Carsharing in rural areas. Use this skill whenever working on ANY MoPilot task: deploying, debugging, configuring, extending, or developing features for mopilot.website, ideen.mopilot.website, zeo-kunden.mopilot.website, cc-kunden.mopilot.website, or hotline.mopilot.website. Also trigger when the user mentions MoPilot infrastructure (Hetzner, Coolify, Traefik, Docker Compose), MoPilot roles (Endkunde, Stationspate, Hotline, Betreiber, Flottenmanagement, Fahrzeugbetreuer, Plattform-Support, Projektträger, Fahrzeugsteller, Validierungsstelle), MoPilot databases (mopilot, mopilot_ideen), ZEO Carsharing, or any of the MoPilot subdomains. Use this skill BEFORE making assumptions about server paths, Docker services, database schemas, API endpoints, or deployment procedures."
 ---
 
-# MoPilot Project Knowledge (Prototype v1.2)
+# MoPilot Project Knowledge (Prototype v1.3)
 
-> Updated: May 2026
+> Updated: June 2026
 
 ## When to Use
 
@@ -30,6 +30,8 @@ Consult this skill whenever you need to:
 | CC Quiz (Mobilitats-Check) | https://cc-kunden.mopilot.website/quiz | 14-Fragen-Quiz mit Gutscheincode (öffentlich) |
 | CC Quiz Embed | https://cc-kunden.mopilot.website/embed/quiz | iframe-Variante für sharing-community.de |
 | Quiz Stats Dashboard | https://mopilot.website/admin/quiz-stats | KPIs, Trichter, Heatmap, CSV-Export (Plattform-Support+) |
+| Workshops & Projekte | https://mopilot.website/doku/workshops | Doku-Bereich: Schulprojekte, Praxisworkshops, Kooperationen |
+| A-to-B Projektseite | https://mopilot.website/doku/workshops/a-to-b | Detailseite New:Mobility Award 2026 Gewinnerprojekt |
 | Hotline (planned) | https://hotline.mopilot.website | Internal hotline tool |
 | Monitoring | http://localhost:3001 (via SSH tunnel) | Uptime Kuma (11 monitors) |
 | Coolify | http://localhost:8000 (via SSH tunnel) | Traefik proxy only |
@@ -61,6 +63,8 @@ Consult this skill whenever you need to:
 | Quiz-Module Backend | `/opt/mopilot/backend/app/api/quiz.py`, `quiz_stats.py`, `app/models/quiz.py`, `app/services/quiz_mail.py` |
 | Quiz-Komponenten CC-Frontend | `/opt/mopilot/cc-kunden/frontend/src/components/quiz/` (Entwicklung) + `/opt/mopilot/MoPilot_CC_Kunden/frontend/src/components/quiz/` (Docker-Build) |
 | Quiz Stats Frontend | `/opt/mopilot/frontend/app/admin/quiz-stats/page.tsx` |
+| Workshops Doku | `/opt/mopilot/frontend/app/doku/workshops/` (Übersicht + Detailseiten) |
+| Workshop-Bilder | `/opt/mopilot/frontend/public/doku/workshops/a-to-b/` (10 JPGs) |
 | Backups | `/opt/backups/db/` |
 
 ### Tech Stack
@@ -161,7 +165,8 @@ Push to master → GitHub Actions → SSH to server → git pull → docker comp
 | v0.9 | 06.04.2026 | Rollenspezifische Dashboards, Landing Page, DB-Auth only |
 | v1.0 | 06.04.2026 | Infrastruktur-Vereinheitlichung: 1 Compose, 1 .env, kein rsync/sync-shared-ui |
 | v1.1 | 09.04.2026 | Admin-Benutzerverwaltung: Einladungssystem, Freischaltung, Login-Guard |
-| **v1.2** | **03.05.2026** | **CC Quiz Migration & Analytics — 14-Fragen-Mobilitats-Check, anonymes Tracking, Admin-Dashboard mit Trichter und Heatmap, E-Mail-Notification an register@sharing-community.de, Embed-Variante für sharing-community.de** |
+| v1.2 | 03.05.2026 | CC Quiz Migration & Analytics — 14-Fragen-Mobilitats-Check, anonymes Tracking, Admin-Dashboard mit Trichter und Heatmap, E-Mail-Notification an register@sharing-community.de, Embed-Variante für sharing-community.de |
+| **v1.3** | **11.06.2026** | **Workshops & Projekte Doku-Bereich — Übersichtsseite mit datengetriebenem Projekt-Grid, A-to-B Detailseite (New:Mobility Award 2026), 10 Projektbilder, DokuSection-Link** |
 
 ## Quiz-Architektur (CC Mobilitats-Check)
 
@@ -205,5 +210,6 @@ For complete details (database schemas, all API endpoints, Docker Compose config
 → `HANDBUCH_QUIZ_IT.md` (Quiz-IT-Handbuch fur Entwickler)
 → `references/MoPilot_Prototype_v1.0.md` (historisch)
 
-The v1.2 reference contains all previous chapters plus:
+The v1.3 reference contains all previous chapters plus:
 - Chapter 21: Quiz-Feature — Architektur, Datenmodell (3 Tabellen), API-Referenz (10 Endpoints), Frontend-Komponenten, Cookie & Tracking, E-Mail-Notification, Admin-Dashboard, 14 Quiz-Fragen, operative Hinweise
+- Chapter 22: Workshops & Projekte — Doku-Routen, Datenstruktur (projects-Array), Bilderpfad, A-to-B-Inhalt, Erweiterungsanleitung
