@@ -166,7 +166,8 @@ Push to master → GitHub Actions → SSH to server → git pull → docker comp
 | v1.0 | 06.04.2026 | Infrastruktur-Vereinheitlichung: 1 Compose, 1 .env, kein rsync/sync-shared-ui |
 | v1.1 | 09.04.2026 | Admin-Benutzerverwaltung: Einladungssystem, Freischaltung, Login-Guard |
 | v1.2 | 03.05.2026 | CC Quiz Migration & Analytics — 14-Fragen-Mobilitats-Check, anonymes Tracking, Admin-Dashboard mit Trichter und Heatmap, E-Mail-Notification an register@sharing-community.de, Embed-Variante für sharing-community.de |
-| **v1.3** | **11.06.2026** | **Workshops & Projekte Doku-Bereich — Übersichtsseite mit datengetriebenem Projekt-Grid, A-to-B Detailseite (New:Mobility Award 2026), 10 Projektbilder, DokuSection-Link** |
+| v1.3 | 11.06.2026 | Workshops & Projekte Doku-Bereich — Übersichtsseite mit datengetriebenem Projekt-Grid, A-to-B Detailseite (New:Mobility Award 2026), 10 Projektbilder, DokuSection-Link |
+| **v1.4** | **13.10.2026** | **ZEO Klimaquiz „Teste dein Wissen“ — öffentliche Seite zeo-kunden.mopilot.website/klimaquiz, Header-Link, Statistik `/api/klimaquiz/statistik` im zeo-backend (nur Summen, Volume `mopilot_zeo-klimaquiz-data`), Datenschutz §7** |
 
 ## Quiz-Architektur (CC Mobilitats-Check)
 
@@ -200,6 +201,14 @@ Push to master → GitHub Actions → SSH to server → git pull → docker comp
 - **CSP frame-ancestors** im next.config.js erlaubt sharing-community.de.
 - **Statischer Code ECOBONUS26** in Phase 1; individuelle Codes als Folge-Phase abgegrenzt.
 - **Notification-Empfänger** in `quiz_definitions.notification_email` konfigurierbar — keine Code-Änderung für Empfängerwechsel nötig.
+
+## Klimaquiz (ZEO, v1.4)
+
+- Spiel: `MoPilot_ZEO_Kunden/frontend/public/klimaquiz/klimaquiz.{js,css}` – 1:1 aus dem Vianova-Paket (`web_design/zeo-carsharing_de/klimaquiz-paket/`, EINBAU.md). Änderungen nur im Paket, dann übernehmen.
+- ZEO-Konfiguration: `src/components/Klimaquiz.tsx` (Name, Hinweise, Abschlussband, Statistik-URL `${NEXT_PUBLIC_BACKEND_URL}/api/klimaquiz/statistik`)
+- Seite `/klimaquiz` + Assets `/klimaquiz/*` in der Middleware freigegeben (öffentlich, für geteilte Links)
+- Statistik: `MoPilot_ZEO_Kunden/backend/klimaquiz.py`, Datei `/data/klimaquiz.json` auf Volume `mopilot_zeo-klimaquiz-data`; keine Cookies, keine IP, nur Summen. Ungültige POSTs → 422.
+- Prüfen: `curl -s https://api.zeo-kunden.mopilot.website/api/klimaquiz/statistik`
 
 ## Full Documentation
 

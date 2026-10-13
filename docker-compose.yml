@@ -165,6 +165,9 @@ services:
       CLAUDE_MODEL: ${CLAUDE_MODEL}
       CORS_ORIGINS: ${ZEO_CORS_ORIGINS}
       ENVIRONMENT: production
+      KLIMAQUIZ_DATEI: /data/klimaquiz.json
+    volumes:
+      - zeo-klimaquiz-data:/data
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.zeo-api.rule=Host(`api.zeo-kunden.${DOMAIN}`)"
@@ -256,3 +259,6 @@ volumes:
   postgres_data:
     external: true
     name: ns8wok04s4sgkcggwg48okcg_postgres-data
+  # Klimaquiz statistics (sums only) – must survive rebuilds
+  zeo-klimaquiz-data:
+    name: mopilot_zeo-klimaquiz-data

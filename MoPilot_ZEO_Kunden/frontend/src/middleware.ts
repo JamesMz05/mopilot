@@ -11,6 +11,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // Klimaquiz is public (shared result links must work without login):
+  // page /klimaquiz and its static assets under /klimaquiz/*
+  if (pathname === '/klimaquiz' || pathname.startsWith('/klimaquiz/')) {
+    return NextResponse.next()
+  }
+
   const token = request.cookies.get(AUTH_COOKIE)?.value
 
   if (token !== AUTH_TOKEN) {

@@ -3,12 +3,13 @@ import { useState } from 'react'
 import { Menu, X, Zap } from 'lucide-react'
 
 const NAV_LINKS = [
-  { label: 'Assistent', href: '#chat' },
-  { label: 'Kostenrechner', href: '#kosten' },
-  { label: 'Stationen', href: '#stationen' },
-  { label: 'Reichweite', href: '#reichweite' },
-  { label: 'Fahrzeuge', href: '#fahrzeuge' },
-  { label: 'So geht\'s', href: '#onboarding' },
+  { label: 'Assistent', href: '/#chat' },
+  { label: 'Kostenrechner', href: '/#kosten' },
+  { label: 'Stationen', href: '/#stationen' },
+  { label: 'Reichweite', href: '/#reichweite' },
+  { label: 'Fahrzeuge', href: '/#fahrzeuge' },
+  { label: 'So geht\'s', href: '/#onboarding' },
+  { label: 'Klimaquiz', href: '/klimaquiz' },
 ]
 
 export default function Header() {
@@ -19,7 +20,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
+          <a href="/" className="flex items-center gap-2 group">
             <div className="w-8 h-8 bg-zeo-600 rounded-lg flex items-center justify-center group-hover:bg-zeo-700 transition-colors">
               <Zap className="w-5 h-5 text-white" />
             </div>

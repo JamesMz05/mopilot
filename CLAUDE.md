@@ -1,11 +1,11 @@
 # MoPilot – Projektkontext für Claude
 
-> Zuletzt aktualisiert: 2026-06-11 (v1.3)
+> Zuletzt aktualisiert: 2026-10-13 (v1.4)
 
 ## Projektbeschreibung
 
 **MoPilot** ist ein KI-gestützter Mobilitätsassistent für E-Carsharing im ländlichen Raum.
-Prototyp v1.3 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboards, integriertem KI-Chat, DB-Authentifizierung, vereinheitlichter Infrastruktur, Admin-Einladungssystem, CC Quiz-Feature (Mobilitats-Check) und Workshops-Dokumentation.
+Prototyp v1.4 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboards, integriertem KI-Chat, DB-Authentifizierung, vereinheitlichter Infrastruktur, Admin-Einladungssystem, CC Quiz-Feature (Mobilitats-Check), Workshops-Dokumentation und ZEO-Klimaquiz.
 
 - **Betreiber:** ZEO Carsharing (Region Bruchsal, BW) + Car&RideSharing Community eG (Overath, NRW)
 - **Zweck:** Intelligenter Assistent, der Tonalität, Wissen und Funktionen an die jeweilige Nutzerrolle anpasst
@@ -33,6 +33,7 @@ Prototyp v1.3 – 5 Plattformen auf einem Server mit rollenspezifischen Dashboar
 | CC Kundenassistent | https://cc-kunden.mopilot.website | KI-Chat für CC-Endkunden |
 | CC Quiz (Mobilitats-Check) | https://cc-kunden.mopilot.website/quiz | 14-Fragen-Quiz mit Gutscheincode (öffentlich) |
 | CC Quiz Embed | https://cc-kunden.mopilot.website/embed/quiz | iframe-Variante für sharing-community.de |
+| ZEO Klimaquiz | https://zeo-kunden.mopilot.website/klimaquiz | „Teste dein Wissen“ – CO₂-Quiz (öffentlich, Header-Link „Klimaquiz“) |
 | Quiz Stats Dashboard | https://mopilot.website/admin/quiz-stats | KPIs, Trichter, Heatmap, CSV-Export (Plattform-Support+) |
 | CC Fuhrpark | https://ccfuhrpark.vianova.website | Digitale Fuhrparkverwaltung (separates Repo) |
 | VIANOVA Verwaltung | https://verwaltung.vianova.website | Genossenschaftsverwaltung (separates Repo) |
@@ -107,6 +108,9 @@ Alle Services: `restart: unless-stopped` + Healthchecks.
 | Quiz Stats Frontend | `frontend/app/admin/quiz-stats/page.tsx` |
 | Workshops Doku | `frontend/app/doku/workshops/` (Übersicht + Detailseiten) |
 | Workshop-Bilder | `frontend/public/doku/workshops/a-to-b/` (10 JPGs) |
+| Klimaquiz Spiel (ZEO) | `MoPilot_ZEO_Kunden/frontend/public/klimaquiz/` (klimaquiz.js/.css – unverändert aus dem Paket) |
+| Klimaquiz Seite/Komponente | `MoPilot_ZEO_Kunden/frontend/src/app/klimaquiz/page.tsx`, `src/components/Klimaquiz.tsx` (ZEO-Konfig) |
+| Klimaquiz Statistik | `MoPilot_ZEO_Kunden/backend/klimaquiz.py` → Volume `mopilot_zeo-klimaquiz-data:/data/klimaquiz.json` |
 | PostgreSQL Init | `/opt/mopilot/postgres/init.sql` |
 | Scripts | `/opt/mopilot/scripts/` |
 | Backups | `/opt/backups/db/` |
@@ -121,7 +125,7 @@ Alle Services: `restart: unless-stopped` + Healthchecks.
 `/api/health`, `/api/auth` (login, register, passwort-reset, accept-invite, verify, resend-verification), `/api/users` (CRUD, create, reinvite, approve, reject, suspend, role, reset-password, pending-count), `/api/roles`, `/api/ideas`, `/api/ratings`, `/api/comments`, `/api/tags`, `/api/attachments`, `/api/export`
 
 **ZEO/CC-Kunden (`/api/`):**
-`/api/health`, `/api/chat`, `/api/chat/stream`, `/api/tariffs` (nur CC)
+`/api/health`, `/api/chat`, `/api/chat/stream`, `/api/tariffs` (nur CC), `/api/klimaquiz/statistik` (nur ZEO, GET/POST, nur Summen)
 
 **CC-Kunden Embed-Seiten (öffentlich, ohne Login):**
 `/embed/tarife` – Tarifübersicht (TariffOverview-Komponente), einbettbar per iframe
@@ -232,7 +236,8 @@ Badge, Button, Card, ChatBubble, Footer, Header, Input, LoadingSpinner, MoPilotL
 | v1.0 | 06.04.2026 | Infrastruktur-Vereinheitlichung: 1 Compose, 1 .env, shared-ui via Docker Build |
 | v1.1 | 09.04.2026 | Admin-Benutzerverwaltung: Einladungssystem, Freischaltung, Login-Guard |
 | v1.2 | 03.05.2026 | CC Quiz Migration & Analytics: 14-Fragen-Mobilitats-Check, anonymes Tracking, Admin-Dashboard, E-Mail-Notification |
-| **v1.3** | **11.06.2026** | **Workshops & Projekte Doku-Bereich: Übersichtsseite, A-to-B Projektseite (New:Mobility Award 2026)** |
+| v1.3 | 11.06.2026 | Workshops & Projekte Doku-Bereich: Übersichtsseite, A-to-B Projektseite (New:Mobility Award 2026) |
+| **v1.4** | **13.10.2026** | **ZEO Klimaquiz „Teste dein Wissen“: öffentliche Seite /klimaquiz, Header-Link, Statistik-Endpunkt im zeo-backend mit persistentem Volume, Datenschutz §7** |
 
 **Git-Tags:** v0.73, v0.74-pre-v0.8, v0.8, v0.9, v1.3
 
@@ -253,4 +258,7 @@ Badge, Button, Card, ChatBubble, Footer, Header, Input, LoadingSpinner, MoPilotL
 - **Admin-Dashboard `/admin/quiz-stats`** ist rollengeschützt (Plattform-Support+)
 - **Workshop-Bilder** liegen unter `frontend/public/doku/workshops/a-to-b/` (10 JPGs)
 - **Workshops-Übersicht** ist datengetrieben (`projects`-Array) — neue Projekte nur Array-Eintrag + Detailseite
+- **Klimaquiz:** Spieldateien NIE im MoPilot-Repo ändern – Original-Paket `web_design/zeo-carsharing_de/klimaquiz-paket/` (EINBAU.md) ändern und dann übernehmen. Fragen nicht ändern ohne Statistik-Reset.
+- **Klimaquiz-Statistik** liegt im Docker-Volume `mopilot_zeo-klimaquiz-data` – nicht mit `docker compose down -v` löschen
+- **Middleware ZEO:** `/klimaquiz` und `/klimaquiz/*` sind öffentlich freigegeben (geteilte Ergebnis-Links)
 - **Vollständige Doku:** `/opt/mopilot/MoPilot_Prototype_v1.2.md` (aktuell v1.3)

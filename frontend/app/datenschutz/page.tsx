@@ -84,7 +84,22 @@ export default function DatenschutzPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-gray-900 mb-3">7. Keine Weitergabe an Dritte</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-3">7. Klimaquiz auf zeo-kunden.mopilot.website</h2>
+            <p>
+              Das Klimaquiz „Teste dein Wissen“ unter zeo-kunden.mopilot.website/klimaquiz setzt keine Cookies
+              und bindet keine Drittanbieter ein. Für die Anzeige „So haben andere getippt“ wird nach einem
+              beendeten Spiel ausschließlich eine Summe über alle Spiele fortgeschrieben (Anzahl der Spiele,
+              Anzahl richtiger Antworten je Frage, Summe der Schätzwerte). Es werden weder IP-Adressen noch
+              einzelne Antworten oder sonstige personenbezogene Daten gespeichert.
+            </p>
+            <p className="mt-2">
+              Ihr bisher bestes Ergebnis wird nur lokal in Ihrem Browser (localStorage) abgelegt und nicht an
+              uns übertragen. Sie können es jederzeit über die Browser-Einstellungen löschen.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-semibold text-gray-900 mb-3">8. Keine Weitergabe an Dritte</h2>
             <p>
               Eine Weitergabe Ihrer personenbezogenen Daten an Dritte findet nicht statt, sofern wir nicht
               gesetzlich dazu verpflichtet sind.
@@ -92,7 +107,7 @@ export default function DatenschutzPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-gray-900 mb-3">8. Ort der Datenverarbeitung</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-3">9. Ort der Datenverarbeitung</h2>
             <p>
               Die Serverinfrastruktur befindet sich in Deutschland (Hetzner Online GmbH).
               Daten werden grundsätzlich in Deutschland verarbeitet.
@@ -100,7 +115,7 @@ export default function DatenschutzPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-gray-900 mb-3">9. Ihre Rechte nach DS-GVO</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-3">10. Ihre Rechte nach DS-GVO</h2>
             <p>Sie haben das Recht auf:</p>
             <ul className="list-disc pl-5 mt-2 space-y-1">
               <li>Auskunft (Art. 15 DS-GVO)</li>
@@ -117,7 +132,7 @@ export default function DatenschutzPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-gray-900 mb-3">10. Zuständige Aufsichtsbehörde</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-3">11. Zuständige Aufsichtsbehörde</h2>
             <p>
               Der Landesbeauftragte für den Datenschutz und die Informationsfreiheit Rheinland-Pfalz<br />
               Hintere Bleiche 34, 55116 Mainz<br />

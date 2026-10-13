@@ -9,6 +9,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
+from klimaquiz import router as klimaquiz_router
+
 # ─── App ──────────────────────────────────────────────────────────────────────
 
 app = FastAPI(title="ZEO Kundenassistent API", version="1.0.0")
@@ -25,6 +27,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Klimaquiz statistics (sums only, persisted on volume zeo-klimaquiz-data)
+app.include_router(klimaquiz_router)
 
 # ─── ZEO System Prompt ────────────────────────────────────────────────────────
 
